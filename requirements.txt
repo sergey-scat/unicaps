@@ -1,0 +1,2 @@
+requests
+dataclasses>=0.7; python_version == '3.6'

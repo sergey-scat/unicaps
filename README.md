@@ -19,7 +19,10 @@ Unicaps is a unified Python API for CAPTCHA solving services.
  - Supports 9 types of CAPTCHAs
  - Supports 3 CAPTCHA solving services (5 more would be added soon)
  - Written Pythonic way and is intended for humans
- 
+
+## Installation
+```pip install unicaps```
+
 ## Simple Usage Example
 ```python
 >>> from unicaps import CaptchaSolver
@@ -43,4 +46,4 @@ True
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 ## Code examples
-[Examples](https://github.com/sergey-scat/unicaps/examples)
+[Examples](https://github.com/sergey-scat/unicaps/tree/master/examples)
