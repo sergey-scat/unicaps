@@ -11,7 +11,8 @@ import sys
 # services dict: key is a name of CAPTCHA solving service, value is an env variable containing
 # the API key
 SERVICES = {'2captcha.com': '2CAPTCHA_API_KEY',
-            'anti-captcha.com': 'ANTICAPTCHA_API_KEY'}
+            'anti-captcha.com': 'ANTICAPTCHA_API_KEY',
+            'cptch.net': 'CPTCH_NET_API_KEY'}
 
 # list of modules containing CAPTCHA solving examples
 EXAMPLES = [

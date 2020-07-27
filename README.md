@@ -17,7 +17,7 @@ Unicaps is a unified Python API for CAPTCHA solving services.
  - A unified Python interface that is independent of the service used
  - Uses native service protocol/endpoints (eg, no needs in patching _hosts_ file)
  - Supports 9 types of CAPTCHAs
- - Supports 3 CAPTCHA solving services (5 more would be added soon)
+ - Supports 4 CAPTCHA solving services (4 more would be added soon)
  - Written Pythonic way and is intended for humans
 
 ## Installation
@@ -43,6 +43,7 @@ True
 | ------------- | :---: | :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	|
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ |
+| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 ## Code examples

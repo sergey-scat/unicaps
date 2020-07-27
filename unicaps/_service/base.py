@@ -97,7 +97,7 @@ class BaseService(ABC):
 
         return (
             result['solution'],  # type: ignore
-            float(result['cost']) if 'cost' in result else None,
+            float(result['cost']) if result.get('cost') else None,
             result.get("extra") or {}
         )
 
