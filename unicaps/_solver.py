@@ -7,7 +7,7 @@ from typing import Union
 
 from .captcha import (
     ImageCaptcha, TextCaptcha, RecaptchaV2, RecaptchaV3, HCaptcha, FunCaptcha, KeyCaptcha, GeeTest,
-    Capy
+    Capy, TikTokCaptcha
 )
 from ._captcha.base import BaseCaptcha  # type: ignore
 from ._service import CaptchaSolvingService, SOLVING_SERVICE
@@ -187,8 +187,18 @@ class CaptchaSolver:
         :return: :class:`SolvedCaptcha <SolvedCaptcha>` object
         :rtype: unicaps.SolvedCaptcha
         """
-        # return self._service.solve_captcha(Capy(site_key, page_url, **kwargs))
         return self._solve_captcha(Capy, site_key, page_url, **kwargs)
+
+    def solve_tiktok(self, page_url: str, **kwargs) -> SolvedCaptcha:
+        r"""Solves TikTokCaptcha.
+
+        :param page_url: Full URL of the page with CAPTCHA.
+        :param cookies: Cookies to use while solving the CAPTCHA.
+        :param proxy: (optional) Proxy to use while solving the CAPTCHA.
+        :return: :class:`SolvedCaptcha <SolvedCaptcha>` object
+        :rtype: unicaps.SolvedCaptcha
+        """
+        return self._solve_captcha(TikTokCaptcha, page_url, **kwargs)
 
     def create_task(self, captcha: BaseCaptcha) -> CaptchaTask:
         """Create task to solve CAPTCHA

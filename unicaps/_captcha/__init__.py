@@ -12,4 +12,5 @@ from .funcaptcha import FunCaptcha
 from .keycaptcha import KeyCaptcha
 from .geetest import GeeTest
 from .capy import Capy
+from .tiktok import TikTokCaptcha
 from .base import CaptchaType

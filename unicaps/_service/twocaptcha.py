@@ -263,6 +263,12 @@ class SolutionRequest(ResRequest):
                 raise exceptions.ServiceError('Got unrecognized data from the service!') from exc
 
             solution = solution_class(**solution_dict)
+        elif self._task.captcha.get_type() in (CaptchaType.TIKTOK,):
+            solution = solution_class(
+                dict(
+                    [key_value.split(':') for key_value in solution_data.split(';')]
+                )
+            )
         else:
             solution = solution_class(solution_data)
 
@@ -537,3 +543,25 @@ class CapyTaskRequest(TaskRequest):
 
 class CapySolutionRequest(SolutionRequest):
     """ Capy solution request """
+
+
+class TikTokCaptchaTaskRequest(TaskRequest):
+    """ TikTokCaptcha task request """
+
+    # pylint: disable=arguments-differ,signature-differs
+    def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
+        """ Prepare request """
+
+        request = super().prepare(proxy=proxy, cookies=cookies)
+        request['data'].update(
+            dict(
+                method="tiktok",
+                pageurl=captcha.page_url
+            )
+        )
+
+        return request
+
+
+class TikTokCaptchaSolutionRequest(SolutionRequest):
+    """ TikTokCaptcha solution request """

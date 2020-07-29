@@ -15,7 +15,8 @@ from .twocaptcha import (
     KeyCaptchaTaskRequest, KeyCaptchaSolutionRequest,
     GeeTestTaskRequest, GeeTestSolutionRequest,
     HCaptchaTaskRequest, HCaptchaSolutionRequest,
-    CapyTaskRequest, CapySolutionRequest
+    CapyTaskRequest, CapySolutionRequest,
+    TikTokCaptchaTaskRequest, TikTokCaptchaSolutionRequest
 )
 
 __all__ = [
@@ -29,7 +30,8 @@ __all__ = [
     'KeyCaptchaTaskRequest', 'KeyCaptchaSolutionRequest',
     'GeeTestTaskRequest', 'GeeTestSolutionRequest',
     'HCaptchaTaskRequest', 'HCaptchaSolutionRequest',
-    'CapyTaskRequest', 'CapySolutionRequest'
+    'CapyTaskRequest', 'CapySolutionRequest',
+    'TikTokCaptchaTaskRequest', 'TikTokCaptchaSolutionRequest'
 ]
 
 
