@@ -13,7 +13,10 @@ from unicaps.proxy import ProxyServer
 URL = 'https://www.google.com/search?complete=0&hl=en&q=unicaps&num=100&start=1&filter=0&pws=0'
 POST_URL = 'https://www.google.com/sorry/index'
 API_KEY = os.getenv('2CAPTCHA_API_KEY', default='YOUR_API_KEY')
-PROXY = os.getenv('HTTP_PROXY_SERVER', default='http://<LOGIN>:<PASSWORD>@<YOUR_PROXY_ADDRESS>:<PORT>')
+PROXY = os.getenv(
+    'HTTP_PROXY_SERVER',
+    default='http://<LOGIN>:<PASSWORD>@<YOUR_PROXY_ADDRESS>:<PORT>'
+)
 
 
 def solve(service_name, api_key):

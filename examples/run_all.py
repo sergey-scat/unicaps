@@ -6,7 +6,6 @@ All examples runner
 from importlib import import_module
 import logging
 import os
-import sys
 
 # services dict: key is a name of CAPTCHA solving service, value is an env variable containing
 # the API key

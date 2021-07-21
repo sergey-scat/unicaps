@@ -55,7 +55,6 @@ def solve(service_name, api_key):
         )
     )
     result = response.json()
-    # pprint(result)
 
     # check the result
     if not result['score']:
@@ -73,6 +72,8 @@ def solve(service_name, api_key):
         # report good CAPTCHA
         solved.report_good()
 
+    return result
+
 
 if __name__ == '__main__':
-    solve('2captcha.com', API_KEY)
+    pprint(solve('2captcha.com', API_KEY))

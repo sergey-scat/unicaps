@@ -12,7 +12,6 @@ from typing import Optional, Dict
 
 from .base import BaseTransport, BaseRequest  # type: ignore
 from ..exceptions import NetworkError, ServiceError  # type: ignore
-# from ..__version__ import __version__
 
 
 class StandardSocketTransport(BaseTransport):

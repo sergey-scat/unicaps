@@ -14,3 +14,6 @@ from .geetest import GeeTest
 from .capy import Capy
 from .tiktok import TikTokCaptcha
 from .base import CaptchaType
+
+__all__ = ('ImageCaptcha', 'TextCaptcha', 'RecaptchaV2', 'RecaptchaV3', 'HCaptcha', 'FunCaptcha',
+           'KeyCaptcha', 'GeeTest', 'Capy', 'TikTokCaptcha', 'CaptchaType')

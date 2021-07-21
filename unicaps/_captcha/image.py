@@ -15,13 +15,6 @@ from ..common import CaptchaAlphabet, CaptchaCharType, WorkerLanguage
 from ..exceptions import BadInputDataError
 
 
-#def _is_base64(byte_str: bytes) -> bool:
-    #try:
-        #return base64.b64encode(base64.b64decode(byte_str)) == byte_str
-    #except Exception:  # pylint: disable=broad-except
-        #return False
-
-
 @dataclass
 class ImageCaptcha(BaseCaptcha):
     """ Image CAPTCHA """
@@ -55,9 +48,6 @@ class ImageCaptcha(BaseCaptcha):
 
         if self._image_bytes is None:
             if isinstance(self.image, bytes):
-                #if _is_base64(self.image):
-                    #self._image_bytes = base64.b64decode(self.image)
-                #else:
                 self._image_bytes = self.image  # type: ignore
             elif isinstance(self.image, (io.RawIOBase, io.BufferedIOBase)):
                 self._image_bytes = self.image.read()

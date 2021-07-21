@@ -64,9 +64,9 @@ class Request(HTTPRequestJSON):
         if error_id == 0:
             return response_data
 
-        ###############
-        # handle errors
-        ###############
+        # ############# #
+        # handle errors #
+        # ############# #
         error_code = response_data.get("errorCode", f'ERROR {error_id}')
         error_text = response_data.get("errorDescription", "")
         error_msg = "{}: {}".format(error_code, error_text)
@@ -308,17 +308,6 @@ class ImageCaptchaTaskRequest(TaskRequest):
 class ImageCaptchaSolutionRequest(SolutionRequest):
     """ Image CAPTCHA solution request """
 
-    #def parse_response(self, response) -> dict:
-        #""" Parses response and returns solution and cost """
-
-        #response_data = super().parse_response(response)
-
-        #return dict(
-            #solution=response_data["solution"].pop("text"),
-            #cost=response_data.pop("cost"),
-            #extra=response_data
-        #)
-
 
 class RecaptchaV2TaskRequest(TaskRequest):
     """ reCAPTCHA v2 task Request class """
@@ -356,17 +345,6 @@ class RecaptchaV2TaskRequest(TaskRequest):
 class RecaptchaV2SolutionRequest(SolutionRequest):
     """ reCAPTCHA v2 solution request """
 
-    #def parse_response(self, response) -> dict:
-        #""" Parses response and returns solution and cost """
-
-        #response_data = super().parse_response(response)
-
-        #return dict(
-            #solution=response_data["solution"].pop("gRecaptchaResponse"),
-            #cost=response_data.pop("cost"),
-            #extra=response_data
-        #)
-
 
 class RecaptchaV3TaskRequest(TaskRequest):
     """ reCAPTCHA v3 task Request class """
@@ -398,17 +376,6 @@ class RecaptchaV3TaskRequest(TaskRequest):
 
 class RecaptchaV3SolutionRequest(SolutionRequest):
     """ reCAPTCHA v3 solution request """
-
-    #def parse_response(self, response) -> dict:
-        #""" Parses response and returns solution and cost """
-
-        #response_data = super().parse_response(response)
-
-        #return dict(
-            #solution=response_data["solution"].pop("gRecaptchaResponse"),
-            #cost=response_data.pop("cost"),
-            #extra=response_data
-        #)
 
 
 class FunCaptchaTaskRequest(TaskRequest):
@@ -446,17 +413,6 @@ class FunCaptchaTaskRequest(TaskRequest):
 class FunCaptchaSolutionRequest(SolutionRequest):
     """ FunCaptcha solution request """
 
-    #def parse_response(self, response) -> dict:
-        #""" Parses response and returns solution and cost """
-
-        #response_data = super().parse_response(response)
-
-        #return dict(
-            #solution=response_data["solution"].pop("token"),
-            #cost=response_data.pop("cost"),
-            #extra=response_data
-        #)
-
 
 class GeeTestTaskRequest(TaskRequest):
     """ GeeTest task Request class """
@@ -489,17 +445,6 @@ class GeeTestTaskRequest(TaskRequest):
 class GeeTestSolutionRequest(SolutionRequest):
     """ GeeTest solution request """
 
-    #def parse_response(self, response) -> dict:
-        #""" Parses response and returns solution and cost """
-
-        #response_data = super().parse_response(response)
-
-        #return dict(
-            #solution=response_data["solution"].pop("challenge"),
-            #cost=response_data.pop("cost"),
-            #extra=response_data
-        #)
-
 
 class HCaptchaTaskRequest(TaskRequest):
     """ hCaptcha task Request class """
@@ -529,14 +474,3 @@ class HCaptchaTaskRequest(TaskRequest):
 
 class HCaptchaSolutionRequest(SolutionRequest):
     """ hCaptcha solution request """
-
-    #def parse_response(self, response) -> dict:
-        #""" Parses response and returns solution and cost """
-
-        #response_data = super().parse_response(response)
-
-        #return dict(
-            #solution=response_data["solution"].pop("gRecaptchaResponse"),
-            #cost=response_data.pop("cost"),
-            #extra=response_data
-        #)
