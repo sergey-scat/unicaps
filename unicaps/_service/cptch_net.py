@@ -78,7 +78,7 @@ class Request(HTTPRequestJSON):
                        'ERROR_WRONG_FILE_EXTENSION', 'ERROR_IMAGE_TYPE_NOT_SUPPORTED',
                        'ERROR_UPLOAD', 'ERROR_PAGEURL', 'ERROR_BAD_TOKEN_OR_PAGEURL',
                        'ERROR_GOOGLEKEY', 'ERROR_BAD_PARAMETERS', 'ERROR_TOKEN_EXPIRED',
-                       'ERROR_EMPTY_ACTION'):
+                       'ERROR_EMPTY_ACTION', 'ERROR'):
             raise exceptions.BadInputDataError(error_msg)
         elif error in ('ERROR_CAPTCHAIMAGE_BLOCKED', 'ERROR_CAPTCHA_UNSOLVABLE',
                        'ERROR_BAD_DUPLICATES'):
