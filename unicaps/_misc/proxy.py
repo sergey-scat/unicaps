@@ -35,10 +35,13 @@ class ProxyServer:
 
         if '@' in proxy_string:
             credentials, proxy_string = proxy_string.split('@')
-            self.login, _, self.password = credentials.partition(':')
+            self.login, self.password = credentials.split(':', maxsplit=1)
 
-        self.address, port = proxy_string.split(':')
-        self.port = int(port)
+        if ':' in proxy_string:
+            self.address, port = proxy_string.split(':', maxsplit=1)
+            self.port = int(port)
+        else:
+            self.address = proxy_string
 
     def __str__(self):
         return self.get_string(including_type=True)
