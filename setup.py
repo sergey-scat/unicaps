@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="unicaps",
-    version="0.3.2",
+    version="0.4.0",
     author="Sergey Totmyanin",
     author_email="STotmyanin@gmail.com",
     description="Universal CAPTCHA Solver for humans",
@@ -15,7 +15,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=["requests>=2.21.0", "dataclasses>=0.7; python_version == '3.6'"],
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
