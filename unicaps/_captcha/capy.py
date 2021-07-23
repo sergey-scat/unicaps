@@ -4,6 +4,7 @@ Capy Puzzle
 """
 
 from dataclasses import dataclass
+from typing import Optional
 
 from .base import BaseCaptcha, BaseCaptchaSolution
 
@@ -14,10 +15,12 @@ class Capy(BaseCaptcha):
 
     site_key: str
     page_url: str
+    api_server: Optional[str] = None
 
     def __post_init__(self):
         assert isinstance(self.site_key, str)
         assert isinstance(self.page_url, str)
+        assert self.api_server is None or isinstance(self.api_server, str)
 
 
 @dataclass

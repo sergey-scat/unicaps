@@ -434,8 +434,14 @@ class GeeTestTaskRequest(TaskRequest):
                 type=task_type,
                 websiteURL=captcha.page_url,
                 gt=captcha.gt_key,
-                challenge=captcha.challenge,
-                geetestApiServerSubdomain=captcha.api_server
+                challenge=captcha.challenge
+            )
+        )
+
+        # set optional data if any
+        request['json']['task'].update(
+            captcha.get_optional_data(
+                api_server=('geetestApiServerSubdomain', None),
             )
         )
 

@@ -394,16 +394,16 @@ class TextCaptchaTaskRequest(TaskRequest):
         request = super().prepare()
         request['data'].update(
             dict(
-                textcaptcha=captcha.text,
-                # language=captcha.alphabet,
-                # lang=captcha.language
+                textcaptcha=captcha.text
             )
         )
 
         # add optional params
         request['data'].update(
             captcha.get_optional_data(
-                alphabet=('language', lambda v: v.value),
+                alphabet=('language',
+                          lambda v: {CaptchaAlphabet.CYRILLIC: 1,
+                                     CaptchaAlphabet.LATIN: 2}.get(v, 0)),
                 language=('lang', lambda v: v.value)
             )
         )
@@ -427,9 +427,7 @@ class FunCaptchaTaskRequest(TaskRequest):
             dict(
                 method="funcaptcha",
                 publickey=captcha.public_key,
-                # surl=captcha.service_url,
-                pageurl=captcha.page_url,
-                # nojs=captcha.no_js
+                pageurl=captcha.page_url
             )
         )
 
@@ -487,8 +485,14 @@ class GeeTestTaskRequest(TaskRequest):
                 method="geetest",
                 gt=captcha.gt_key,
                 challenge=captcha.challenge,
-                api_server=captcha.api_server,
                 pageurl=captcha.page_url
+            )
+        )
+
+        # add optional params
+        request['data'].update(
+            captcha.get_optional_data(
+                api_server=('api_server', None)
             )
         )
 
@@ -535,6 +539,13 @@ class CapyTaskRequest(TaskRequest):
                 method="capy",
                 captchakey=captcha.site_key,
                 pageurl=captcha.page_url
+            )
+        )
+
+        # add optional params
+        request['data'].update(
+            captcha.get_optional_data(
+                api_server=('api_server', None)
             )
         )
 
