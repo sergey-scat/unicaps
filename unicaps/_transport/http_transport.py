@@ -4,7 +4,7 @@ Transport and requests for HTTP protocol
 """
 
 from json.decoder import JSONDecodeError
-from typing import Optional
+from typing import Optional, Dict
 
 import requests
 from urllib3.util.retry import Retry  # type:ignore
@@ -22,7 +22,7 @@ HTTP_RETRY_STATUS_FORCELIST = {500, 502, 503, 504}  # status forcelist for Retry
 class StandardHTTPTransport(BaseTransport):  # pylint: disable=too-few-public-methods
     """ Standard HTTP Transport """
 
-    def __init__(self, settings: Optional[dict] = None):
+    def __init__(self, settings: Optional[Dict] = None):
         super().__init__(settings)
         self._settings.setdefault('max_retries', HTTP_RETRY_MAX_COUNT)
         self._settings.setdefault('handle_http_errors', True)
@@ -49,7 +49,7 @@ class StandardHTTPTransport(BaseTransport):  # pylint: disable=too-few-public-me
             )
         )
 
-    def _make_request(self, request_data: dict) -> requests.Response:
+    def _make_request(self, request_data: Dict) -> requests.Response:
         if 'headers' not in request_data:
             request_data['headers'] = {}
 
@@ -72,14 +72,10 @@ class StandardHTTPTransport(BaseTransport):  # pylint: disable=too-few-public-me
         return response
 
 
-class HTTPRequest(BaseRequest):  # pylint: disable=too-few-public-methods
-    """ HTTP Request placeholder """
-
-
-class HTTPRequestJSON(HTTPRequest):
+class HTTPRequestJSON(BaseRequest):
     """ HTTP Request that returns JSON response """
 
-    def prepare(self) -> dict:
+    def prepare(self) -> Dict:
         """ Prepares request """
 
         request = super().prepare()
@@ -89,7 +85,7 @@ class HTTPRequestJSON(HTTPRequest):
         )
         return request
 
-    def parse_response(self, response: requests.Response) -> dict:  # pylint: disable=no-self-use
+    def parse_response(self, response: requests.Response) -> Dict:  # pylint: disable=no-self-use
         """ Parses response """
 
         try:

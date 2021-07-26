@@ -2,7 +2,8 @@
 """
 CaptchaSolver class
 """
-
+import io
+import pathlib
 from typing import Union
 
 from .captcha import (
@@ -26,7 +27,14 @@ class CaptchaSolver:
         if isinstance(service_name, CaptchaSolvingService):
             self.service_name = service_name
         elif isinstance(service_name, str):
-            self.service_name = CaptchaSolvingService(service_name)
+            try:
+                self.service_name = CaptchaSolvingService(service_name)
+            except ValueError:
+                raise ValueError(
+                    f"'{service_name}' is not a valid CaptchaSolvingService. "
+                    "Please use one of the following values: " +
+                    ', '.join([f"'{i.value}'" for i in CaptchaSolvingService])
+                )
         else:
             raise ValueError(
                 '"service_name" param must be an instance of str or CaptchaSolvingService!'
@@ -47,7 +55,9 @@ class CaptchaSolver:
             cookies=cookies
         )
 
-    def solve_image_captcha(self, image, **kwargs) -> SolvedCaptcha:
+    def solve_image_captcha(self,
+                            image: Union[bytes, io.RawIOBase, io.BufferedIOBase, pathlib.Path],
+                            **kwargs) -> SolvedCaptcha:
         r"""Solves image CAPTCHA.
 
         :param image: binary file, bytes or pathlib.Path object containing image with CAPTCHA
@@ -75,8 +85,6 @@ class CaptchaSolver:
         :return: :class:`SolvedCaptcha <SolvedCaptcha>` object
         :rtype: unicaps.SolvedCaptcha
         """
-
-        # return self._service.solve_captcha(TextCaptcha(text, **kwargs))
         return self._solve_captcha(TextCaptcha, text, **kwargs)
 
     def solve_recaptcha_v2(self, site_key: str, page_url: str, **kwargs) -> SolvedCaptcha:
@@ -92,7 +100,6 @@ class CaptchaSolver:
         :return: :class:`SolvedCaptcha <SolvedCaptcha>` object
         :rtype: unicaps.SolvedCaptcha
         """
-        # return self._service.solve_captcha(RecaptchaV2(site_key, page_url, **kwargs))
         return self._solve_captcha(RecaptchaV2, site_key, page_url, **kwargs)
 
     def solve_recaptcha_v3(self, site_key: str, page_url: str, **kwargs) -> SolvedCaptcha:
@@ -108,7 +115,6 @@ class CaptchaSolver:
         :return: :class:`SolvedCaptcha <SolvedCaptcha>` object
         :rtype: unicaps.SolvedCaptcha
         """
-        # return self._service.solve_captcha(RecaptchaV3(site_key, page_url, **kwargs))
         return self._solve_captcha(RecaptchaV3, site_key, page_url, **kwargs)
 
     def solve_hcaptcha(self, site_key: str, page_url: str, **kwargs) -> SolvedCaptcha:
@@ -122,7 +128,6 @@ class CaptchaSolver:
         :return: :class:`SolvedCaptcha <SolvedCaptcha>` object
         :rtype: unicaps.SolvedCaptcha
         """
-        # return self._service.solve_captcha(HCaptcha(site_key, page_url, **kwargs))
         return self._solve_captcha(HCaptcha, site_key, page_url, **kwargs)
 
     def solve_funcaptcha(self, public_key: str, page_url: str, **kwargs) -> SolvedCaptcha:
@@ -138,7 +143,6 @@ class CaptchaSolver:
         :return: :class:`SolvedCaptcha <SolvedCaptcha>` object
         :rtype: unicaps.SolvedCaptcha
         """
-        # return self._service.solve_captcha(FunCaptcha(public_key, page_url, **kwargs))
         return self._solve_captcha(FunCaptcha, public_key, page_url, **kwargs)
 
     def solve_keycaptcha(self, page_url: str, user_id: str, session_id: str, ws_sign: str,
@@ -153,9 +157,6 @@ class CaptchaSolver:
         :return: :class:`SolvedCaptcha <SolvedCaptcha>` object
         :rtype: unicaps.SolvedCaptcha
         """
-        # return self._service.solve_captcha(
-        #     KeyCaptcha(page_url, user_id, session_id, ws_sign, ws_sign2)
-        # )
         return self._solve_captcha(
             KeyCaptcha, page_url, user_id, session_id, ws_sign, ws_sign2, **kwargs
         )
@@ -171,9 +172,6 @@ class CaptchaSolver:
         :return: :class:`SolvedCaptcha <SolvedCaptcha>` object
         :rtype: unicaps.SolvedCaptcha
         """
-        # return self._service.solve_captcha(
-        #    GeeTest(page_url, gt_key, challenge, api_server)
-        # )
         return self._solve_captcha(GeeTest, page_url, gt_key, challenge, **kwargs)
 
     def solve_capy(self, site_key: str, page_url: str, **kwargs) -> SolvedCaptcha:
@@ -181,6 +179,7 @@ class CaptchaSolver:
 
         :param site_key: Public website key (static).
         :param page_url: Full URL of the page with CAPTCHA.
+        :param api_server: (optional) The domain part of script URL you found on page.
         :param proxy: (optional) Proxy to use while solving the CAPTCHA.
         :param user_agent: (optional) User-Agent to use while solving the CAPTCHA.
         :param cookies: (optional) Cookies to use while solving the CAPTCHA.

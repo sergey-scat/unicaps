@@ -32,7 +32,7 @@ class BaseTransport(ABC):  # pylint: disable=too-few-public-methods
 
     @abstractmethod
     def _make_request(self, request_data: dict) -> Any:
-        pass
+        """ Abstract method to make a request """
 
     def make_request(self, request: BaseRequest, *args) -> dict:
         """ Makes a request to the service """

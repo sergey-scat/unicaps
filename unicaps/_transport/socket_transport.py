@@ -56,10 +56,10 @@ class StandardSocketTransport(BaseTransport):
                 return str(response.rstrip(self.LINE_TERMINATOR), 'utf-8')
         raise ServiceError('send/recv timed out')
 
-    def _make_request(self, request: Dict) -> Dict:
+    def _make_request(self, request_data: Dict) -> Dict:
         if not self._socket:
             self.connect()
-        return self._sendrecv(request)
+        return self._sendrecv(request_data)
 
     def connect(self):
         """ Establishes connection with service """
@@ -98,14 +98,10 @@ class StandardSocketTransport(BaseTransport):
         self.close()
 
 
-class SocketRequest(BaseRequest):  # pylint: disable=too-few-public-methods
-    """ Socket Request placeholder """
-
-
-class SocketRequestJSON(SocketRequest):
+class SocketRequestJSON(BaseRequest):
     """ HTTP Request that returns JSON response """
 
-    def parse_response(self, response) -> dict:  # pylint: disable=no-self-use
+    def parse_response(self, response) -> Dict:  # pylint: disable=no-self-use
         """ Parse response """
 
         try:
