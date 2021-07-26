@@ -4,7 +4,6 @@
 """
 
 import json
-import time
 
 from .base import HTTPService
 from .._transport.http_transport import HTTPRequestJSON  # type: ignore
@@ -75,7 +74,7 @@ class Request(HTTPRequestJSON):
         elif error in ('ERROR_NO_SLOT_AVAILABLE',):
             # If server returns ERROR_NO_SLOT_AVAILABLE make a 5 seconds timeout before sending
             # next request.
-            time.sleep(5)
+            # time.sleep(5)
             raise exceptions.ServiceTooBusy(error_msg)
         elif error in ('MAX_USER_TURN',) or error.startswith('ERROR:'):
             raise exceptions.TooManyRequestsError(error_msg)
