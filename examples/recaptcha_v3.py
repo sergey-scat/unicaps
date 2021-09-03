@@ -8,13 +8,13 @@ import re
 from pprint import pprint
 
 import requests
-from unicaps import CaptchaSolver, exceptions
+from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions
 
 URL = 'https://recaptcha-demo.appspot.com/recaptcha-v3-request-scores.php'
 VERIFY_URL = ('https://recaptcha-demo.appspot.com/recaptcha-v3-verify.php'
               '?action={action}&token={token}')
 MIN_SCORE = 0.7
-API_KEY = os.getenv('2CAPTCHA_API_KEY', default='YOUR_API_KEY')
+API_KEY = os.getenv('API_KEY_2CAPTCHA', default='<PLACE_YOUR_API_KEY_HERE>')
 
 
 def solve(service_name, api_key):
@@ -76,4 +76,4 @@ def solve(service_name, api_key):
 
 
 if __name__ == '__main__':
-    pprint(solve('2captcha.com', API_KEY))
+    pprint(solve(CaptchaSolvingService.TWOCAPTCHA, API_KEY))

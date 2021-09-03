@@ -7,15 +7,15 @@ import os
 
 import requests
 from lxml import html
-from unicaps import CaptchaSolver, exceptions
+from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions
 from unicaps.proxy import ProxyServer
 
-URL = 'https://www.google.com/search?complete=0&hl=en&q=unicaps&num=100&start=1&filter=0&pws=0'
+URL = 'https://www.google.com/search?complete=0&hl=en&q=python+unicaps&num=100&start=1&filter=0&pws=0'
 POST_URL = 'https://www.google.com/sorry/index'
-API_KEY = os.getenv('2CAPTCHA_API_KEY', default='YOUR_API_KEY')
+API_KEY = os.getenv('API_KEY_2CAPTCHA', default='<PLACE_YOUR_API_KEY_HERE>')
 PROXY = os.getenv(
     'HTTP_PROXY_SERVER',
-    default='http://<LOGIN>:<PASSWORD>@<YOUR_PROXY_ADDRESS>:<PORT>'
+    default='http://<LOGIN>:<PASSWORD>@<PROXY_ADDRESS>:<PORT>'
 )
 
 
@@ -88,4 +88,4 @@ def solve(service_name, api_key):
 
 
 if __name__ == '__main__':
-    solve('2captcha.com', API_KEY)
+    solve(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
