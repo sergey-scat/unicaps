@@ -2,10 +2,19 @@
 """
 Proxy Server representation
 """
+import socket
 
 from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
+
+
+def _is_ip_address(value):
+    try:
+        socket.inet_aton(value)
+        return True
+    except socket.error:
+        return False
 
 
 class ProxyServerType(Enum):
@@ -57,3 +66,8 @@ class ProxyServer:
             proxy_string += self.login + ':' + self.password + '@'
 
         return proxy_string + self.address + ':' + str(self.port)
+
+    def get_ip_address(self):
+        if not _is_ip_address(self.address):
+            return socket.gethostbyname(self.address)
+        return self.address
