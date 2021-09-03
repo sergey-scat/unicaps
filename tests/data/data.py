@@ -29,7 +29,7 @@ IMAGE_FILE_BYTES = open(IMAGE_FILE_PATH, 'rb').read()
 IMAGE_FILE_BASE64 = base64.b64encode(IMAGE_FILE_BYTES)
 IMAGE_FILE_BASE64_STR = IMAGE_FILE_BASE64.decode('ascii')
 
-PROXY_ADDRESS = 'http://login:password@proxy:8080'
+PROXY_ADDRESS = 'http://login:password@proxy.com:8080'
 PROXY_OBJ = ProxyServer(PROXY_ADDRESS)
 
 COOKIES = {'cookie1': 'value1', 'cookie2': 'value2'}
@@ -215,14 +215,14 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
         30: {'json': dict(task=dict(type='NoCaptchaTask', websiteKey='test1',
                                     websiteURL='test2', isInvisible=False,
                                     proxyType=PROXY_OBJ.proxy_type.value,
-                                    proxyAddress=PROXY_OBJ.address,
+                                    proxyAddress=PROXY_OBJ.get_ip_address(),
                                     proxyPort=PROXY_OBJ.port,
                                     proxyLogin=PROXY_OBJ.login,
                                     proxyPassword=PROXY_OBJ.password))},
         31: {'json': dict(task=dict(type='NoCaptchaTask', websiteKey='test1',
                                     websiteURL='test2', isInvisible=False,
                                     proxyType=PROXY_OBJ.proxy_type.value,
-                                    proxyAddress=PROXY_OBJ.address,
+                                    proxyAddress=PROXY_OBJ.get_ip_address(),
                                     proxyPort=PROXY_OBJ.port,
                                     proxyLogin=PROXY_OBJ.login,
                                     proxyPassword=PROXY_OBJ.password,
@@ -230,7 +230,7 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
         32: {'json': dict(task=dict(type='NoCaptchaTask', websiteKey='test1',
                                     websiteURL='test2', isInvisible=False,
                                     proxyType=PROXY_OBJ.proxy_type.value,
-                                    proxyAddress=PROXY_OBJ.address,
+                                    proxyAddress=PROXY_OBJ.get_ip_address(),
                                     proxyPort=PROXY_OBJ.port,
                                     proxyLogin=PROXY_OBJ.login,
                                     proxyPassword=PROXY_OBJ.password,
