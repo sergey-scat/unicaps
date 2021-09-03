@@ -6,12 +6,8 @@ reCAPTCHA v2 Enterprise solving example
 import os
 import random
 import string
-import sys
 
 import requests
-
-cd = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(1, cd)
 from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions
 from unicaps.proxy import ProxyServer
 
