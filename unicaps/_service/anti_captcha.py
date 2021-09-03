@@ -190,7 +190,8 @@ class TaskRequest(Request):
             request["json"]["task"].update(
                 dict(
                     proxyType=proxy.proxy_type.value,
-                    proxyAddress=proxy.address,
+                    # Anti-captcha supports IP addresses only
+                    proxyAddress=proxy.get_ip_address(),
                     proxyPort=proxy.port
                 )
             )
@@ -318,10 +319,11 @@ class RecaptchaV2TaskRequest(TaskRequest):
 
         if proxy:
             kwargs = dict(captcha=captcha, proxy=proxy, user_agent=user_agent, cookies=cookies)
-            task_type = "NoCaptchaTask"
+            task_type = "RecaptchaV2EnterpriseTask" if captcha.is_enterprise else "NoCaptchaTask"
         else:
             kwargs = dict(captcha=captcha)
-            task_type = "NoCaptchaTaskProxyless"
+            task_type = ("RecaptchaV2EnterpriseTaskProxyless" if captcha.is_enterprise
+                         else "NoCaptchaTaskProxyless")
 
         request = super().prepare(**kwargs)
         request['json']['task'].update(
@@ -332,12 +334,17 @@ class RecaptchaV2TaskRequest(TaskRequest):
                 isInvisible=captcha.is_invisible
             )
         )
-        # set optional data if any
-        request['json']['task'].update(
-            captcha.get_optional_data(
-                data_s=('recaptchaDataSValue', None)
+
+        # if enterprise captcha
+        if captcha.is_enterprise:
+            request['json']['task']['enterprisePayload'] = dict(s=captcha.data_s)
+        else:
+            # set optional data if any
+            request['json']['task'].update(
+                captcha.get_optional_data(
+                    data_s=('recaptchaDataSValue', None)
+                )
             )
-        )
 
         return request
 
@@ -353,14 +360,13 @@ class RecaptchaV3TaskRequest(TaskRequest):
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
         """ Prepares request """
 
+
         request = super().prepare()
         request['json']['task'].update(
             dict(
                 type="RecaptchaV3TaskProxyless",
                 websiteURL=captcha.page_url,
-                websiteKey=captcha.site_key,
-                # minScore=captcha.min_score,
-                # pageAction=captcha.action
+                websiteKey=captcha.site_key
             )
         )
         # set optional data if any
@@ -370,6 +376,10 @@ class RecaptchaV3TaskRequest(TaskRequest):
                 action=('pageAction', None),
             )
         )
+
+        # if enterprise captcha
+        if captcha.is_enterprise:
+            request['json']['task']['isEnterprise'] = True
 
         return request
 

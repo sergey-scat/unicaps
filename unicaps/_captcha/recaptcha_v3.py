@@ -15,12 +15,14 @@ class RecaptchaV3(BaseCaptcha):
 
     site_key: str
     page_url: str
+    is_enterprise: Optional[bool] = False
     action: Optional[str] = None
     min_score: Optional[float] = None
 
     def __post_init__(self):
         assert isinstance(self.site_key, str)
         assert isinstance(self.page_url, str)
+        assert isinstance(self.is_enterprise, bool)
         assert self.action is None or isinstance(self.action, str)
         assert self.min_score is None or isinstance(self.min_score, float)
 

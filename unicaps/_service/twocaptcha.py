@@ -338,9 +338,13 @@ class RecaptchaV2TaskRequest(TaskRequest):
         # add optional params
         request['data'].update(
             captcha.get_optional_data(
-                data_s=('data-s', None)
+                data_s=('data-s', None),
             )
         )
+
+        # check if enterprise captcha
+        if captcha.is_enterprise:
+            request['data']['enterprise'] = 1
 
         return request
 
@@ -362,9 +366,7 @@ class RecaptchaV3TaskRequest(TaskRequest):
                 method="userrecaptcha",
                 version="v3",
                 googlekey=captcha.site_key,
-                pageurl=captcha.page_url,
-                # action=captcha.action,
-                # min_score='{:.1f}'.format(captcha.min_score)
+                pageurl=captcha.page_url
             )
         )
 
@@ -372,9 +374,13 @@ class RecaptchaV3TaskRequest(TaskRequest):
         request['data'].update(
             captcha.get_optional_data(
                 action=('action', None),
-                min_score=('min_score', None)
+                min_score=('min_score', None),
             )
         )
+
+        # check if enterprise captcha
+        if captcha.is_enterprise:
+            request['data']['enterprise'] = 1
 
         return request
 

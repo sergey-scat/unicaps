@@ -15,13 +15,15 @@ class RecaptchaV2(BaseCaptcha):
 
     site_key: str
     page_url: str
-    is_invisible: bool = False
+    is_invisible: Optional[bool] = False
+    is_enterprise: Optional[bool] = False
     data_s: Optional[str] = None
 
     def __post_init__(self):
         assert isinstance(self.site_key, str)
         assert isinstance(self.page_url, str)
         assert isinstance(self.is_invisible, bool)
+        assert isinstance(self.is_enterprise, bool)
         assert self.data_s is None or isinstance(self.data_s, str)
 
 

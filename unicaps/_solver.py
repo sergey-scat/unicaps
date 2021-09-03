@@ -93,6 +93,7 @@ class CaptchaSolver:
         :param site_key: Value of "data-sitekey" (or "k") parameter.
         :param page_url: Full URL of the page with CAPTCHA.
         :param is_invisible: (optional) Invisible reCAPTCHA flag.
+        :param is_enterprise: (optional) reCAPTCHA Enterprise flag.
         :param data_s: (optional) Value of "data-s" parameter.
         :param proxy: (optional) Proxy to use while solving the CAPTCHA.
         :param user_agent: (optional) User-Agent to use while solving the CAPTCHA.
@@ -109,6 +110,7 @@ class CaptchaSolver:
         :param page_url: Full URL of the page with CAPTCHA.
         :param action: (optional) Widget action value.
         :param min_score: (optional) Filters a worker with corresponding score.
+        :param is_enterprise: (optional) reCAPTCHA Enterprise flag.
         :param proxy: (optional) Proxy to use while solving the CAPTCHA.
         :param user_agent: (optional) User-Agent to use while solving the CAPTCHA.
         :param cookies: (optional) Cookies to use while solving the CAPTCHA.

@@ -298,13 +298,6 @@ class RecaptchaV2TaskRequest(TaskRequest):
             )
         )
 
-        # add optional params
-        request['data'].update(
-            captcha.get_optional_data(
-                data_s=('data-s', None)
-            )
-        )
-
         return request
 
 
