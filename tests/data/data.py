@@ -67,6 +67,8 @@ INPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
     30: (RecaptchaV2('test1', 'test2'), PROXY_OBJ, None, None),
     31: (RecaptchaV2('test1', 'test2'), PROXY_OBJ, 'User-Agent1', None),
     32: (RecaptchaV2('test1', 'test2'), PROXY_OBJ, 'User-Agent1', COOKIES),
+    33: (RecaptchaV2('test1', 'test2', data_s="test3", is_enterprise=True), None, None, None),
+    34: (RecaptchaV3('test1', 'test2', is_enterprise=True), None, None, None),
 }
 
 BASE_TASK_REQUEST_DATA = {
@@ -156,6 +158,10 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
                           proxytype=PROXY_ADDRESS.split('://')[0].upper(),
                           userAgent='User-Agent1',
                           cookies='cookie1:value1;cookie2:value2')},
+        33: {'data': {'method': 'userrecaptcha', 'googlekey': 'test1', 'pageurl': 'test2',
+                      'invisible': 0, 'data-s': 'test3', 'enterprise': 1}},
+        34: {'data': dict(method='userrecaptcha', version='v3', googlekey='test1', pageurl='test2',
+                          enterprise=1)},
     },
     CaptchaSolvingService.ANTI_CAPTCHA: {
         1: {'json': dict(task=dict(type='ImageToTextTask', body=IMAGE_FILE_BASE64_STR))},
@@ -230,6 +236,11 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
                                     proxyPassword=PROXY_OBJ.password,
                                     userAgent='User-Agent1',
                                     cookies='cookie1=value1; cookie2=value2'))},
+        33: {'json': dict(task=dict(type='RecaptchaV2EnterpriseTaskProxyless', websiteKey='test1',
+                                    websiteURL='test2', isInvisible=False,
+                                    enterprisePayload=dict(s='test3')))},
+        34: {'json': dict(task=dict(type='RecaptchaV3TaskProxyless', websiteKey='test1',
+                                    websiteURL='test2', isEnterprise=True))},
     },
     CaptchaSolvingService.AZCAPTCHA: {
         1: {'data': dict(method='base64', body=IMAGE_FILE_BASE64)},
@@ -277,6 +288,10 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
                           proxytype=PROXY_ADDRESS.split('://')[0].upper(),
                           userAgent='User-Agent1',
                           cookies='cookie1:value1;cookie2:value2')},
+        33: {'data': {'method': 'userrecaptcha', 'googlekey': 'test1', 'pageurl': 'test2',
+                      'invisible': 0, 'data-s': 'test3'}},
+        34: {'data': dict(method='userrecaptcha', version='v3', googlekey='test1',
+                          pageurl='test2')},
     },
     CaptchaSolvingService.CPTCH_NET: {
         1: {'data': dict(method='base64', body=IMAGE_FILE_BASE64)},
@@ -293,7 +308,7 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
         12: {'data': dict(method='userrecaptcha', googlekey='test1', pageurl='test2', invisible=0)},
         13: {'data': dict(method='userrecaptcha', googlekey='test1', pageurl='test2', invisible=1)},
         14: {'data': {'method': 'userrecaptcha', 'googlekey': 'test1', 'pageurl': 'test2',
-                      'invisible': 0, 'data-s': 'test3'}},
+                      'invisible': 0}},
         15: {'data': dict(method='userrecaptcha', version='v3', googlekey='test1',
                           pageurl='test2')},
         16: {'data': dict(method='userrecaptcha', version='v3', googlekey='test1', pageurl='test2',
@@ -315,6 +330,9 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
         30: {'data': dict(method='userrecaptcha', googlekey='test1', pageurl='test2', invisible=0)},
         31: {'data': dict(method='userrecaptcha', googlekey='test1', pageurl='test2', invisible=0)},
         32: {'data': dict(method='userrecaptcha', googlekey='test1', pageurl='test2', invisible=0)},
+        33: {'data': dict(method='userrecaptcha', googlekey='test1', pageurl='test2', invisible=0)},
+        34: {'data': dict(method='userrecaptcha', version='v3', googlekey='test1',
+                          pageurl='test2')},
     },
     # CaptchaSolvingService.DEATHBYCAPTCHA: {
     # 1: None,
