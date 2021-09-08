@@ -151,10 +151,19 @@ True
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ❌ |
 
+## Supported Proxy types
+| Service | HTTP | HTTPS | SOCKS 4 | SOCKS 5 |
+| ------------- | :---: | :---:	| :---:	| :---:	|
+| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ✅ | ✅ |
+| [azcaptcha.com](https://azcaptcha.com/) | ✅ | ✅ | ✅ | ✅ |
+| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ |
+
 ## How to...
 ### Common
 <details>
-<summary><b>Get balance</b></summary>
+<summary>Get balance</summary>
 
 ```python
 from unicaps import CaptchaSolver, CaptchaSolvingService
@@ -166,7 +175,7 @@ balance = solver.get_balance()
 </details>
 
 <details>
-<summary><b>Get service status (is the service is up?)</b></summary>
+<summary>Get service status (is the service is up?)</summary>
 
 ```python
 from unicaps import CaptchaSolver, CaptchaSolvingService
@@ -180,12 +189,12 @@ status = solver.get_status()
 
 ### Solving
 <details>
-<summary><b>reCAPTCHA v2</b></summary>
+<summary>reCAPTCHA v2</summary>
 
 ```python
 from unicaps import CaptchaSolver, CaptchaSolvingService
 
-# get page url and site_key from your page
+# get page URL and site_key from your page
 page_url = ...
 site_key = ...
 
@@ -202,7 +211,7 @@ token = solved.solution.token
 </details>
 
 <details>
-<summary><b>Invisible reCAPTCHA v2</b></summary>
+<summary>Invisible reCAPTCHA v2</summary>
 
 ```python
 from unicaps import CaptchaSolver, CaptchaSolvingService
@@ -225,12 +234,37 @@ token = solved.solution.token
 </details>
 
 <details>
-<summary><b>reCAPTCHA v3</b></summary>
+<summary>reCAPTCHA v2 Enterprise</summary>
 
 ```python
 from unicaps import CaptchaSolver, CaptchaSolvingService
 
-# get page url, site_key and action from your page
+# get page URL, site_key and data_s from your page
+page_url = ...
+site_key = ...
+data_s = ...
+
+# init captcha solver
+solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "PLACE YOUR API KEY HERE")
+# solve CAPTCHA
+solved = solver.solve_recaptcha_v2(
+    site_key=site_key,
+    page_url=page_url,
+    data_s=data_s,
+    is_enterprise=True
+)
+# get response token
+token = solved.solution.token
+```
+</details>
+
+<details>
+<summary>reCAPTCHA v3</summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+
+# get page URL, site_key and action from your page
 page_url = ...
 site_key = ...
 action = ...
@@ -244,6 +278,28 @@ solved = solver.solve_recaptcha_v3(
     page_url=page_url,
     action=action,
     min_score=min_score
+)
+# get response token
+token = solved.solution.token
+```
+</details>
+
+<details>
+<summary>hCaptcha</summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+
+# get page URL and site_key from your page
+page_url = ...
+site_key = ...
+
+# init captcha solver
+solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
+# solve CAPTCHA
+solved = solver.solve_hcaptcha(
+    site_key=site_key,
+    page_url=page_url
 )
 # get response token
 token = solved.solution.token
