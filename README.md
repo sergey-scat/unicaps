@@ -187,6 +187,36 @@ status = solver.get_status()
 ```
 </details>
 
+<details>
+<summary>Get technical details after solving</summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+
+# init captcha solver and solve the captcha
+solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
+solved = solver.solve_...(...)
+
+# get cost of the solving
+cost = solved.cost
+
+# get cookies (if any)
+cookies = solved.cookies
+
+# report good captcha
+solved.report_good()
+
+# report bad captcha
+solved.report_bad()
+
+# get solving start time
+start_time = solved.start_time
+
+# get solving end time
+end_time = solved.end_time
+```
+</details>
+
 ### Solving
 <details>
 <summary>Image CAPTCHA</summary>
