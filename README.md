@@ -376,5 +376,35 @@ else:
 ```
 </details>
 
+### Proxy
+<details>
+<summary>Add proxy, cookies and User-Agent</summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+from unicaps.proxy import ProxyServer
+
+# get page URL and site_key from your page
+PAGE_URL = ...
+SITE_KEY = ...
+PROXY = 'http://user:password@domain.com:8080'
+USER_AGENT = '<USER AGENT STRING>'
+COOKIES = {'name': 'value', ...}
+
+# init captcha solver
+solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
+# solve CAPTCHA
+solved = solver.solve_recaptcha_v2(
+    site_key=site_key,
+    page_url=page_url,
+    proxy=ProxyServer(PROXY),
+    user_agent=USER_AGENT,
+    cookies=COOKIES
+)
+# get response token
+token = solved.solution.token
+```
+</details>
+
 ## Code examples
 [Examples](https://github.com/sergey-scat/unicaps/tree/master/examples)
