@@ -3,7 +3,9 @@
 </p>
 
 # Unicaps
-[![](https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8%20%7C%203.9%20-blue.svg)](https://www.python.org/downloads/release/python-3611/)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/unicaps.svg)](https://pypi.python.org/pypi/unicaps/)
+[![PyPI version fury.io](https://badge.fury.io/py/unicaps.svg)](https://pypi.python.org/pypi/unicaps/)
+[![PyPI status](https://img.shields.io/pypi/status/unicaps.svg)](https://pypi.python.org/pypi/unicaps/)
 
 Unicaps is a unified Python API for CAPTCHA solving services.
 
@@ -25,8 +27,8 @@ Unicaps is a unified Python API for CAPTCHA solving services.
 
 ## Simple Usage Example
 ```python
->>> from unicaps import CaptchaSolver
->>> solver = CaptchaSolver("2captcha.com", api_key="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+>>> from unicaps import CaptchaSolver, CaptchaSolvingService
+>>> solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, api_key="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 >>> solver.get_balance()
 2.84161
 >>> solved = solver.solve_image_captcha(open("captcha.jpg", "rb"), is_phrase=False, is_case_sensitive=True)
@@ -46,6 +48,20 @@ True
 | [azcaptcha.com](https://azcaptcha.com) | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+
+### reCAPTCHA v2
+| Service | Regular | Invisible | Enterpsrise | Google service<sup>1</sup> | Proxy<sup>2</sup> | Cookies<sup>3</sup> | User-Agent<sup>4</sup> |
+| ------------- | :---: | :---:	| :---:	| :---:	| :---:	| :---:	| :---:	|
+| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [azcaptcha.com](https://azcaptcha.com/) | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+
+<sup>1</sup> Support of solving reCAPTCHA on Google services (e.g. Google Search) </br>
+<sup>2</sup> Support of solving via proxy server </br>
+<sup>3</sup> Support of passing custom cookies </br>
+<sup>4</sup> Support of passing custom User-Agent header </br>
 
 ## Code examples
 [Examples](https://github.com/sergey-scat/unicaps/tree/master/examples)
