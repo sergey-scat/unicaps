@@ -337,5 +337,44 @@ token = solved.solution.token
 ```
 </details>
 
+### Error handling
+<details>
+<summary>Exceptions</summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions
+
+# init captcha solver
+solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
+# solve CAPTCHA
+try:
+    solved = solver.solve_recaptcha_v2(
+        site_key=site_key,
+        page_url=page_url
+    )
+except exceptions.AccessDeniedError:  # wrong API key or the current IP is banned
+    pass
+except exceptions.LowBalanceError:  # low balance
+    pass
+except exceptions.ServiceTooBusy:  # no available slots to solve CAPTCHA
+    pass
+except exceptions.SolutionWaitTimeout:  # haven't received a solution within N minutes
+    pass
+except exceptions.TooManyRequestsError:  # request limit exceeded
+    pass
+except exceptions.BadInputDataError:  # bad CAPTCHA data (bad image, wrong URL, etc.)
+    pass
+except exceptions.UnableToSolveError:  # CAPTCHA unsolvable
+    pass
+except exceptions.ProxyError:  # bad proxy
+    pass
+except exceptions.NetworkError:  # network connection error
+    pass
+else:
+    # get response token
+    token = solved.solution.token
+```
+</details>
+
 ## Code examples
 [Examples](https://github.com/sergey-scat/unicaps/tree/master/examples)
