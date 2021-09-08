@@ -151,5 +151,104 @@ True
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ❌ |
 
+## How to...
+### Common
+<details>
+<summary><b>Get balance</b></summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+
+# init captcha solver
+solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
+balance = solver.get_balance()
+```
+</details>
+
+<details>
+<summary><b>Get service status (is the service is up?)</b></summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+
+# init captcha solver
+solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
+# get status of the service (True - everything is Okay, False - the service is down)
+status = solver.get_status()
+```
+</details>
+
+### Solving
+<details>
+<summary><b>reCAPTCHA v2</b></summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+
+# get page url and site_key from your page
+page_url = ...
+site_key = ...
+
+# init captcha solver
+solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
+# solve CAPTCHA
+solved = solver.solve_recaptcha_v2(
+    site_key=site_key,
+    page_url=page_url
+)
+# get response token
+token = solved.solution.token
+```
+</details>
+
+<details>
+<summary><b>Invisible reCAPTCHA v2</b></summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+
+# get page url and site_key from your page
+page_url = ...
+site_key = ...
+
+# init captcha solver
+solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
+# solve CAPTCHA
+solved = solver.solve_recaptcha_v2(
+    site_key=site_key,
+    page_url=page_url,
+    is_invisible=True
+)
+# get response token
+token = solved.solution.token
+```
+</details>
+
+<details>
+<summary><b>reCAPTCHA v3</b></summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+
+# get page url, site_key and action from your page
+page_url = ...
+site_key = ...
+action = ...
+min_score = 0.7
+
+# init captcha solver
+solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
+# solve CAPTCHA
+solved = solver.solve_recaptcha_v3(
+    site_key=site_key,
+    page_url=page_url,
+    action=action,
+    min_score=min_score
+)
+# get response token
+token = solved.solution.token
+```
+</details>
+
 ## Code examples
 [Examples](https://github.com/sergey-scat/unicaps/tree/master/examples)
