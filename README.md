@@ -189,6 +189,37 @@ status = solver.get_status()
 
 ### Solving
 <details>
+<summary>Image CAPTCHA</summary>
+
+```python
+import pathlib
+
+from unicaps import CaptchaSolver, CaptchaSolvingService
+from unicaps.common import CaptchaCharType, CaptchaAlphabet
+
+# get image file
+image_file = pathlib.Path(r'/tmp/captcha.png')
+
+# init captcha solver
+solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "PLACE YOUR API KEY HERE")
+# solve CAPTCHA
+solved = solver.solve_image_captcha(
+    image=image_file,
+    char_type=CaptchaCharType.ALPHA,
+    is_phrase=False,
+    is_case_sensitive=True,
+    is_math=False,
+    min_len=4,
+    max_len=6,
+    alphabet=CaptchaAlphabet.LATIN,
+    comment='Type RED letters only'
+)
+# get response token
+token = solved.solution.text
+```
+</details>
+
+<details>
 <summary>reCAPTCHA v2</summary>
 
 ```python
@@ -211,7 +242,7 @@ token = solved.solution.token
 </details>
 
 <details>
-<summary>Invisible reCAPTCHA v2</summary>
+<summary>reCAPTCHA v2 Invisible</summary>
 
 ```python
 from unicaps import CaptchaSolver, CaptchaSolvingService
