@@ -95,5 +95,5 @@ def run(solver):
 
 
 if __name__ == '__main__':
-    solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
+    solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY_2CAPTCHA)
     run(solver)
