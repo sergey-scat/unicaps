@@ -29,12 +29,13 @@ class CaptchaSolver:
         elif isinstance(service_name, str):
             try:
                 self.service_name = CaptchaSolvingService(service_name)
-            except ValueError:
+            except ValueError as exc:
                 raise ValueError(
                     f"'{service_name}' is not a valid CaptchaSolvingService. "
-                    "Please use one of the following values: " +
-                    ', '.join([f"'{i.value}'" for i in CaptchaSolvingService])
-                )
+                    "Please use one of the following values: " + ', '.join(
+                        [f"'{i.value}'" for i in CaptchaSolvingService]
+                    )
+                ) from exc
         else:
             raise ValueError(
                 '"service_name" param must be an instance of str or CaptchaSolvingService!'
