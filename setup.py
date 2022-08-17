@@ -5,15 +5,15 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="unicaps",
-    version="0.5.1",
-    author="Sergey Totmyanin",
+    version="1.0.0",
+    author="Sergey Scat",
     author_email="STotmyanin@gmail.com",
     description="Universal CAPTCHA Solver for humans",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/sergey-scat/unicaps",
     packages=setuptools.find_packages(),
-    install_requires=["requests>=2.21.0", "dataclasses>=0.7; python_version == '3.6'"],
+    install_requires=["httpx>=0.22.0"],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
@@ -24,6 +24,8 @@ setuptools.setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9"
+        "Programming Language :: Python :: 3.10"
+        "Programming Language :: Python :: 3.11"
     ],
     python_requires='>=3.6',
 )

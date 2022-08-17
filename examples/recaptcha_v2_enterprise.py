@@ -7,7 +7,7 @@ import os
 import random
 import string
 
-import requests
+import httpx
 from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions
 from unicaps.proxy import ProxyServer
 
@@ -27,21 +27,18 @@ def get_random_word(length):
     return ''.join(random.choice(letters) for i in range(length))
 
 
-def solve(service_name, api_key):
+def run(solver):
     """ Get and solve CAPTCHA """
 
-    # init captcha solver
-    solver = CaptchaSolver(service_name, api_key)
-
     # make a session, update headers and proxies
-    session = requests.Session()
+    session = httpx.Client(proxies=PROXY)
     session.headers.update({
         'User-Agent': USER_AGENT,
     })
-    session.proxies.update({
-        'http': PROXY,
-        'https': PROXY
-    })
+    #session.proxies.update({
+        #'http': PROXY,
+        #'https': PROXY
+    #})
 
     # open the "Join" page just to get session cookies
     response = session.get(URL)
@@ -65,7 +62,7 @@ def solve(service_name, api_key):
         )
     except exceptions.UnicapsException as exc:
         print('reCAPTCHA v2 Enterprise solving exception: %s' % exc)
-        return
+        return False, None
 
     # generate email address
     email = f'random_{get_random_word(10)}@gmail.com'
@@ -86,14 +83,17 @@ def solve(service_name, api_key):
 
     # check the result
     if 'the CAPTCHA appears to be invalid' not in response_data['details']:
-        print('reCAPTCHA v2 Enterprise solved successfully!')
+        print('reCAPTCHA v2 Enterprise has been solved successfully!')
         # report good CAPTCHA
         solved.report_good()
+        return True, solved
     else:
         print('reCAPTCHA v2 Enterprise wasn\'t solved!')
         # report bad CAPTCHA
         solved.report_bad()
+        return False, solved
 
 
 if __name__ == '__main__':
-    solve(CaptchaSolvingService.TWOCAPTCHA, API_KEY_2CAPTCHA)
+    solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
+    run(solver)

@@ -5,7 +5,7 @@ reCAPTCHA v2 via proxy solving example
 
 import os
 
-import requests
+import httpx
 from lxml import html
 from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions
 from unicaps.proxy import ProxyServer
@@ -19,20 +19,23 @@ PROXY = os.getenv(
 )
 
 
-def solve(service_name, api_key):
+def run(solver):
     """ Get and solve CAPTCHA """
 
     # User-Agent
     user_agent = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)"
-                  " Chrome/84.0.4147.89 Safari/537.36")
+                  " Chrome/103.0.0.0 Safari/537.36")
 
-    # init captcha solver
-    solver = CaptchaSolver(service_name, api_key)
+    headers = {
+        'User-Agent': user_agent,
+        'Accept': '*/*',
+        'Accept-encoding': 'gzip, deflate, br',
+        'Accept-language': 'en-US,en;q=0.9'
+    }
 
-    # make a session, set proxy and User-Agent
-    session = requests.Session()
-    session.proxies.update(dict(http=PROXY, https=PROXY))
-    session.headers.update({'User-Agent': user_agent})
+    # make a session, set proxy and headers
+    session = httpx.Client(headers=headers, proxies=PROXY)
+
     # go to URL
     response = session.get(URL)
 
@@ -41,8 +44,8 @@ def solve(service_name, api_key):
 
     recaptcha_tag = page.cssselect('.g-recaptcha')
     if not recaptcha_tag:
-        print('reCAPTCHA didn\'t appear for Google search (a good proxy used!)')
-        return
+        print('reCAPTCHA didn\'t appear for Google search (looks like a good proxy was used!)')
+        return False, None
 
     # extract sitekey and data-s values
     site_key = recaptcha_tag[0].attrib['data-sitekey']
@@ -62,11 +65,11 @@ def solve(service_name, api_key):
             data_s=data_s,
             proxy=ProxyServer(PROXY),
             user_agent=user_agent,
-            cookies=session.cookies.get_dict()
+            cookies=dict(session.cookies)
         )
     except exceptions.UnicapsException as exc:
         print('reCAPTCHA v2 (via proxy) solving exception: %s' % exc)
-        return
+        return False, None
 
     # add token to form data
     form_data['g-recaptcha-response'] = solved.solution.token
@@ -78,14 +81,17 @@ def solve(service_name, api_key):
     # check the result
     search_results = [link.attrib.get('href') for link in page.xpath('//div[@class="r"]/a')]
     if search_results:
-        print('reCAPTCHA v2 (proxy) solved successfully!')
+        print('reCAPTCHA v2 (proxy) has been solved successfully!')
         # report good CAPTCHA
         solved.report_good()
+        return True, solved
     else:
         print('reCAPTCHA v2 (proxy) wasn\'t solved!')
         # report bad CAPTCHA
         solved.report_bad()
+        return False, solved
 
 
 if __name__ == '__main__':
-    solve(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
+    solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
+    run(solver)

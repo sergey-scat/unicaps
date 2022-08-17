@@ -5,20 +5,17 @@ hCaptcha solving example
 
 import os
 
-import requests
+import httpx
 from lxml import html
 from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions
 
-URL = 'http://democaptcha.com/demo-form-eng/hcaptcha.html'
+URL = 'https://democaptcha.com/demo-form-eng/hcaptcha.html'
 API_KEY = os.getenv('API_KEY_2CAPTCHA', default='YOUR_API_KEY')
 
 
-def solve(service_name, api_key):
-    # init captcha solver
-    solver = CaptchaSolver(service_name, api_key)
-
+def run(solver):
     # make a session and go to URL
-    session = requests.Session()
+    session = httpx.Client(http2=True)
     response = session.get(URL)
 
     # parse page and get site-key
@@ -40,7 +37,7 @@ def solve(service_name, api_key):
         )
     except exceptions.UnicapsException as exc:
         print('hCaptcha solving exception: %s' % exc)
-        return
+        return False, None
 
     # add token to form data
     form_data['h-captcha-response'] = solved.solution.token
@@ -52,14 +49,17 @@ def solve(service_name, api_key):
 
     # check the result
     if page.xpath('//h2[starts-with(text(), "Thank you")]'):
-        print('hCaptcha solved successfully!')
+        print('hCaptcha has been solved successfully!')
         # report good CAPTCHA
         solved.report_good()
+        return True, solved
     else:
         print('hCaptcha wasn\'t solved!')
         # report bad CAPTCHA
         solved.report_bad()
+        return False, solved
 
 
 if __name__ == '__main__':
-    solve(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
+    solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
+    run(solver)

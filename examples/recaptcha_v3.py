@@ -7,7 +7,7 @@ import os
 import re
 from pprint import pprint
 
-import requests
+import httpx
 from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions
 
 URL = 'https://recaptcha-demo.appspot.com/recaptcha-v3-request-scores.php'
@@ -17,14 +17,11 @@ MIN_SCORE = 0.7
 API_KEY = os.getenv('API_KEY_2CAPTCHA', default='<PLACE_YOUR_API_KEY_HERE>')
 
 
-def solve(service_name, api_key):
+def run(solver):
     """ Get and solve CAPTCHA """
 
-    # init captcha solver
-    solver = CaptchaSolver(service_name, api_key)
-
     # make a session and go to URL
-    session = requests.Session()
+    session = httpx.Client(http2=True)
     response = session.get(URL)
 
     # extract site-key and action from the page source using regular expression
@@ -45,7 +42,7 @@ def solve(service_name, api_key):
         )
     except exceptions.UnicapsException as exc:
         print('reCAPTCHA v3 solving exception: %s' % exc)
-        return
+        return False, None
 
     # verify token and print the result
     response = session.get(
@@ -55,25 +52,28 @@ def solve(service_name, api_key):
         )
     )
     result = response.json()
+    pprint(result)
 
     # check the result
     if not result['score']:
         print('reCAPTCHA v3 wasn\'t solved! Error codes: ' + ', '.join(result['error-codes']))
         # report bad CAPTCHA
         solved.report_bad()
+        return False, solved
     elif result['score'] < MIN_SCORE:
         print(
             f'Solved reCAPTCHA v3 score ({result["score"]}) is less than requested ({MIN_SCORE})!'
         )
         # report bad CAPTCHA
         solved.report_bad()
+        return False, solved
     else:
-        print('reCAPTCHA v3 solved successfully!')
+        print('reCAPTCHA v3 has been solved successfully!')
         # report good CAPTCHA
         solved.report_good()
-
-    return result
+        return True, solved
 
 
 if __name__ == '__main__':
-    pprint(solve(CaptchaSolvingService.TWOCAPTCHA, API_KEY))
+    solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
+    run(solver)

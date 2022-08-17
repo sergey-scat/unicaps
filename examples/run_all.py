@@ -7,6 +7,8 @@ from importlib import import_module
 import logging
 import os
 
+from unicaps import CaptchaSolver
+
 # services dict: key is a name of CAPTCHA solving service, value is an env variable containing
 # the API key
 SERVICES = {
@@ -35,8 +37,11 @@ if __name__ == '__main__':
         api_key = os.getenv(SERVICES[service_name])
         print(f'######### Service: {service_name} #########')
 
+        # init captcha solver
+        solver = CaptchaSolver(service_name, api_key)
+
         for example_name in EXAMPLES:
             print(example_name)
             module = import_module(example_name)
-            module.solve(service_name, api_key)
+            module.run(solver)
             print()

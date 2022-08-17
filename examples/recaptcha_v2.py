@@ -5,7 +5,7 @@ reCAPTCHA v2 solving example
 
 import os
 
-import requests
+import httpx
 from lxml import html
 from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions
 
@@ -13,14 +13,11 @@ URL = 'https://recaptcha-demo.appspot.com/recaptcha-v2-checkbox.php'
 API_KEY = os.getenv('API_KEY_2CAPTCHA', default='<PLACE_YOUR_API_KEY_HERE>')
 
 
-def solve(service_name, api_key):
-    """ Get and solve CAPTCHA """
-
-    # init captcha solver
-    solver = CaptchaSolver(service_name, api_key)
+def run(solver):
+    """ Get and solve reCAPTCHA v2 """
 
     # make a session and go to URL
-    session = requests.Session()
+    session = httpx.Client(http2=True)
     response = session.get(URL)
 
     # parse page and get site-key
@@ -41,7 +38,7 @@ def solve(service_name, api_key):
         )
     except exceptions.UnicapsException as exc:
         print('reCAPTCHA v2 solving exception: %s' % exc)
-        return
+        return False, None
 
     # add token to form data
     form_data['g-recaptcha-response'] = solved.solution.token
@@ -52,14 +49,17 @@ def solve(service_name, api_key):
 
     # check the result
     if page.xpath('//h2[text()="Success!"]'):
-        print('reCAPTCHA v2 solved successfully!')
+        print('reCAPTCHA v2 has been solved successfully!')
         # report good CAPTCHA
         solved.report_good()
+        return True, solved
     else:
         print('reCAPTCHA v2 wasn\'t solved!')
         # report bad CAPTCHA
         solved.report_bad()
+        return False, solved
 
 
 if __name__ == '__main__':
-    solve(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
+    solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
+    run(solver)
