@@ -30,7 +30,10 @@ class StandardHTTPTransport(BaseTransport):  # pylint: disable=too-few-public-me
             'User-Agent': f'python-unicaps/{__version__}'
         }
 
-        self.session = httpx.Client(headers=default_headers)
+        self.session = httpx.Client(
+            headers=default_headers,
+            timeout=httpx.Timeout(timeout=30)
+        )
         # self.asession = httpx.AsyncClient(headers=default_headers)
 
     def _make_request(self, request_data: Dict) -> httpx.Response:
