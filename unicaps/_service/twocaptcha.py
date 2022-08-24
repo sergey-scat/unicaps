@@ -22,7 +22,7 @@ __all__ = [
     'KeyCaptchaTaskRequest', 'KeyCaptchaSolutionRequest',
     'GeeTestTaskRequest', 'GeeTestSolutionRequest',
     'HCaptchaTaskRequest', 'HCaptchaSolutionRequest',
-    'CapyTaskRequest', 'CapySolutionRequest'
+    'CapyPuzzleTaskRequest', 'CapyPuzzleSolutionRequest'
 ]
 
 
@@ -255,13 +255,14 @@ class SolutionRequest(ResRequest):
 
         solution_data = response_data.pop("request")
         solution_class = self._task.captcha.get_solution_class()
-        if self._task.captcha.get_type() in (CaptchaType.GEETEST, CaptchaType.CAPY):
-            try:
-                solution_dict = json.loads(solution_data)
-            except json.JSONDecodeError as exc:
-                raise exceptions.ServiceError('Got unrecognized data from the service!') from exc
-
-            solution = solution_class(**solution_dict)
+        if self._task.captcha.get_type() == CaptchaType.GEETEST:
+            solution = solution_class(
+                challenge=solution_data['geetest_challenge'],
+                validate=solution_data['geetest_validate'],
+                seccode=solution_data['geetest_seccode']
+            )
+        elif self._task.captcha.get_type() == CaptchaType.CAPY:
+            solution = solution_class(**solution_data)
         elif self._task.captcha.get_type() in (CaptchaType.TIKTOK,):
             solution = solution_class(
                 dict(
@@ -536,8 +537,8 @@ class HCaptchaSolutionRequest(SolutionRequest):
     """ HCaptcha solution request """
 
 
-class CapyTaskRequest(TaskRequest):
-    """ Capy task request """
+class CapyPuzzleTaskRequest(TaskRequest):
+    """ CapyPuzzle task request """
 
     # pylint: disable=arguments-differ,signature-differs
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
@@ -562,8 +563,8 @@ class CapyTaskRequest(TaskRequest):
         return request
 
 
-class CapySolutionRequest(SolutionRequest):
-    """ Capy solution request """
+class CapyPuzzleSolutionRequest(SolutionRequest):
+    """ CapyPuzzle solution request """
 
 
 class TikTokCaptchaTaskRequest(TaskRequest):

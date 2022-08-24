@@ -21,7 +21,7 @@ class CaptchaType(enum.Enum):
     GEETEST = "GeeTest"
     HCAPTCHA = "HCaptcha"
     KEYCAPTCHA = "KeyCaptcha"
-    CAPY = "Capy"
+    CAPY = "CapyPuzzle"
     TIKTOK = "TikTokCaptcha"
 
 

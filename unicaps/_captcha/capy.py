@@ -10,7 +10,7 @@ from .base import BaseCaptcha, BaseCaptchaSolution
 
 
 @dataclass
-class Capy(BaseCaptcha):
+class CapyPuzzle(BaseCaptcha):
     """ Capy Puzzle CAPTCHA """
 
     site_key: str
@@ -24,8 +24,8 @@ class Capy(BaseCaptcha):
 
 
 @dataclass
-class CapySolution(BaseCaptchaSolution):
-    """ Capy CAPTCHA solution """
+class CapyPuzzleSolution(BaseCaptchaSolution):
+    """ Capy Puzzle CAPTCHA solution """
 
     captchakey: str
     challengekey: str
