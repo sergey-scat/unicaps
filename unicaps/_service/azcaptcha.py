@@ -274,7 +274,12 @@ class ImageCaptchaTaskRequest(TaskRequest):
         request = super().prepare()
 
         # add required params
-        request['data'].update(dict(method="base64", body=captcha.get_image_base64()))
+        request['data'].update(
+            dict(
+                method="base64",
+                body=captcha.get_image_base64().decode('ascii')
+            )
+        )
 
         # add optional params
         request['data'].update(
