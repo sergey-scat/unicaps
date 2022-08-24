@@ -58,7 +58,7 @@ def test_call_solve_func(mocked_captcha_solver, captcha_instance):
         CaptchaType.FUNCAPTCHA: 'funcaptcha',
         CaptchaType.KEYCAPTCHA: 'keycaptcha',
         CaptchaType.GEETEST: 'geetest',
-        CaptchaType.CAPY: 'capy',
+        CaptchaType.CAPY: 'capy_puzzle',
         CaptchaType.TIKTOK: 'tiktok'
     }
 
