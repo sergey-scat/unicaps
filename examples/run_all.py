@@ -26,7 +26,11 @@ EXAMPLES = [
     'recaptcha_v2_proxy',
     'recaptcha_v2_enterprise',
     'recaptcha_v3',
-    'hcaptcha'
+    'hcaptcha',
+    'keycaptcha',
+    'geetest',
+    'capy_puzzle',
+    'text'
 ]
 
 logging.basicConfig(level=logging.DEBUG)
