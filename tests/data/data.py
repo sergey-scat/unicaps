@@ -16,7 +16,6 @@ from unicaps.captcha import (
 )
 from unicaps.common import CaptchaAlphabet, CaptchaCharType, WorkerLanguage
 from unicaps.proxy import ProxyServer
-# from unicaps.__version__ import __version__ as VERSION
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -63,12 +62,16 @@ INPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
     26: (GeeTest('test1', 'test2', 'test3', api_server='test4'), None, None, None),
     27: (HCaptcha('test1', 'test2'), None, None, None),
     28: (CapyPuzzle('test1', 'test2', 'test3'), None, None, None),
-    29: (TikTokCaptcha('test1',), None, None, COOKIES),
+    29: (TikTokCaptcha('test1'), None, None, COOKIES),
     30: (RecaptchaV2('test1', 'test2'), PROXY_OBJ, None, None),
     31: (RecaptchaV2('test1', 'test2'), PROXY_OBJ, 'User-Agent1', None),
     32: (RecaptchaV2('test1', 'test2'), PROXY_OBJ, 'User-Agent1', COOKIES),
     33: (RecaptchaV2('test1', 'test2', data_s="test3", is_enterprise=True), None, None, None),
     34: (RecaptchaV3('test1', 'test2', is_enterprise=True), None, None, None),
+    35: (TikTokCaptcha('test1', aid=1459), None, None, COOKIES),
+    36: (TikTokCaptcha('test1', host='test2'), None, None, COOKIES),
+    37: (TikTokCaptcha('https://www.tiktok.com/login/phone-or-email/email'), None, None, COOKIES),
+    38: (TikTokCaptcha('https://ads.tiktok.com/i18n/signup'), None, None, COOKIES),
 }
 
 BASE_TASK_REQUEST_DATA = {
@@ -144,11 +147,11 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
                           api_server='test4')},
         27: {'data': dict(method='hcaptcha', sitekey='test1', pageurl='test2')},
         28: {'data': dict(method='capy', captchakey='test1', pageurl='test2', api_server='test3')},
-        29: {'data': dict(method='tiktok', pageurl='test1',
+        29: {'data': dict(method='tiktok', pageurl='test1', aid=None, host=None,
                           cookies='cookie1:value1;cookie2:value2')},
         30: {'data': dict(method='userrecaptcha', googlekey='test1', pageurl='test2', invisible=0,
                           proxy=PROXY_ADDRESS.split('://')[1],
-                          proxytype=PROXY_ADDRESS.split('://')[0].upper())},
+                          proxytype=PROXY_ADDRESS.split('://', maxsplit=1)[0].upper())},
         31: {'data': dict(method='userrecaptcha', googlekey='test1', pageurl='test2', invisible=0,
                           proxy=PROXY_ADDRESS.split('://')[1],
                           proxytype=PROXY_ADDRESS.split('://')[0].upper(),
@@ -162,6 +165,17 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
                       'invisible': 0, 'data-s': 'test3', 'enterprise': 1}},
         34: {'data': dict(method='userrecaptcha', version='v3', googlekey='test1', pageurl='test2',
                           enterprise=1)},
+        35: {'data': dict(method='tiktok', pageurl='test1', aid=1459, host=None,
+                          cookies='cookie1:value1;cookie2:value2')},
+        36: {'data': dict(method='tiktok', pageurl='test1',  aid=None, host='test2',
+                          cookies='cookie1:value1;cookie2:value2')},
+        37: {'data': dict(method='tiktok',
+                          pageurl='https://www.tiktok.com/login/phone-or-email/email',
+                          aid=1459, host='https://www-useast1a.tiktok.com',
+                          cookies='cookie1:value1;cookie2:value2')},
+        38: {'data': dict(method='tiktok', pageurl='https://ads.tiktok.com/i18n/signup',
+                          aid=1583, host='https://verify-sg.byteoversea.com',
+                          cookies='cookie1:value1;cookie2:value2')},
     },
     CaptchaSolvingService.ANTI_CAPTCHA: {
         1: {'json': dict(task=dict(type='ImageToTextTask', body=IMAGE_FILE_BASE64_STR))},
@@ -241,6 +255,10 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
                                     enterprisePayload=dict(s='test3')))},
         34: {'json': dict(task=dict(type='RecaptchaV3TaskProxyless', websiteKey='test1',
                                     websiteURL='test2', isEnterprise=True))},
+        35: None,
+        36: None,
+        37: None,
+        38: None,
     },
     CaptchaSolvingService.AZCAPTCHA: {
         1: {'data': dict(method='base64', body=IMAGE_FILE_BASE64_STR)},
@@ -292,6 +310,10 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
                       'invisible': 0, 'data-s': 'test3'}},
         34: {'data': dict(method='userrecaptcha', version='v3', googlekey='test1',
                           pageurl='test2')},
+        35: None,
+        36: None,
+        37: None,
+        38: None,
     },
     CaptchaSolvingService.CPTCH_NET: {
         1: {'data': dict(method='base64', body=IMAGE_FILE_BASE64_STR)},
@@ -333,6 +355,10 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
         33: {'data': dict(method='userrecaptcha', googlekey='test1', pageurl='test2', invisible=0)},
         34: {'data': dict(method='userrecaptcha', version='v3', googlekey='test1',
                           pageurl='test2')},
+        35: None,
+        36: None,
+        37: None,
+        38: None,
     },
     # CaptchaSolvingService.DEATHBYCAPTCHA: {
     # 1: None,

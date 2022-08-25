@@ -42,6 +42,9 @@ class Service(HTTPService):
                 self._settings[captcha_type].solution_timeout = 300
             elif captcha_type in (CaptchaType.RECAPTCHAV3,):
                 self._settings[captcha_type].polling_delay = 15
+            elif captcha_type in (CaptchaType.TIKTOK,):
+                self._settings[captcha_type].polling_delay = 5
+                self._settings[captcha_type].polling_interval = 1
             else:
                 self._settings[captcha_type].polling_delay = 5
 
@@ -266,7 +269,7 @@ class SolutionRequest(ResRequest):
         elif self._task.captcha.get_type() in (CaptchaType.TIKTOK,):
             solution = solution_class(
                 dict(
-                    [key_value.split(':') for key_value in solution_data.split(';')]
+                    [key_value.split(':', maxsplit=1) for key_value in solution_data.split(';')]
                 )
             )
         else:
@@ -574,11 +577,32 @@ class TikTokCaptchaTaskRequest(TaskRequest):
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
         """ Prepare request """
 
-        request = super().prepare(proxy=proxy, cookies=cookies)
+        # default values for additional params
+        # see https://2captcha.com/2captcha-api#solving_tiktok for details
+        add_params_mapping = {
+            'https://www.tiktok.com/login/phone-or-email/email': {
+                'aid': 1459,
+                'host': 'https://www-useast1a.tiktok.com'
+            },
+            'https://ads.tiktok.com/i18n/signup': {
+                'aid': 1583,
+                'host': 'https://verify-sg.byteoversea.com'
+            },
+            'default': {'aid': None, 'host': None}
+        }
+
+        add_params = add_params_mapping[next(
+            (url for url in add_params_mapping if captcha.page_url.startswith(url)),
+            'default'
+        )]
+
+        request = super().prepare(proxy=proxy, user_agent=user_agent, cookies=cookies)
         request['data'].update(
             dict(
                 method="tiktok",
-                pageurl=captcha.page_url
+                pageurl=captcha.page_url,
+                aid=add_params['aid'] if captcha.aid is None else captcha.aid,
+                host=add_params['host'] if captcha.host is None else captcha.host
             )
         )
 
