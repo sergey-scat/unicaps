@@ -106,12 +106,13 @@ class BaseService(ABC):
 
         settings = self._settings[task.captcha.get_type()]
 
-        start_time = time.time()
+        start_time = time.monotonic()
         time.sleep(settings.polling_delay)
         while True:
-            if time.time() - start_time > settings.solution_timeout:
-                raise SolutionWaitTimeout("Didn't get CAPTCHA solution within %d seconds" %
-                                          settings.solution_timeout)
+            if time.monotonic() - start_time > settings.solution_timeout:
+                raise SolutionWaitTimeout(
+                    f"Couldn't receive a solution in {settings.solution_timeout} seconds!"
+                )
 
             try:
                 return task.get_result()
@@ -222,7 +223,7 @@ class SolvedCaptcha:
 
     def __init__(self, task: CaptchaTask, solution: BaseCaptchaSolution, start_time: datetime,
                  end_time: datetime, cost: Optional[float] = None, cookies: Optional[dict] = None,
-                 extra: Dict = None):
+                 extra: dict = None):
         if not task.is_done():
             raise UnicapsException("CAPTCHA is not solved yet!")
 

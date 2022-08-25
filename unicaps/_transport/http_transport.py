@@ -34,7 +34,6 @@ class StandardHTTPTransport(BaseTransport):  # pylint: disable=too-few-public-me
             headers=default_headers,
             timeout=httpx.Timeout(timeout=30)
         )
-        # self.asession = httpx.AsyncClient(headers=default_headers)
 
     def _make_request(self, request_data: Dict) -> httpx.Response:
         if 'headers' not in request_data:
@@ -73,7 +72,7 @@ class HTTPRequestJSON(BaseRequest):
         )
         return request
 
-    def parse_response(self, response: httpx.Response) -> Dict:  # pylint: disable=no-self-use
+    def parse_response(self, response: httpx.Response) -> Dict:
         """ Parses response """
 
         try:

@@ -51,34 +51,34 @@ class Request(HTTPRequestJSON):
         ###############
         # handle errors
         ###############
-        error = response_data["request"]
+        error_code = response_data["request"]
         error_text = response_data.get("error_text", "")
-        error_msg = "{}: {}".format(error, error_text)
+        error_msg = f"{error_code}: {error_text}"
 
-        if error == 'CAPCHA_NOT_READY':  # pylint: disable=no-else-raise
+        if error_code == 'CAPCHA_NOT_READY':  # pylint: disable=no-else-raise
             raise exceptions.SolutionNotReadyYet()
-        elif error in ('ERROR_WRONG_USER_KEY', 'ERROR_KEY_DOES_NOT_EXIST', 'ERROR_IP_NOT_ALLOWED',
-                       'IP_BANNED'):
+        elif error_code in ('ERROR_WRONG_USER_KEY', 'ERROR_KEY_DOES_NOT_EXIST',
+                            'ERROR_IP_NOT_ALLOWED', 'IP_BANNED'):
             raise exceptions.AccessDeniedError(error_msg)
-        elif error in ('ERROR_ZERO_BALANCE',):
+        elif error_code in ('ERROR_ZERO_BALANCE',):
             raise exceptions.LowBalanceError(error_msg)
-        elif error in ('ERROR_NO_SLOT_AVAILABLE',):
+        elif error_code in ('ERROR_NO_SLOT_AVAILABLE',):
             # If server returns ERROR_NO_SLOT_AVAILABLE make a 5 seconds timeout before sending
             # next request.
             # time.sleep(5)
             raise exceptions.ServiceTooBusy(error_msg)
-        elif error in ('MAX_USER_TURN',) or error.startswith('ERROR:'):
+        elif error_code in ('MAX_USER_TURN',) or error_code.startswith('ERROR:'):
             raise exceptions.TooManyRequestsError(error_msg)
-        elif error in ('ERROR_WRONG_ID_FORMAT', 'ERROR_WRONG_CAPTCHA_ID'):
+        elif error_code in ('ERROR_WRONG_ID_FORMAT', 'ERROR_WRONG_CAPTCHA_ID'):
             raise exceptions.MalformedRequestError(error_msg)
-        elif error in ('ERROR_ZERO_CAPTCHA_FILESIZE', 'ERROR_TOO_BIG_CAPTCHA_FILESIZE',
-                       'ERROR_WRONG_FILE_EXTENSION', 'ERROR_IMAGE_TYPE_NOT_SUPPORTED',
-                       'ERROR_UPLOAD', 'ERROR_PAGEURL', 'ERROR_BAD_TOKEN_OR_PAGEURL',
-                       'ERROR_GOOGLEKEY', 'ERROR_BAD_PARAMETERS', 'ERROR_TOKEN_EXPIRED',
-                       'ERROR_EMPTY_ACTION', 'ERROR'):
+        elif error_code in ('ERROR_ZERO_CAPTCHA_FILESIZE', 'ERROR_TOO_BIG_CAPTCHA_FILESIZE',
+                            'ERROR_WRONG_FILE_EXTENSION', 'ERROR_IMAGE_TYPE_NOT_SUPPORTED',
+                            'ERROR_UPLOAD', 'ERROR_PAGEURL', 'ERROR_BAD_TOKEN_OR_PAGEURL',
+                            'ERROR_GOOGLEKEY', 'ERROR_BAD_PARAMETERS', 'ERROR_TOKEN_EXPIRED',
+                            'ERROR_EMPTY_ACTION', 'ERROR'):
             raise exceptions.BadInputDataError(error_msg)
-        elif error in ('ERROR_CAPTCHAIMAGE_BLOCKED', 'ERROR_CAPTCHA_UNSOLVABLE',
-                       'ERROR_BAD_DUPLICATES'):
+        elif error_code in ('ERROR_CAPTCHAIMAGE_BLOCKED', 'ERROR_CAPTCHA_UNSOLVABLE',
+                            'ERROR_BAD_DUPLICATES'):
             raise exceptions.UnableToSolveError(error_msg)
 
         raise exceptions.ServiceError(error_msg)

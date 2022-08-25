@@ -101,10 +101,12 @@ class StandardSocketTransport(BaseTransport):
 class SocketRequestJSON(BaseRequest):
     """ HTTP Request that returns JSON response """
 
-    def parse_response(self, response) -> Dict:  # pylint: disable=no-self-use
+    def parse_response(self, response) -> Dict:
         """ Parse response """
 
         try:
             return json.loads(response)
-        except json.decoder.JSONDecodeError:
-            raise ServiceError("Unable to parse respponse from the server: bad JSON")
+        except json.decoder.JSONDecodeError as exc:
+            raise ServiceError(
+                "Unable to parse respponse from the server: bad JSON"
+            ) from exc

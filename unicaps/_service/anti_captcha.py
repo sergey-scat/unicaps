@@ -69,7 +69,7 @@ class Request(HTTPRequestJSON):
         # ############# #
         error_code = response_data.get("errorCode", f'ERROR {error_id}')
         error_text = response_data.get("errorDescription", "")
-        error_msg = "{}: {}".format(error_code, error_text)
+        error_msg = f"{error_code}: {error_text}"
 
         # pylint: disable=no-else-raise
         if error_code in ('ERROR_WRONG_USER_KEY', 'ERROR_KEY_DOES_NOT_EXIST',
@@ -179,10 +179,8 @@ class TaskRequest(Request):
         request = super().prepare()
         request.update(dict(url=self._service.BASE_URL + "/createTask"))
         request["json"].update(
-            dict(
-                task=dict(),
-                softId=940
-            )
+            dict(task={},
+                 softId=940)
         )
 
         # add proxy
@@ -359,7 +357,6 @@ class RecaptchaV3TaskRequest(TaskRequest):
     # pylint: disable=arguments-differ,signature-differs
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
         """ Prepares request """
-
 
         request = super().prepare()
         request['json']['task'].update(
