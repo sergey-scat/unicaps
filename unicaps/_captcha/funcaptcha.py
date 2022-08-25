@@ -6,9 +6,12 @@ FunCaptcha
 from dataclasses import dataclass
 from typing import Optional
 
+from enforce_typing import enforce_types
+
 from .base import BaseCaptcha, BaseCaptchaSolution
 
 
+@enforce_types
 @dataclass
 class FunCaptcha(BaseCaptcha):
     """ FunCaptcha """
@@ -18,13 +21,8 @@ class FunCaptcha(BaseCaptcha):
     service_url: Optional[str] = None
     no_js: Optional[bool] = None
 
-    def __post_init__(self):
-        assert isinstance(self.public_key, str)
-        assert isinstance(self.page_url, str)
-        assert self.service_url is None or isinstance(self.service_url, str)
-        assert self.no_js is None or isinstance(self.no_js, bool)
 
-
+@enforce_types
 @dataclass
 class FunCaptchaSolution(BaseCaptchaSolution):
     """ FunCaptcha solution """

@@ -41,7 +41,7 @@ def test_image_from_binary(image_bytes):
 
 def test_not_an_image():
     """ Not an image input test """
-    with pytest.raises(AssertionError):
+    with pytest.raises(TypeError):
         ImageCaptcha(image='wrong_image')
 
 

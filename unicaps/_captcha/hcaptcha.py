@@ -5,9 +5,12 @@ hCaptcha
 
 from dataclasses import dataclass
 
+from enforce_typing import enforce_types
+
 from .base import BaseCaptcha, BaseCaptchaSolution
 
 
+@enforce_types
 @dataclass
 class HCaptcha(BaseCaptcha):
     """ hCaptcha """
@@ -15,11 +18,8 @@ class HCaptcha(BaseCaptcha):
     site_key: str
     page_url: str
 
-    def __post_init__(self):
-        assert isinstance(self.site_key, str)
-        assert isinstance(self.page_url, str)
 
-
+@enforce_types
 @dataclass
 class HCaptchaSolution(BaseCaptchaSolution):
     """ hCaptcha solution """

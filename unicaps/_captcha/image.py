@@ -10,11 +10,14 @@ import pathlib
 from dataclasses import dataclass
 from typing import Union, Optional
 
+from enforce_typing import enforce_types
+
 from .base import BaseCaptcha, BaseCaptchaSolution
 from ..common import CaptchaAlphabet, CaptchaCharType, WorkerLanguage
 from ..exceptions import BadInputDataError
 
 
+@enforce_types
 @dataclass
 class ImageCaptcha(BaseCaptcha):
     """ Image CAPTCHA """
@@ -31,15 +34,6 @@ class ImageCaptcha(BaseCaptcha):
     comment: Optional[str] = None
 
     def __post_init__(self):
-        assert isinstance(self.image, (bytes, io.RawIOBase, io.BufferedIOBase, pathlib.Path))
-        assert self.char_type is None or isinstance(self.char_type, CaptchaCharType)
-        assert self.is_phrase is None or isinstance(self.is_phrase, bool)
-        assert self.is_case_sensitive is None or isinstance(self.is_case_sensitive, bool)
-        assert self.is_math is None or isinstance(self.is_math, bool)
-        assert self.min_len is None or (isinstance(self.min_len, int) and self.min_len > 0)
-        assert self.max_len is None or (isinstance(self.max_len, int) and self.max_len > 0)
-        assert self.alphabet is None or isinstance(self.alphabet, CaptchaAlphabet)
-        assert self.language is None or isinstance(self.language, WorkerLanguage)
         self._image_bytes = None
         self.get_image_bytes()
 
@@ -74,6 +68,7 @@ class ImageCaptcha(BaseCaptcha):
         return image_type
 
 
+@enforce_types
 @dataclass
 class ImageCaptchaSolution(BaseCaptchaSolution):
     """ Image CAPTCHA solution """

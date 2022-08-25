@@ -6,9 +6,12 @@ TikTokCaptcha
 from dataclasses import dataclass
 from typing import Optional
 
+from enforce_typing import enforce_types
+
 from .base import BaseCaptcha, BaseCaptchaSolution
 
 
+@enforce_types
 @dataclass
 class TikTokCaptcha(BaseCaptcha):
     """ TikTokCaptcha """
@@ -17,12 +20,8 @@ class TikTokCaptcha(BaseCaptcha):
     aid: Optional[int] = None
     host: Optional[str] = None
 
-    def __post_init__(self):
-        assert isinstance(self.page_url, str)
-        assert self.aid is None or isinstance(self.aid, int)
-        assert self.host is None or isinstance(self.host, str)
 
-
+@enforce_types
 @dataclass
 class TikTokCaptchaSolution(BaseCaptchaSolution):
     """ TikTokCaptcha solution """

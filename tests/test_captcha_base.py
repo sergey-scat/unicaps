@@ -51,8 +51,19 @@ def test_captchasolution_obj_get_string(captcha_class):
     Checks get_type() function of CaptchaSolution class.
     """
     solution_class = captcha_class.get_solution_class()
-    fields_count = len(solution_class.__dataclass_fields__)
-    field_values = [f'field{n}' for n in range(fields_count)]
+
+    dc_fields = solution_class.__dataclass_fields__
+    field_values = []
+    for i, field in enumerate(dc_fields.values(), start=1):
+        if field.type == str:
+            value = f'test{i}'
+        elif field.type == dict:
+            value = {f'test{i}': f'test{i}'}
+        else:
+            value = None
+
+        field_values.append(value)
+
     solution_obj = solution_class(*field_values)
 
-    assert str(solution_obj) == '\n'.join(field_values)
+    assert str(solution_obj) == '\n'.join(str(v) for v in field_values)

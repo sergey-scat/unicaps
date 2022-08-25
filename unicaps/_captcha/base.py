@@ -86,4 +86,4 @@ class BaseCaptchaSolution(ABC):
         return getattr(importlib.import_module(cls.__module__), cls.__name__.split("Solution")[0])
 
     def __str__(self):
-        return '\n'.join([getattr(self, field) for field in self.__dataclass_fields__])
+        return '\n'.join(str(getattr(self, field)) for field in self.__dataclass_fields__)
