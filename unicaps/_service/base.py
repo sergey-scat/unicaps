@@ -8,6 +8,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime
 from inspect import getmodule
+from timeit import default_timer as timer
 from typing import Dict, Optional, Tuple
 
 from .._transport.http_transport import StandardHTTPTransport  # type: ignore
@@ -106,10 +107,10 @@ class BaseService(ABC):
 
         settings = self._settings[task.captcha.get_type()]
 
-        start_time = time.monotonic()
+        start_time = timer()
         time.sleep(settings.polling_delay)
         while True:
-            if time.monotonic() - start_time > settings.solution_timeout:
+            if timer() - start_time > settings.solution_timeout:
                 raise SolutionWaitTimeout(
                     f"Couldn't receive a solution in {settings.solution_timeout} seconds!"
                 )
