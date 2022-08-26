@@ -3,7 +3,6 @@ Capy Puzzle CAPTCHA solving example
 """
 
 import os
-import time
 from urllib.parse import urlparse, parse_qs
 
 import httpx

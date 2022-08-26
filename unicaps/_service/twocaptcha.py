@@ -33,19 +33,18 @@ class Service(HTTPService):
     def _post_init(self):
         """ Init settings """
 
-        for captcha_type in self._settings:
-            self._settings[captcha_type].polling_interval = 5
-            self._settings[captcha_type].solution_timeout = 180
+        for captcha_type in self.settings:
+            self.settings[captcha_type].polling_delay = 5
+            self.settings[captcha_type].polling_interval = 5
+            self.settings[captcha_type].solution_timeout = 180
+
             if captcha_type in (CaptchaType.RECAPTCHAV2, CaptchaType.HCAPTCHA):
-                self._settings[captcha_type].polling_delay = 20
-                self._settings[captcha_type].solution_timeout = 300
+                self.settings[captcha_type].polling_delay = 20
+                self.settings[captcha_type].solution_timeout = 300
             elif captcha_type in (CaptchaType.RECAPTCHAV3,):
-                self._settings[captcha_type].polling_delay = 15
+                self.settings[captcha_type].polling_delay = 15
             elif captcha_type in (CaptchaType.TIKTOK,):
-                self._settings[captcha_type].polling_delay = 5
-                self._settings[captcha_type].polling_interval = 1
-            else:
-                self._settings[captcha_type].polling_delay = 5
+                self.settings[captcha_type].polling_interval = 1
 
 
 class Request(HTTPRequestJSON):
@@ -100,10 +99,10 @@ class Request(HTTPRequestJSON):
 class InRequest(Request):
     """ Request class for requests to /in.php """
 
-    def prepare(self) -> dict:
+    def prepare(self, **kwargs) -> dict:
         """ Prepare request """
 
-        request = super().prepare()
+        request = super().prepare(**kwargs)
         request.update(
             dict(
                 method="POST",
@@ -121,10 +120,10 @@ class InRequest(Request):
 class ResRequest(Request):
     """ Request class for requests to /res.php """
 
-    def prepare(self) -> dict:
+    def prepare(self, **kwargs) -> dict:
         """ Prepare request """
 
-        request = super().prepare()
+        request = super().prepare(**kwargs)
         request.update(
             dict(
                 method="GET",
@@ -173,7 +172,7 @@ class ReportGoodRequest(ResRequest):
     def prepare(self, solved_captcha) -> dict:  # type: ignore
         """ Prepare request """
 
-        request = super().prepare()
+        request = super().prepare(solved_captcha=solved_captcha)
         request["params"].update(
             dict(
                 action="reportgood",
@@ -190,7 +189,7 @@ class ReportBadRequest(ResRequest):
     def prepare(self, solved_captcha) -> dict:  # type: ignore
         """ Prepare request """
 
-        request = super().prepare()
+        request = super().prepare(solved_captcha=solved_captcha)
         request["params"].update(
             dict(
                 action="reportbad",
@@ -204,8 +203,15 @@ class TaskRequest(InRequest):
     """ Common Task Request class """
 
     # pylint: disable=arguments-differ,unused-argument
-    def prepare(self, captcha=None, proxy=None, user_agent=None, cookies=None):
-        request = super().prepare()
+    def prepare(self, captcha, proxy, user_agent, cookies):
+        """ Prepare a request """
+
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
 
         if proxy:
             request['data'].update(
@@ -241,10 +247,7 @@ class SolutionRequest(ResRequest):
     def prepare(self, task) -> dict:  # type: ignore
         """ Prepare request """
 
-        # save task
-        self._task = task
-
-        request = super().prepare()
+        request = super().prepare(task=task)
         request["params"].update(
             dict(action="get2", id=task.task_id)
         )
@@ -256,16 +259,16 @@ class SolutionRequest(ResRequest):
         response_data = super().parse_response(response)
 
         solution_data = response_data.pop("request")
-        solution_class = self._task.captcha.get_solution_class()
-        if self._task.captcha.get_type() == CaptchaType.GEETEST:
+        solution_class = self.source_data['task'].captcha.get_solution_class()
+        if self.source_data['task'].captcha.get_type() == CaptchaType.GEETEST:
             solution = solution_class(
                 challenge=solution_data['geetest_challenge'],
                 validate=solution_data['geetest_validate'],
                 seccode=solution_data['geetest_seccode']
             )
-        elif self._task.captcha.get_type() == CaptchaType.CAPY:
+        elif self.source_data['task'].captcha.get_type() == CaptchaType.CAPY:
             solution = solution_class(**solution_data)
-        elif self._task.captcha.get_type() in (CaptchaType.TIKTOK,):
+        elif self.source_data['task'].captcha.get_type() in (CaptchaType.TIKTOK,):
             solution = solution_class(
                 dict(
                     [key_value.split(':', maxsplit=1) for key_value in solution_data.split(';')]
@@ -288,7 +291,12 @@ class ImageCaptchaTaskRequest(TaskRequest):
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
         """ Prepare request """
 
-        request = super().prepare()
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
 
         # add required params
         request['data'].update(
@@ -330,6 +338,7 @@ class RecaptchaV2TaskRequest(TaskRequest):
         """ Prepare request """
 
         request = super().prepare(
+            captcha=captcha,
             proxy=proxy,
             user_agent=user_agent,
             cookies=cookies
@@ -368,7 +377,12 @@ class RecaptchaV3TaskRequest(TaskRequest):
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
         """ Prepare request """
 
-        request = super().prepare(proxy=proxy)
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
         request['data'].update(
             dict(
                 method="userrecaptcha",
@@ -404,7 +418,13 @@ class TextCaptchaTaskRequest(TaskRequest):
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
         """ Prepare request """
 
-        request = super().prepare()
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
+
         request['data'].update(
             dict(
                 textcaptcha=captcha.text
@@ -435,7 +455,13 @@ class FunCaptchaTaskRequest(TaskRequest):
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
         """ Prepare request """
 
-        request = super().prepare(proxy=proxy, user_agent=user_agent)
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
+
         request['data'].update(
             dict(
                 method="funcaptcha",
@@ -466,7 +492,13 @@ class KeyCaptchaTaskRequest(TaskRequest):
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
         """ Prepare request """
 
-        request = super().prepare()
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
+
         request['data'].update(
             dict(
                 method="keycaptcha",
@@ -492,7 +524,13 @@ class GeeTestTaskRequest(TaskRequest):
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
         """ Prepare request """
 
-        request = super().prepare()
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
+
         request['data'].update(
             dict(
                 method="geetest",
@@ -523,7 +561,13 @@ class HCaptchaTaskRequest(TaskRequest):
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
         """ Prepare request """
 
-        request = super().prepare(proxy=proxy)
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
+
         request['data'].update(
             dict(
                 method="hcaptcha",
@@ -546,7 +590,13 @@ class CapyPuzzleTaskRequest(TaskRequest):
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
         """ Prepare request """
 
-        request = super().prepare(proxy=proxy)
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
+
         request['data'].update(
             dict(
                 method="capy",
@@ -595,7 +645,13 @@ class TikTokCaptchaTaskRequest(TaskRequest):
             'default'
         )]
 
-        request = super().prepare(proxy=proxy, user_agent=user_agent, cookies=cookies)
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
+
         request['data'].update(
             dict(
                 method="tiktok",

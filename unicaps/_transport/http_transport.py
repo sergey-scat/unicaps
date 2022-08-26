@@ -23,8 +23,8 @@ class StandardHTTPTransport(BaseTransport):  # pylint: disable=too-few-public-me
 
     def __init__(self, settings: Optional[Dict] = None):
         super().__init__(settings)
-        self._settings.setdefault('max_retries', HTTP_RETRY_MAX_COUNT)
-        self._settings.setdefault('handle_http_errors', True)
+        self.settings.setdefault('max_retries', HTTP_RETRY_MAX_COUNT)
+        self.settings.setdefault('handle_http_errors', True)
 
         default_headers = {
             'User-Agent': f'python-unicaps/{__version__}'
@@ -46,7 +46,7 @@ class StandardHTTPTransport(BaseTransport):  # pylint: disable=too-few-public-me
         except httpx.RequestError as exc:
             raise NetworkError('RequestError') from exc
 
-        if self._settings['handle_http_errors']:
+        if self.settings['handle_http_errors']:
             try:
                 response.raise_for_status()
             except httpx.HTTPStatusError as exc:
@@ -62,10 +62,10 @@ class StandardHTTPTransport(BaseTransport):  # pylint: disable=too-few-public-me
 class HTTPRequestJSON(BaseRequest):
     """ HTTP Request that returns JSON response """
 
-    def prepare(self) -> Dict:
+    def prepare(self, **kwargs) -> Dict:
         """ Prepares request """
 
-        request = super().prepare()
+        request = super().prepare(**kwargs)
         request.update(
             dict(headers={'Accept': 'application/json',
                           'Content-Type': 'application/json'})

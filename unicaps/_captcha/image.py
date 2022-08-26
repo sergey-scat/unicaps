@@ -10,7 +10,7 @@ import pathlib
 from dataclasses import dataclass
 from typing import Union, Optional
 
-from enforce_typing import enforce_types
+from enforce_typing import enforce_types  # type: ignore
 
 from .base import BaseCaptcha, BaseCaptchaSolution
 from ..common import CaptchaAlphabet, CaptchaCharType, WorkerLanguage
