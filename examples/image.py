@@ -6,9 +6,9 @@ Image CAPTCHA solving example
 import os
 
 import httpx
-from lxml import html
-from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions
-from unicaps.common import CaptchaCharType, CaptchaAlphabet
+from lxml import html  # type: ignore
+from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions  # type: ignore
+from unicaps.common import CaptchaCharType, CaptchaAlphabet  # type: ignore
 
 URL = 'https://democaptcha.com/demo-form-eng/image.html'
 API_KEY = os.getenv('API_KEY_2CAPTCHA', default='<PLACE_YOUR_API_KEY_HERE>')
@@ -39,7 +39,7 @@ def run(solver):
             alphabet=CaptchaAlphabet.LATIN  # latin alphabet being used
         )
     except exceptions.UnicapsException as exc:
-        print('Image CAPTCHA solving exception: %s' % exc)
+        print(f'Image CAPTCHA solving exception: {str(exc)}')
         return False, None
 
     form_data = {}
@@ -65,13 +65,14 @@ def run(solver):
         # report good CAPTCHA
         solved.report_good()
         return True, solved
-    else:
-        print('Image CAPTCHA wasn\'t solved!')
-        # report bad CAPTCHA
-        solved.report_bad()
-        return False, solved
+
+    print('Image CAPTCHA wasn\'t solved!')
+    # report bad CAPTCHA
+    solved.report_bad()
+    return False, solved
 
 
 if __name__ == '__main__':
-    solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
-    run(solver)
+    run(
+        CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
+    )

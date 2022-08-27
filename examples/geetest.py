@@ -6,7 +6,7 @@ import os
 import time
 
 import httpx
-from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions
+from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions  # type: ignore
 
 URL = 'https://2captcha.com/demo/geetest'
 INIT_PARAMS_URL = 'https://2captcha.com/api/v1/captcha-demo/gee-test/init-params?t={ms}'
@@ -15,6 +15,8 @@ API_KEY = os.getenv('API_KEY_2CAPTCHA', default='YOUR_API_KEY')
 
 
 def run(solver):
+    """ Solve GeeTest """
+
     # create an HTTP2 session
     session = httpx.Client(http2=True)
 
@@ -57,5 +59,6 @@ def run(solver):
 
 
 if __name__ == '__main__':
-    solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
-    run(solver)
+    run(
+        CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
+    )

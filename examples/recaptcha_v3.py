@@ -60,18 +60,19 @@ def run(solver):
         # report bad CAPTCHA
         solved.report_bad()
         return False, solved
-    elif result['score'] < MIN_SCORE:
+
+    if result['score'] < MIN_SCORE:
         print(
             f'Solved reCAPTCHA v3 score ({result["score"]}) is less than requested ({MIN_SCORE})!'
         )
         # report bad CAPTCHA
         solved.report_bad()
         return False, solved
-    else:
-        print('reCAPTCHA v3 has been solved successfully!')
-        # report good CAPTCHA
-        solved.report_good()
-        return True, solved
+
+    print('reCAPTCHA v3 has been solved successfully!')
+    # report good CAPTCHA
+    solved.report_good()
+    return True, solved
 
 
 if __name__ == '__main__':

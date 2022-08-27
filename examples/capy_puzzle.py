@@ -6,8 +6,8 @@ import os
 from urllib.parse import urlparse, parse_qs
 
 import httpx
-from lxml import html
-from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions
+from lxml import html  # type: ignore
+from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions  # type: ignore
 
 URL = 'https://www.capy.me/products/puzzle_captcha/'
 API_KEY = os.getenv('API_KEY_2CAPTCHA', default='YOUR_API_KEY')
@@ -16,6 +16,8 @@ USER_AGENT = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
 
 
 def run(solver):
+    """ Solve Capy Puzzle CAPTCHA """
+
     # create an HTTP2 session
     session = httpx.Client(
         http2=True,
@@ -68,5 +70,6 @@ def run(solver):
 
 
 if __name__ == '__main__':
-    solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
-    run(solver)
+    run(
+        CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
+    )

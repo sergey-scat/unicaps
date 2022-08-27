@@ -6,14 +6,16 @@ hCaptcha solving example
 import os
 
 import httpx
-from lxml import html
-from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions
+from lxml import html  # type: ignore
+from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions  # type: ignore
 
 URL = 'https://democaptcha.com/demo-form-eng/hcaptcha.html'
 API_KEY = os.getenv('API_KEY_2CAPTCHA', default='YOUR_API_KEY')
 
 
 def run(solver):
+    """ Solve hCaptcha """
+
     # make a session and go to URL
     session = httpx.Client(http2=True)
     response = session.get(URL)
@@ -36,7 +38,7 @@ def run(solver):
             page_url=URL
         )
     except exceptions.UnicapsException as exc:
-        print('hCaptcha solving exception: %s' % exc)
+        print(f'hCaptcha solving exception: {str(exc)}')
         return False, None
 
     # add token to form data
@@ -53,13 +55,14 @@ def run(solver):
         # report good CAPTCHA
         solved.report_good()
         return True, solved
-    else:
-        print('hCaptcha wasn\'t solved!')
-        # report bad CAPTCHA
-        solved.report_bad()
-        return False, solved
+
+    print('hCaptcha wasn\'t solved!')
+    # report bad CAPTCHA
+    solved.report_bad()
+    return False, solved
 
 
 if __name__ == '__main__':
-    solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
-    run(solver)
+    run(
+        CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
+    )

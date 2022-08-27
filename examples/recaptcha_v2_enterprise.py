@@ -8,13 +8,13 @@ import random
 import string
 
 import httpx
-from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions
-from unicaps.proxy import ProxyServer
+from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions  # type: ignore
+from unicaps.proxy import ProxyServer  # type: ignore
 
 URL = 'https://store.steampowered.com/join'
 URL_REFRESH_CAPTCHA = 'https://store.steampowered.com/join/refreshcaptcha/'
 URL_VERIFY_EMAIL = 'https://store.steampowered.com/join/ajaxverifyemail'
-API_KEY_2CAPTCHA = os.getenv('API_KEY_2CAPTCHA', default='<PLACE_YOUR_API_KEY_HERE>')
+API_KEY = os.getenv('API_KEY_2CAPTCHA', default='<PLACE_YOUR_API_KEY_HERE>')
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0'
 PROXY = os.getenv(
     'HTTP_PROXY_SERVER',
@@ -23,6 +23,7 @@ PROXY = os.getenv(
 
 
 def get_random_word(length):
+    """ Generate a random word of a given length """
     letters = string.ascii_lowercase + string.digits
     return ''.join(random.choice(letters) for i in range(length))
 
@@ -35,10 +36,6 @@ def run(solver):
     session.headers.update({
         'User-Agent': USER_AGENT,
     })
-    #session.proxies.update({
-        #'http': PROXY,
-        #'https': PROXY
-    #})
 
     # open the "Join" page just to get session cookies
     response = session.get(URL)
@@ -61,7 +58,7 @@ def run(solver):
             cookies=dict(session.cookies)
         )
     except exceptions.UnicapsException as exc:
-        print('reCAPTCHA v2 Enterprise solving exception: %s' % exc)
+        print(f'reCAPTCHA v2 Enterprise solving exception: {str(exc)}')
         return False, None
 
     # generate email address
@@ -87,13 +84,14 @@ def run(solver):
         # report good CAPTCHA
         solved.report_good()
         return True, solved
-    else:
-        print('reCAPTCHA v2 Enterprise wasn\'t solved!')
-        # report bad CAPTCHA
-        solved.report_bad()
-        return False, solved
+
+    print('reCAPTCHA v2 Enterprise wasn\'t solved!')
+    # report bad CAPTCHA
+    solved.report_bad()
+    return False, solved
 
 
 if __name__ == '__main__':
-    solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY_2CAPTCHA)
-    run(solver)
+    run(
+        CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
+    )

@@ -7,8 +7,8 @@ import re
 from urllib.parse import urljoin
 
 import httpx
-from lxml import html
-from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions
+from lxml import html  # type: ignore
+from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions  # type: ignore
 
 URL = 'https://2captcha.com/demo/keycaptcha'
 URL_VERIFY = 'https://2captcha.com/api/v1/captcha-demo/key-captcha/verify'
@@ -16,6 +16,8 @@ API_KEY = os.getenv('API_KEY_2CAPTCHA', default='YOUR_API_KEY')
 
 
 def run(solver):
+    """ Get and solve KeyCaptcha """
+
     # create an HTTP2 session
     session = httpx.Client(http2=True)
 
@@ -71,5 +73,6 @@ def run(solver):
 
 
 if __name__ == '__main__':
-    solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
-    run(solver)
+    run(
+        CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
+    )
