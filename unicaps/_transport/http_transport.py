@@ -34,6 +34,10 @@ class StandardHTTPTransport(BaseTransport):  # pylint: disable=too-few-public-me
             headers=default_headers,
             timeout=httpx.Timeout(timeout=30)
         )
+        self.session_async = httpx.AsyncClient(
+            headers=default_headers,
+            timeout=httpx.Timeout(timeout=30)
+        )
 
     def _make_request(self, request_data: Dict) -> httpx.Response:
         if 'headers' not in request_data:
@@ -41,6 +45,25 @@ class StandardHTTPTransport(BaseTransport):  # pylint: disable=too-few-public-me
 
         try:
             response = self.session.request(**request_data)
+        except httpx.TimeoutException as exc:
+            raise NetworkError('Timeout') from exc
+        except httpx.RequestError as exc:
+            raise NetworkError('RequestError') from exc
+
+        if self.settings['handle_http_errors']:
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as exc:
+                raise NetworkError('HTTPStatusError') from exc
+
+        return response
+
+    async def _make_request_async(self, request_data: Dict) -> httpx.Response:
+        if 'headers' not in request_data:
+            request_data['headers'] = {}
+
+        try:
+            response = await self.session_async.request(**request_data)
         except httpx.TimeoutException as exc:
             raise NetworkError('Timeout') from exc
         except httpx.RequestError as exc:

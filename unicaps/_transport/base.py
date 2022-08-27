@@ -46,9 +46,16 @@ class BaseTransport(ABC):  # pylint: disable=too-few-public-methods
     def _make_request(self, request_data: dict) -> Any:
         """ Abstract method to make a request """
 
+    @abstractmethod
+    async def _make_request_async(self, request_data: dict) -> Any:
+        """ Abstract method to make a request """
+
     def make_request(self, request: BaseRequest, *args) -> dict:
         """ Makes a request to the service """
+        response = self._make_request(request.prepare(*args))
+        return request.process_response(response)
 
-        return request.process_response(
-            self._make_request(request.prepare(*args))
-        )
+    async def make_request_async(self, request: BaseRequest, *args) -> dict:
+        """ Makes a request to the service """
+        response = await self._make_request_async(request.prepare(*args))
+        return request.process_response(response)
