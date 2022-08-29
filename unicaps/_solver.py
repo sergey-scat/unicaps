@@ -125,7 +125,7 @@ class CaptchaSolver:
     def solve_hcaptcha(self, site_key: str, page_url: str, **kwargs) -> SolvedCaptcha:
         r"""Solves hCaptcha.
 
-        :param site_key: hCaptcha website key
+        :param site_key: hCaptcha website key.
         :param page_url: Full URL of the page with CAPTCHA.
         :param proxy: (optional) Proxy to use while solving the CAPTCHA.
         :param user_agent: (optional) User-Agent to use while solving the CAPTCHA.
@@ -138,10 +138,11 @@ class CaptchaSolver:
     def solve_funcaptcha(self, public_key: str, page_url: str, **kwargs) -> SolvedCaptcha:
         r"""Solves FunCaptcha.
 
-        :param public_key: FunCaptcha public key
+        :param public_key: FunCaptcha public key.
         :param page_url: Full URL of the page with CAPTCHA.
-        :param service_url: (optional) Service URL
-        :param no_js: (optional) Disable JavaScript
+        :param service_url: (optional) Service URL.
+        :param no_js: (optional) Disable JavaScript.
+        :param blob: (optional) The "blob" value of CAPTCHA.
         :param proxy: (optional) Proxy to use while solving the CAPTCHA.
         :param user_agent: (optional) User-Agent to use while solving the CAPTCHA.
         :param cookies: (optional) Cookies to use while solving the CAPTCHA.

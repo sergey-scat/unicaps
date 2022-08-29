@@ -3,6 +3,8 @@
 anti-captcha.com service
 """
 
+import json
+
 from .base import HTTPService
 from .._transport.http_transport import HTTPRequestJSON  # type: ignore
 from .. import exceptions
@@ -436,6 +438,10 @@ class FunCaptchaTaskRequest(TaskRequest):
                 service_url=('funcaptchaApiJSSubdomain', None),
             )
         )
+
+        # add blob value
+        if captcha.blob:
+            request['json']['task']['data'] = json.dumps(dict(blob=captcha.blob))
 
         return request
 

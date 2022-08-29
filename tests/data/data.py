@@ -77,6 +77,7 @@ INPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
     39: (GeeTestV4('test1', 'test2'), None, None, None),
     40: (RecaptchaV2('test1', 'test2', api_domain='recaptcha.net'), None, None, None),
     41: (RecaptchaV3('test1', 'test2', api_domain='recaptcha.net'), None, None, None),
+    42: (FunCaptcha('test1', 'test2', blob='test3'), None, None, None),
 }
 
 BASE_TASK_REQUEST_DATA = {
@@ -181,6 +182,8 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
                           invisible=0, domain='recaptcha.net')},
         41: {'data': dict(method='userrecaptcha', version='v3', googlekey='test1', pageurl='test2',
                           domain='recaptcha.net')},
+        42: {'data': {'method': 'funcaptcha', 'publickey': 'test1', 'pageurl': 'test2',
+                      'data[blob]': 'test3'}},
     },
     CaptchaSolvingService.ANTI_CAPTCHA: {
         1: {'json': dict(task=dict(type='ImageToTextTask', body=IMAGE_FILE_BASE64_STR))},
@@ -271,6 +274,8 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
                                     apiDomain='recaptcha.net'))},
         41: {'json': dict(task=dict(type='RecaptchaV3TaskProxyless', websiteKey='test1',
                                     websiteURL='test2', apiDomain='recaptcha.net'))},
+        42: {'json': dict(task=dict(type='FunCaptchaTaskProxyless', websitePublicKey='test1',
+                                    websiteURL='test2', data='{"blob": "test3"}'))},
     },
     CaptchaSolvingService.AZCAPTCHA: {
         1: {'data': dict(method='base64', body=IMAGE_FILE_BASE64_STR)},
@@ -331,6 +336,7 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
                       'invisible': 0}},
         41: {'data': dict(method='userrecaptcha', version='v3', googlekey='test1',
                           pageurl='test2')},
+        42: None,
     },
     CaptchaSolvingService.CPTCH_NET: {
         1: {'data': dict(method='base64', body=IMAGE_FILE_BASE64_STR)},
@@ -381,6 +387,7 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
                       'invisible': 0}},
         41: {'data': dict(method='userrecaptcha', version='v3', googlekey='test1',
                           pageurl='test2')},
+        42: None,
     }
 }
 OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC[CaptchaSolvingService.RUCAPTCHA] = (

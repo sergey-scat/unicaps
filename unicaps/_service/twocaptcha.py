@@ -486,7 +486,8 @@ class FunCaptchaTaskRequest(TaskRequest):
         request['data'].update(
             captcha.get_optional_data(
                 service_url=('surl', None),
-                no_js=('nojs', None)
+                no_js=('nojs', None),
+                blob=('data[blob]', None),
             )
         )
 

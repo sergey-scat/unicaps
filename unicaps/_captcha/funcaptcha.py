@@ -20,6 +20,7 @@ class FunCaptcha(BaseCaptcha):
     page_url: str
     service_url: Optional[str] = None
     no_js: Optional[bool] = None
+    blob: Optional[str] = None
 
 
 @enforce_types
