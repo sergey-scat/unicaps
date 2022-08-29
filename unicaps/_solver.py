@@ -96,6 +96,7 @@ class CaptchaSolver:
         :param is_invisible: (optional) Invisible reCAPTCHA flag.
         :param is_enterprise: (optional) reCAPTCHA Enterprise flag.
         :param data_s: (optional) Value of "data-s" parameter.
+        :param api_domain: (optional) Domain used to load the captcha: google.com or recaptcha.net.
         :param proxy: (optional) Proxy to use while solving the CAPTCHA.
         :param user_agent: (optional) User-Agent to use while solving the CAPTCHA.
         :param cookies: (optional) Cookies to use while solving the CAPTCHA.
@@ -109,9 +110,10 @@ class CaptchaSolver:
 
         :param site_key: Value of "render" parameter.
         :param page_url: Full URL of the page with CAPTCHA.
+        :param is_enterprise: (optional) reCAPTCHA Enterprise flag (default: False).
         :param action: (optional) Widget action value.
         :param min_score: (optional) Filters a worker with corresponding score.
-        :param is_enterprise: (optional) reCAPTCHA Enterprise flag.
+        :param api_domain: (optional) Domain used to load the captcha: google.com or recaptcha.net.
         :param proxy: (optional) Proxy to use while solving the CAPTCHA.
         :param user_agent: (optional) User-Agent to use while solving the CAPTCHA.
         :param cookies: (optional) Cookies to use while solving the CAPTCHA.
@@ -205,8 +207,11 @@ class CaptchaSolver:
         r"""Solves TikTokCaptcha.
 
         :param page_url: Full URL of the page with CAPTCHA.
-        :param cookies: Cookies to use while solving the CAPTCHA.
+        :param aid: (optional) The aid parameter value for the page.
+        :param host: (optional) The host parameter value for the page.
         :param proxy: (optional) Proxy to use while solving the CAPTCHA.
+        :param user_agent: (optional) User-Agent to use while solving the CAPTCHA.
+        :param cookies: (optional) Cookies to use while solving the CAPTCHA.
         :return: :class:`SolvedCaptcha <SolvedCaptcha>` object
         :rtype: unicaps.SolvedCaptcha
         """
