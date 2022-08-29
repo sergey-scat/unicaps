@@ -59,7 +59,8 @@ def test_call_solve_func(mocked_captcha_solver, captcha_instance):
         CaptchaType.KEYCAPTCHA: 'keycaptcha',
         CaptchaType.GEETEST: 'geetest',
         CaptchaType.CAPY: 'capy_puzzle',
-        CaptchaType.TIKTOK: 'tiktok'
+        CaptchaType.TIKTOK: 'tiktok',
+        CaptchaType.GEETESTV4: 'geetest_v4'
     }
 
     func = getattr(mocked_captcha_solver, f'solve_{mapping[captcha_instance.get_type()]}')

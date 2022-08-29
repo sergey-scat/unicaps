@@ -12,7 +12,7 @@ from unittest import mock
 from unicaps import CaptchaSolvingService, exceptions as exc
 from unicaps.captcha import (
     CaptchaType, ImageCaptcha, RecaptchaV2, RecaptchaV3, FunCaptcha, TextCaptcha,
-    KeyCaptcha, GeeTest, HCaptcha, CapyPuzzle, TikTokCaptcha
+    KeyCaptcha, GeeTest, GeeTestV4, HCaptcha, CapyPuzzle, TikTokCaptcha
 )
 from unicaps.common import CaptchaAlphabet, CaptchaCharType, WorkerLanguage
 from unicaps.proxy import ProxyServer
@@ -30,6 +30,7 @@ IMAGE_FILE_BASE64_STR = IMAGE_FILE_BASE64.decode('ascii')
 
 PROXY_ADDRESS = 'http://login:password@proxy.com:8080'
 PROXY_OBJ = ProxyServer(PROXY_ADDRESS)
+PROXY_TYPE = 'HTTP'
 
 COOKIES = {'cookie1': 'value1', 'cookie2': 'value2'}
 
@@ -72,6 +73,7 @@ INPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
     36: (TikTokCaptcha('test1', host='test2'), None, None, COOKIES),
     37: (TikTokCaptcha('https://www.tiktok.com/login/phone-or-email/email'), None, None, COOKIES),
     38: (TikTokCaptcha('https://ads.tiktok.com/i18n/signup'), None, None, COOKIES),
+    39: (GeeTestV4('test1', 'test2'), None, None, None),
 }
 
 BASE_TASK_REQUEST_DATA = {
@@ -102,12 +104,7 @@ BASE_TASK_REQUEST_DATA = {
         method='POST',
         url='https://cptch.net/in.php',
         data=dict(key=API_KEY, json=1, soft_id="164")
-    ),
-    # CaptchaSolvingService.DEATHBYCAPTCHA: dict(
-    # authtoken=API_KEY,
-    # version=f"Unicaps/Python v{VERSION}",
-    # cmd="upload"
-    # ),
+    )
 }
 
 OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
@@ -150,15 +147,15 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
         29: {'data': dict(method='tiktok', pageurl='test1', aid=None, host=None,
                           cookies='cookie1:value1;cookie2:value2')},
         30: {'data': dict(method='userrecaptcha', googlekey='test1', pageurl='test2', invisible=0,
-                          proxy=PROXY_ADDRESS.split('://')[1],
-                          proxytype=PROXY_ADDRESS.split('://', maxsplit=1)[0].upper())},
+                          proxy=PROXY_ADDRESS.split('://', maxsplit=1)[1],
+                          proxytype=PROXY_TYPE)},
         31: {'data': dict(method='userrecaptcha', googlekey='test1', pageurl='test2', invisible=0,
-                          proxy=PROXY_ADDRESS.split('://')[1],
-                          proxytype=PROXY_ADDRESS.split('://')[0].upper(),
+                          proxy=PROXY_ADDRESS.split('://', maxsplit=1)[1],
+                          proxytype=PROXY_TYPE,
                           userAgent='User-Agent1')},
         32: {'data': dict(method='userrecaptcha', googlekey='test1', pageurl='test2', invisible=0,
-                          proxy=PROXY_ADDRESS.split('://')[1],
-                          proxytype=PROXY_ADDRESS.split('://')[0].upper(),
+                          proxy=PROXY_ADDRESS.split('://', maxsplit=1)[1],
+                          proxytype=PROXY_TYPE,
                           userAgent='User-Agent1',
                           cookies='cookie1:value1;cookie2:value2')},
         33: {'data': {'method': 'userrecaptcha', 'googlekey': 'test1', 'pageurl': 'test2',
@@ -176,6 +173,7 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
         38: {'data': dict(method='tiktok', pageurl='https://ads.tiktok.com/i18n/signup',
                           aid=1583, host='https://verify-sg.byteoversea.com',
                           cookies='cookie1:value1;cookie2:value2')},
+        39: {'data': dict(method='geetest_v4 ', pageurl='test1', captcha_id='test2')},
     },
     CaptchaSolvingService.ANTI_CAPTCHA: {
         1: {'json': dict(task=dict(type='ImageToTextTask', body=IMAGE_FILE_BASE64_STR))},
@@ -259,6 +257,8 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
         36: None,
         37: None,
         38: None,
+        39: {'json': dict(task=dict(type='GeeTestTaskProxyless', websiteURL='test1',
+                                    gt='test2', version=4))},
     },
     CaptchaSolvingService.AZCAPTCHA: {
         1: {'data': dict(method='base64', body=IMAGE_FILE_BASE64_STR)},
@@ -295,15 +295,15 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
         28: None,
         29: None,
         30: {'data': dict(method='userrecaptcha', googlekey='test1', pageurl='test2', invisible=0,
-                          proxy=PROXY_ADDRESS.split('://')[1],
-                          proxytype=PROXY_ADDRESS.split('://')[0].upper())},
+                          proxy=PROXY_ADDRESS.split('://', maxsplit=1)[1],
+                          proxytype=PROXY_TYPE)},
         31: {'data': dict(method='userrecaptcha', googlekey='test1', pageurl='test2', invisible=0,
-                          proxy=PROXY_ADDRESS.split('://')[1],
-                          proxytype=PROXY_ADDRESS.split('://')[0].upper(),
+                          proxy=PROXY_ADDRESS.split('://', maxsplit=1)[1],
+                          proxytype=PROXY_TYPE,
                           userAgent='User-Agent1')},
         32: {'data': dict(method='userrecaptcha', googlekey='test1', pageurl='test2', invisible=0,
-                          proxy=PROXY_ADDRESS.split('://')[1],
-                          proxytype=PROXY_ADDRESS.split('://')[0].upper(),
+                          proxy=PROXY_ADDRESS.split('://', maxsplit=1)[1],
+                          proxytype=PROXY_TYPE,
                           userAgent='User-Agent1',
                           cookies='cookie1:value1;cookie2:value2')},
         33: {'data': {'method': 'userrecaptcha', 'googlekey': 'test1', 'pageurl': 'test2',
@@ -314,6 +314,7 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
         36: None,
         37: None,
         38: None,
+        39: None,
     },
     CaptchaSolvingService.CPTCH_NET: {
         1: {'data': dict(method='base64', body=IMAGE_FILE_BASE64_STR)},
@@ -359,41 +360,8 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
         36: None,
         37: None,
         38: None,
-    },
-    # CaptchaSolvingService.DEATHBYCAPTCHA: {
-    # 1: None,
-    # 2: None,
-    # 3: None,
-    # 4: None,
-    # 5: None,
-    # 6: None,
-    # 7: None,
-    # 8: None,
-    # 9: None,
-    # 10: None,
-    # 11: None,
-    # 12: {'type': 4, 'token_params': json.dumps(dict(googlekey='test1', pageurl='test2'))},
-    # 13: {'type': 4, 'token_params': json.dumps(dict(googlekey='test1', pageurl='test2'))},
-    # 14: {'type': 4, 'token_params': json.dumps(dict(googlekey='test1', pageurl='test2'))},
-    # 15: None,
-    # 16: None,
-    # 17: None,
-    # 18: None,
-    # 19: None,
-    # 20: None,
-    # 21: None,
-    # 22: None,
-    # 23: None,
-    # 24: None,
-    # 25: None,
-    # 26: None,
-    # 27: None,
-    # 28: None,
-    # 29: None,
-    # 30: {'type': 4, 'token_params': json.dumps(dict(googlekey='test1', pageurl='test2'))},
-    # 31: {'type': 4, 'token_params': json.dumps(dict(googlekey='test1', pageurl='test2'))},
-    # 32: {'type': 4, 'token_params': json.dumps(dict(googlekey='test1', pageurl='test2'))},
-    # },
+        39: None,
+    }
 }
 OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC[CaptchaSolvingService.RUCAPTCHA] = (
     OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC[CaptchaSolvingService.TWOCAPTCHA]
@@ -402,7 +370,7 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC[CaptchaSolvingService.RUCAPTCHA] = (
 
 def get_http_resp_obj(ret_value):
     obj = mock.Mock()
-    obj.json = lambda: ret_value.copy()
+    obj.json = ret_value.copy
     return obj
 
 
@@ -417,6 +385,7 @@ INPUT_TEST_LIST_FOR_TASK_PARSE_RESPONSE_FUNC = {
     8: CaptchaType.HCAPTCHA,
     9: CaptchaType.CAPY,
     10: CaptchaType.TIKTOK,
+    11: CaptchaType.GEETESTV4
 }
 
 INPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC = {
@@ -431,6 +400,7 @@ INPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC = {
         8: get_http_resp_obj(dict(status=1, request='1234567890')),
         9: get_http_resp_obj(dict(status=1, request='1234567890')),
         10: get_http_resp_obj(dict(status=1, request='1234567890')),
+        11: get_http_resp_obj(dict(status=1, request='1234567890')),
     },
     CaptchaSolvingService.ANTI_CAPTCHA: {
         1: get_http_resp_obj(dict(errorId=0, taskId='1234567890')),
@@ -443,6 +413,7 @@ INPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC = {
         8: get_http_resp_obj(dict(errorId=0, taskId='1234567890')),
         9: None,
         10: None,
+        11: get_http_resp_obj(dict(errorId=0, taskId='1234567890')),
     },
     CaptchaSolvingService.AZCAPTCHA: {
         1: get_http_resp_obj(dict(status=1, request='1234567890')),
@@ -455,6 +426,7 @@ INPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC = {
         8: None,
         9: None,
         10: None,
+        11: None,
     },
     CaptchaSolvingService.CPTCH_NET: {
         1: get_http_resp_obj(dict(status=1, request='1234567890')),
@@ -467,19 +439,8 @@ INPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC = {
         8: None,
         9: None,
         10: None,
-    },
-    # CaptchaSolvingService.DEATHBYCAPTCHA: {
-    # 1: None,
-    # 2: json.dumps(dict(captcha='1234567890')),
-    # 3: None,
-    # 4: None,
-    # 5: None,
-    # 6: None,
-    # 7: None,
-    # 8: None,
-    # 9: None,
-    # 10: None,
-    # },
+        11: None,
+    }
 }
 INPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC[CaptchaSolvingService.RUCAPTCHA] = (
     INPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC[CaptchaSolvingService.TWOCAPTCHA]
@@ -497,6 +458,7 @@ OUTPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC = {
         8: dict(task_id='1234567890', extra={}),
         9: dict(task_id='1234567890', extra={}),
         10: dict(task_id='1234567890', extra={}),
+        11: dict(task_id='1234567890', extra={}),
     },
     CaptchaSolvingService.ANTI_CAPTCHA: {
         1: dict(task_id='1234567890', extra={}),
@@ -509,6 +471,7 @@ OUTPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC = {
         8: dict(task_id='1234567890', extra={}),
         9: None,
         10: None,
+        11: dict(task_id='1234567890', extra={}),
     },
     CaptchaSolvingService.AZCAPTCHA: {
         1: dict(task_id='1234567890', extra={}),
@@ -521,6 +484,7 @@ OUTPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC = {
         8: None,
         9: None,
         10: None,
+        11: None,
     },
     CaptchaSolvingService.CPTCH_NET: {
         1: dict(task_id='1234567890', extra={}),
@@ -533,19 +497,8 @@ OUTPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC = {
         8: None,
         9: None,
         10: None,
-    },
-    # CaptchaSolvingService.DEATHBYCAPTCHA: {
-    # 1: None,
-    # 2: dict(task_id='1234567890', extra={}),
-    # 3: None,
-    # 4: None,
-    # 5: None,
-    # 6: None,
-    # 7: None,
-    # 8: None,
-    # 9: None,
-    # 10: None,
-    # },
+        11: None,
+    }
 }
 OUTPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC[CaptchaSolvingService.RUCAPTCHA] = (
     OUTPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC[CaptchaSolvingService.TWOCAPTCHA]
@@ -623,19 +576,7 @@ INPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC_WITH_EXC = {
             'ERROR_PAGEURL ERROR_GOOGLEKEY ERROR'.split()))),
         8: get_http_resp_obj(dict(status=0, request='ERROR_CAPTCHA_UNSOLVABLE')),
         9: None,
-    },
-    # CaptchaSolvingService.DEATHBYCAPTCHA: {
-    # 1: None,
-    # 2: json.dumps(dict(error=choice(
-    # ['not-logged-in', 'invalid-credentials', 'banned']))),
-    # 3: json.dumps(dict(error='insufficient-funds')),
-    # 4: json.dumps(dict(error='service-overload')),
-    # 5: None,
-    # 6: None,
-    # 7: json.dumps(dict(error='invalid-captcha')),
-    # 8: None,
-    # 9: None,
-    # },
+    }
 }
 INPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC_WITH_EXC[CaptchaSolvingService.RUCAPTCHA] = (
     INPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC_WITH_EXC[CaptchaSolvingService.TWOCAPTCHA]
