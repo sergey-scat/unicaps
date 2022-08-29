@@ -13,7 +13,9 @@ __all__ = [
     'ReportGoodRequest', 'ReportBadRequest',
     'ImageCaptchaTaskRequest', 'ImageCaptchaSolutionRequest',
     'RecaptchaV2TaskRequest', 'RecaptchaV2SolutionRequest',
-    'RecaptchaV3TaskRequest', 'RecaptchaV3SolutionRequest'
+    'RecaptchaV3TaskRequest', 'RecaptchaV3SolutionRequest',
+    'HCaptchaTaskRequest', 'HCaptchaSolutionRequest',
+    'FunCaptchaTaskRequest', 'FunCaptchaSolutionRequest'
 ]
 
 
@@ -385,3 +387,69 @@ class RecaptchaV3TaskRequest(TaskRequest):
 
 class RecaptchaV3SolutionRequest(SolutionRequest):
     """ reCAPTCHA v3 solution request """
+
+
+class HCaptchaTaskRequest(TaskRequest):
+    """ HCaptcha task request """
+
+    # pylint: disable=arguments-differ,signature-differs
+    def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
+        """ Prepare request """
+
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
+
+        request['data'].update(
+            dict(
+                method="hcaptcha",
+                sitekey=captcha.site_key,
+                pageurl=captcha.page_url
+            )
+        )
+
+        return request
+
+
+class HCaptchaSolutionRequest(SolutionRequest):
+    """ HCaptcha solution request """
+
+
+class FunCaptchaTaskRequest(TaskRequest):
+    """ FunCaptcha task request """
+
+    # pylint: disable=arguments-differ,signature-differs
+    def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
+        """ Prepare request """
+
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
+
+        request['data'].update(
+            dict(
+                method="funcaptcha",
+                publickey=captcha.public_key,
+                pageurl=captcha.page_url
+            )
+        )
+
+        # add optional params
+        request['data'].update(
+            captcha.get_optional_data(
+                service_url=('surl', None),
+                blob=('data[blob]', None),
+            )
+        )
+
+        return request
+
+
+class FunCaptchaSolutionRequest(SolutionRequest):
+    """ FunCaptcha solution request """

@@ -29,7 +29,8 @@ SERVICE_MODULES_FOR_TEST = {
                      CaptchaType.HCAPTCHA),
     'twocaptcha': CaptchaType,
     'rucaptcha': CaptchaType,
-    'azcaptcha': (CaptchaType.IMAGE, CaptchaType.RECAPTCHAV2, CaptchaType.RECAPTCHAV3),
+    'azcaptcha': (CaptchaType.IMAGE, CaptchaType.RECAPTCHAV2, CaptchaType.RECAPTCHAV3,
+                  CaptchaType.HCAPTCHA, CaptchaType.FUNCAPTCHA),
     'cptch_net': (CaptchaType.IMAGE, CaptchaType.RECAPTCHAV2, CaptchaType.RECAPTCHAV3),
     # 'deathbycaptcha': (CaptchaType.RECAPTCHAV2,)
 }
