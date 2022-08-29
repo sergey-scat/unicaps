@@ -19,6 +19,7 @@ __all__ = [
     'FunCaptchaTaskRequest', 'FunCaptchaSolutionRequest',
     'KeyCaptchaTaskRequest', 'KeyCaptchaSolutionRequest',
     'GeeTestTaskRequest', 'GeeTestSolutionRequest',
+    'GeeTestV4TaskRequest', 'GeeTestV4SolutionRequest',
     'HCaptchaTaskRequest', 'HCaptchaSolutionRequest',
     'CapyPuzzleTaskRequest', 'CapyPuzzleSolutionRequest',
     'TikTokCaptchaTaskRequest', 'TikTokCaptchaSolutionRequest'
@@ -260,15 +261,24 @@ class SolutionRequest(ResRequest):
 
         solution_data = response_data.pop("request")
         solution_class = self.source_data['task'].captcha.get_solution_class()
-        if self.source_data['task'].captcha.get_type() == CaptchaType.GEETEST:
+        captcha_type = self.source_data['task'].captcha.get_type()
+        if captcha_type == CaptchaType.GEETEST:
             solution = solution_class(
                 challenge=solution_data['geetest_challenge'],
                 validate=solution_data['geetest_validate'],
                 seccode=solution_data['geetest_seccode']
             )
-        elif self.source_data['task'].captcha.get_type() == CaptchaType.CAPY:
+        elif captcha_type == CaptchaType.GEETESTV4:
+            solution = solution_class(
+                captcha_id=solution_data['captcha_id'],
+                lot_number=solution_data['lot_number'],
+                pass_token=solution_data['pass_token'],
+                gen_time=solution_data['gen_time'],
+                captcha_output=solution_data['captcha_output'],
+            )
+        elif captcha_type == CaptchaType.CAPY:
             solution = solution_class(**solution_data)
-        elif self.source_data['task'].captcha.get_type() in (CaptchaType.TIKTOK,):
+        elif captcha_type in (CaptchaType.TIKTOK,):
             solution = solution_class(
                 dict(
                     [key_value.split(':', maxsplit=1) for key_value in solution_data.split(';')]
@@ -518,7 +528,7 @@ class KeyCaptchaSolutionRequest(SolutionRequest):
 
 
 class GeeTestTaskRequest(TaskRequest):
-    """ KeyCaptcha task request """
+    """ GeeTest task request """
 
     # pylint: disable=arguments-differ,signature-differs
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
@@ -551,7 +561,7 @@ class GeeTestTaskRequest(TaskRequest):
 
 
 class GeeTestSolutionRequest(SolutionRequest):
-    """ KeyCaptcha solution request """
+    """ GeeTest solution request """
 
 
 class HCaptchaTaskRequest(TaskRequest):
@@ -666,3 +676,32 @@ class TikTokCaptchaTaskRequest(TaskRequest):
 
 class TikTokCaptchaSolutionRequest(SolutionRequest):
     """ TikTokCaptcha solution request """
+
+
+class GeeTestV4TaskRequest(TaskRequest):
+    """ GeeTest v4 task request """
+
+    # pylint: disable=arguments-differ,signature-differs
+    def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
+        """ Prepare request """
+
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
+
+        request['data'].update(
+            dict(
+                method="geetest_v4 ",
+                captcha_id=captcha.captcha_id,
+                pageurl=captcha.page_url
+            )
+        )
+
+        return request
+
+
+class GeeTestV4SolutionRequest(SolutionRequest):
+    """ GeeTest v4 solution request """

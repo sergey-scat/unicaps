@@ -7,7 +7,7 @@ from typing import Union
 
 from .captcha import (
     ImageCaptcha, TextCaptcha, RecaptchaV2, RecaptchaV3, HCaptcha, FunCaptcha, KeyCaptcha, GeeTest,
-    CapyPuzzle, TikTokCaptcha
+    GeeTestV4, CapyPuzzle, TikTokCaptcha
 )
 from ._captcha.base import BaseCaptcha  # type: ignore
 from ._service.base import AsyncSolvedCaptcha, AsyncCaptchaTask
@@ -158,6 +158,16 @@ class AsyncCaptchaSolver(CaptchaSolver):
         :rtype: unicaps.AsyncSolvedCaptcha
         """
         return await self._solve_captcha_async(GeeTest, page_url, gt_key, challenge, **kwargs)
+
+    async def solve_geetest_v4(self, page_url: str, captcha_id: str, **kwargs) -> AsyncSolvedCaptcha:
+        r"""Solves GeeTestV4.
+
+        :param page_url: Full URL of the page with CAPTCHA.
+        :param captcha_id: Value of captcha_id parameter you found on target website.
+        :return: :class:`AsyncSolvedCaptcha <AsyncSolvedCaptcha>` object
+        :rtype: unicaps.AsyncSolvedCaptcha
+        """
+        return await self._solve_captcha_async(GeeTestV4, page_url, captcha_id, **kwargs)
 
     async def solve_capy(self, site_key: str, page_url: str, **kwargs) -> AsyncSolvedCaptcha:
         r"""Solves Capy.

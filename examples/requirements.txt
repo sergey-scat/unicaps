@@ -1,0 +1,2 @@
+httpx[http2]
+lxml

@@ -19,6 +19,7 @@ class CaptchaType(enum.Enum):
     TEXT = "TextCaptcha"
     FUNCAPTCHA = "FunCaptcha"
     GEETEST = "GeeTest"
+    GEETESTV4 = "GeeTestV4"
     HCAPTCHA = "HCaptcha"
     KEYCAPTCHA = "KeyCaptcha"
     CAPY = "CapyPuzzle"
