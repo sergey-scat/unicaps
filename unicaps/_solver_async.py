@@ -108,6 +108,8 @@ class AsyncCaptchaSolver(CaptchaSolver):
 
         :param site_key: hCaptcha website key.
         :param page_url: Full URL of the page with CAPTCHA.
+        :param is_invisible: (optional) Invisible hCaptcha flag (default: False).
+        :param api_domain: (optional) API domain: hcaptcha.com or js.hcaptcha.com.
         :param proxy: (optional) Proxy to use while solving the CAPTCHA.
         :param user_agent: (optional) User-Agent to use while solving the CAPTCHA.
         :param cookies: (optional) Cookies to use while solving the CAPTCHA.

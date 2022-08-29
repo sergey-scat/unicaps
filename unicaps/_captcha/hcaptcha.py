@@ -4,6 +4,7 @@ hCaptcha
 """
 
 from dataclasses import dataclass
+from typing import Optional
 
 from enforce_typing import enforce_types  # type: ignore
 
@@ -17,6 +18,8 @@ class HCaptcha(BaseCaptcha):
 
     site_key: str
     page_url: str
+    is_invisible: bool = False
+    api_domain: Optional[str] = None
 
 
 @enforce_types

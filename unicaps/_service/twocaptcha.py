@@ -585,7 +585,15 @@ class HCaptchaTaskRequest(TaskRequest):
             dict(
                 method="hcaptcha",
                 sitekey=captcha.site_key,
-                pageurl=captcha.page_url
+                pageurl=captcha.page_url,
+                invisible=int(captcha.is_invisible)
+            )
+        )
+
+        # add optional params
+        request['data'].update(
+            captcha.get_optional_data(
+                api_domain=('domain', None)
             )
         )
 

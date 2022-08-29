@@ -538,7 +538,8 @@ class HCaptchaTaskRequest(TaskRequest):
             dict(
                 type=task_type,
                 websiteURL=captcha.page_url,
-                websiteKey=captcha.site_key
+                websiteKey=captcha.site_key,
+                isInvisible=captcha.is_invisible
             )
         )
 
