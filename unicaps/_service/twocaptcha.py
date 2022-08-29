@@ -366,6 +366,7 @@ class RecaptchaV2TaskRequest(TaskRequest):
         request['data'].update(
             captcha.get_optional_data(
                 data_s=('data-s', None),
+                api_domain=('domain', None)
             )
         )
 

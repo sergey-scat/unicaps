@@ -21,6 +21,7 @@ class RecaptchaV2(BaseCaptcha):
     is_invisible: bool = False
     is_enterprise: bool = False
     data_s: Optional[str] = None
+    api_domain: Optional[str] = None
 
 
 @enforce_types

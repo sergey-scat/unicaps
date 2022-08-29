@@ -353,6 +353,13 @@ class RecaptchaV2TaskRequest(TaskRequest):
                 )
             )
 
+        # set optional api_domain if any
+        request['json']['task'].update(
+            captcha.get_optional_data(
+                api_domain=('apiDomain', None)
+            )
+        )
+
         return request
 
 
