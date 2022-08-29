@@ -76,6 +76,7 @@ INPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
     38: (TikTokCaptcha('https://ads.tiktok.com/i18n/signup'), None, None, COOKIES),
     39: (GeeTestV4('test1', 'test2'), None, None, None),
     40: (RecaptchaV2('test1', 'test2', api_domain='recaptcha.net'), None, None, None),
+    41: (RecaptchaV3('test1', 'test2', api_domain='recaptcha.net'), None, None, None),
 }
 
 BASE_TASK_REQUEST_DATA = {
@@ -176,8 +177,10 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
                           aid=1583, host='https://verify-sg.byteoversea.com',
                           cookies='cookie1:value1;cookie2:value2')},
         39: {'data': dict(method='geetest_v4 ', pageurl='test1', captcha_id='test2')},
-        40: {'data': {'method': 'userrecaptcha', 'googlekey': 'test1', 'pageurl': 'test2',
-                      'invisible': 0, 'domain': 'recaptcha.net'}},
+        40: {'data': dict(method='userrecaptcha', googlekey='test1', pageurl='test2',
+                          invisible=0, domain='recaptcha.net')},
+        41: {'data': dict(method='userrecaptcha', version='v3', googlekey='test1', pageurl='test2',
+                          domain='recaptcha.net')},
     },
     CaptchaSolvingService.ANTI_CAPTCHA: {
         1: {'json': dict(task=dict(type='ImageToTextTask', body=IMAGE_FILE_BASE64_STR))},
@@ -266,6 +269,8 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
         40: {'json': dict(task=dict(type='NoCaptchaTaskProxyless', websiteKey='test1',
                                     websiteURL='test2', isInvisible=False,
                                     apiDomain='recaptcha.net'))},
+        41: {'json': dict(task=dict(type='RecaptchaV3TaskProxyless', websiteKey='test1',
+                                    websiteURL='test2', apiDomain='recaptcha.net'))},
     },
     CaptchaSolvingService.AZCAPTCHA: {
         1: {'data': dict(method='base64', body=IMAGE_FILE_BASE64_STR)},
@@ -324,6 +329,8 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
         39: None,
         40: {'data': {'method': 'userrecaptcha', 'googlekey': 'test1', 'pageurl': 'test2',
                       'invisible': 0}},
+        41: {'data': dict(method='userrecaptcha', version='v3', googlekey='test1',
+                          pageurl='test2')},
     },
     CaptchaSolvingService.CPTCH_NET: {
         1: {'data': dict(method='base64', body=IMAGE_FILE_BASE64_STR)},
@@ -372,6 +379,8 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
         39: None,
         40: {'data': {'method': 'userrecaptcha', 'googlekey': 'test1', 'pageurl': 'test2',
                       'invisible': 0}},
+        41: {'data': dict(method='userrecaptcha', version='v3', googlekey='test1',
+                          pageurl='test2')},
     }
 }
 OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC[CaptchaSolvingService.RUCAPTCHA] = (

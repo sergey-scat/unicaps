@@ -21,6 +21,7 @@ class RecaptchaV3(BaseCaptcha):
     is_enterprise: bool = False
     action: Optional[str] = None
     min_score: Optional[float] = None
+    api_domain: Optional[str] = None
 
 
 @enforce_types

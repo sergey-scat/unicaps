@@ -408,6 +408,7 @@ class RecaptchaV3TaskRequest(TaskRequest):
             captcha.get_optional_data(
                 action=('action', None),
                 min_score=('min_score', None),
+                api_domain=('domain', None)
             )
         )
 
