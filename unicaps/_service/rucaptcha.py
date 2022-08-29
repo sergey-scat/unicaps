@@ -14,6 +14,7 @@ from .twocaptcha import (
     FunCaptchaTaskRequest, FunCaptchaSolutionRequest,
     KeyCaptchaTaskRequest, KeyCaptchaSolutionRequest,
     GeeTestTaskRequest, GeeTestSolutionRequest,
+    GeeTestV4TaskRequest, GeeTestV4SolutionRequest,
     HCaptchaTaskRequest, HCaptchaSolutionRequest,
     CapyPuzzleTaskRequest, CapyPuzzleSolutionRequest,
     TikTokCaptchaTaskRequest, TikTokCaptchaSolutionRequest
@@ -29,6 +30,7 @@ __all__ = [
     'FunCaptchaTaskRequest', 'FunCaptchaSolutionRequest',
     'KeyCaptchaTaskRequest', 'KeyCaptchaSolutionRequest',
     'GeeTestTaskRequest', 'GeeTestSolutionRequest',
+    'GeeTestV4TaskRequest', 'GeeTestV4SolutionRequest',
     'HCaptchaTaskRequest', 'HCaptchaSolutionRequest',
     'CapyPuzzleTaskRequest', 'CapyPuzzleSolutionRequest',
     'TikTokCaptchaTaskRequest', 'TikTokCaptchaSolutionRequest'

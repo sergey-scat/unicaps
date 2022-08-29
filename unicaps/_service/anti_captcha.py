@@ -17,6 +17,7 @@ __all__ = [
     'RecaptchaV3TaskRequest', 'RecaptchaV3SolutionRequest',
     'FunCaptchaTaskRequest', 'FunCaptchaSolutionRequest',
     'GeeTestTaskRequest', 'GeeTestSolutionRequest',
+    'GeeTestV4TaskRequest', 'GeeTestV4SolutionRequest',
     'HCaptchaTaskRequest', 'HCaptchaSolutionRequest',
 ]
 
@@ -258,7 +259,7 @@ class SolutionRequest(Request):
             args.append(solution_data.pop('gRecaptchaResponse'))
         elif captcha_type in (CaptchaType.FUNCAPTCHA,):
             args.append(solution_data.pop('token'))
-        elif captcha_type in (CaptchaType.GEETEST,):
+        elif captcha_type in (CaptchaType.GEETEST, CaptchaType.GEETESTV4):
             kwargs.update(solution_data)
         else:
             kwargs.update(solution_data)
@@ -470,6 +471,37 @@ class GeeTestTaskRequest(TaskRequest):
 
 
 class GeeTestSolutionRequest(SolutionRequest):
+    """ GeeTest solution request """
+
+
+class GeeTestV4TaskRequest(TaskRequest):
+    """ GeeTest task Request class """
+
+    # pylint: disable=arguments-differ,signature-differs
+    def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
+        """ Prepares request """
+
+        if proxy:
+            kwargs = dict(captcha=captcha, proxy=proxy, user_agent=user_agent, cookies=cookies)
+            task_type = "GeeTestTask"
+        else:
+            kwargs = dict(captcha=captcha, proxy=None, user_agent=None, cookies=None)
+            task_type = "GeeTestTaskProxyless"
+
+        request = super().prepare(**kwargs)
+        request['json']['task'].update(
+            dict(
+                type=task_type,
+                websiteURL=captcha.page_url,
+                gt=captcha.captcha_id,
+                version=4
+            )
+        )
+
+        return request
+
+
+class GeeTestV4SolutionRequest(SolutionRequest):
     """ GeeTest solution request """
 
 
