@@ -175,7 +175,8 @@ class AsyncCaptchaSolver(CaptchaSolver):
         """
         return await self._solve_captcha_async(GeeTestV4, page_url, captcha_id, **kwargs)
 
-    async def solve_capy(self, site_key: str, page_url: str, **kwargs) -> AsyncSolvedCaptcha:
+    async def solve_capy_puzzle(self, site_key: str, page_url: str,  # type: ignore
+                                **kwargs) -> AsyncSolvedCaptcha:
         r"""Solves Capy.
 
         :param site_key: Public website key (static).
