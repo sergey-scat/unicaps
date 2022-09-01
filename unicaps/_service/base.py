@@ -201,7 +201,8 @@ class BaseService(ABC):
     async def get_balance_async(self):
         """ Get account balance """
 
-        balance = await self._make_request_async("GetBalance").get('balance')
+        response = await self._make_request_async("GetBalance")
+        balance = response.get('balance')
         if balance is not None:
             balance = float(balance)
         return balance
