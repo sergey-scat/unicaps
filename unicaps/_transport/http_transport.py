@@ -81,6 +81,10 @@ class StandardHTTPTransport(BaseTransport):  # pylint: disable=too-few-public-me
         """ Close connections """
         self.session.close()
 
+    async def close_async(self):
+        """ Close connections (async) """
+        await self.session_async.aclose()
+
 
 class HTTPRequestJSON(BaseRequest):
     """ HTTP Request that returns JSON response """

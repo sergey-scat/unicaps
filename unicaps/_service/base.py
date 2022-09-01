@@ -263,12 +263,28 @@ class BaseService(ABC):
                 raise
         return bool(result)
 
+    @abstractmethod
+    def close(self):
+        """ Close connections """
+
+    @abstractmethod
+    async def close_async(self):
+        """ Close connections (async) """
+
 
 class HTTPService(BaseService):
     """ Standard HTTP Service """
 
     def _init_transport(self):
         return StandardHTTPTransport()
+
+    def close(self):
+        """ Close connections """
+        self._transport.close()
+
+    async def close_async(self):
+        """ Close connections (async) """
+        await self._transport.close_async()
 
 
 class SocketService(BaseService):

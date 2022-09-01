@@ -59,3 +59,11 @@ class BaseTransport(ABC):  # pylint: disable=too-few-public-methods
         """ Makes a request to the service """
         response = await self._make_request_async(request.prepare(*args))
         return request.process_response(response)
+
+    @abstractmethod
+    def close(self):
+        """ Close connections """
+
+    @abstractmethod
+    async def close_async(self):
+        """ Close connections (async) """

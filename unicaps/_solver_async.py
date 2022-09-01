@@ -228,3 +228,7 @@ class AsyncCaptchaSolver(CaptchaSolver):
         :rtype: bool
         """
         return await self._service.get_status_async()
+
+    async def close(self) -> None:  # type: ignore
+        """Close all connections"""
+        await self._service.close_async()

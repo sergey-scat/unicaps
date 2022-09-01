@@ -244,3 +244,7 @@ class CaptchaSolver:
         :rtype: bool
         """
         return self._service.get_status()
+
+    def close(self) -> None:
+        """Close all connections"""
+        self._service.close()
