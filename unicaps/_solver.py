@@ -248,3 +248,9 @@ class CaptchaSolver:
     def close(self) -> None:
         """Close all connections"""
         self._service.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
