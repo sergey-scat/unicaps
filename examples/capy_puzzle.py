@@ -19,57 +19,52 @@ def run(solver):
     """ Solve Capy Puzzle CAPTCHA """
 
     # create an HTTP2 session
-    session = httpx.Client(
-        http2=True,
-        headers={'User-Agent': USER_AGENT}
-    )
+    with httpx.Client(http2=True, headers={'User-Agent': USER_AGENT}) as session:
+        # open page and extract CAPTCHA URL
+        response = session.get(URL)
+        page = html.document_fromstring(response.text)
 
-    # open page and extract CAPTCHA URL
-    response = session.get(URL)
-    page = html.document_fromstring(response.text)
+        capy_url = page.xpath('//script[contains(@src, "/puzzle/get_js/")]')[0].attrib['src']
+        capy_url_parsed = urlparse(capy_url)
+        api_server = f'{capy_url_parsed.scheme}://{capy_url_parsed.hostname}'
+        site_key = parse_qs(capy_url_parsed.query)['k'][0]
 
-    capy_url = page.xpath('//script[contains(@src, "/puzzle/get_js/")]')[0].attrib['src']
-    capy_url_parsed = urlparse(capy_url)
-    api_server = f'{capy_url_parsed.scheme}://{capy_url_parsed.hostname}'
-    site_key = parse_qs(capy_url_parsed.query)['k'][0]
+        # solve Capy Puzzle CAPTCHA
+        try:
+            solved = solver.solve_capy_puzzle(
+                site_key=site_key,
+                page_url=URL,
+                api_server=api_server,
+                user_agent=USER_AGENT
+            )
+        except exceptions.UnicapsException as exc:
+            print(f'Capy Puzzle CAPTCHA solving exception: {str(exc)}')
+            return False, None
 
-    # solve Capy Puzzle CAPTCHA
-    try:
-        solved = solver.solve_capy_puzzle(
-            site_key=site_key,
-            page_url=URL,
-            api_server=api_server,
-            user_agent=USER_AGENT
+        # post solved captcha token
+        response = session.post(
+            URL,
+            data={
+                'capy_captchakey': solved.solution.captchakey,
+                'capy_challengekey': solved.solution.challengekey,
+                'capy_answer': solved.solution.answer
+            }
         )
-    except exceptions.UnicapsException as exc:
-        print(f'Capy Puzzle CAPTCHA solving exception: {str(exc)}')
-        return False, None
-
-    # post solved captcha token
-    response = session.post(
-        URL,
-        data={
-            'capy_captchakey': solved.solution.captchakey,
-            'capy_challengekey': solved.solution.challengekey,
-            'capy_answer': solved.solution.answer
-        }
-    )
-    page = html.document_fromstring(response.text)
+        page = html.document_fromstring(response.text)
 
     # check the result
     if page.xpath('//div[@class="result success"]'):
-        print('Capy Puzzle CAPTCHA has been solved successfully!')
+        print('The Capy Puzzle CAPTCHA has been solved correctly!')
         # report good CAPTCHA
         solved.report_good()
         return True, solved
 
-    print('Capy Puzzle CAPTCHA wasn\'t solved!')
+    print('The Capy Puzzle CAPTCHA has not been solved correctly!')
     # report bad CAPTCHA
     solved.report_bad()
     return False, solved
 
 
 if __name__ == '__main__':
-    run(
-        CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
-    )
+    with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY) as captcha_solver:
+        run(captcha_solver)

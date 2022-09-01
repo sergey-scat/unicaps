@@ -29,72 +29,75 @@ def get_random_word(length):
     return ''.join(random.choice(letters) for i in range(length))
 
 
+async def main():
+    """ Init AsyncCaptchaSolver and run the example """
+    async with AsyncCaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY) as solver:
+        await run(solver)
+
+
 async def run(solver):
     """ Get and solve CAPTCHA """
 
     # make a session, update headers and proxies
-    session = httpx.AsyncClient(proxies=PROXY)
-    session.headers.update({
-        'User-Agent': USER_AGENT,
-    })
+    async with httpx.AsyncClient(proxies=PROXY) as session:
+        session.headers.update({
+            'User-Agent': USER_AGENT,
+        })
 
-    # open the "Join" page just to get session cookies
-    response = await session.get(URL)
+        # open the "Join" page just to get session cookies
+        response = await session.get(URL)
 
-    # get reCAPTCHA params
-    captcha_params = session.post(
-        URL_REFRESH_CAPTCHA,
-        data=dict(count=1)
-    ).json()
-
-    # solve reCAPTCHA
-    try:
-        solved = await solver.solve_recaptcha_v2(
-            site_key=captcha_params['sitekey'],
-            page_url=URL,
-            data_s=captcha_params['s'],
-            is_enterprise=True,
-            proxy=ProxyServer(PROXY),
-            user_agent=USER_AGENT,
-            cookies=dict(session.cookies)
+        # get reCAPTCHA params
+        response = await session.post(
+            URL_REFRESH_CAPTCHA,
+            data=dict(count=1)
         )
-    except exceptions.UnicapsException as exc:
-        print(f'reCAPTCHA v2 Enterprise solving exception: {str(exc)}')
-        return False, None
+        captcha_params = response.json()
 
-    # generate email address
-    email = f'random_{get_random_word(10)}@gmail.com'
+        # solve reCAPTCHA
+        try:
+            solved = await solver.solve_recaptcha_v2(
+                site_key=captcha_params['sitekey'],
+                page_url=URL,
+                data_s=captcha_params['s'],
+                is_enterprise=True,
+                proxy=ProxyServer(PROXY),
+                user_agent=USER_AGENT,
+                cookies=dict(session.cookies)
+            )
+        except exceptions.UnicapsException as exc:
+            print(f'reCAPTCHA v2 Enterprise solving exception: {str(exc)}')
+            return False, None
 
-    # verify email
-    response = await session.post(
-        URL_VERIFY_EMAIL,
-        data=dict(
-            email=email,
-            captchagid=captcha_params['gid'],
-            captcha_text=solved.solution.token,
-            elang=0
+        # generate email address
+        email = f'random_{get_random_word(10)}@gmail.com'
+
+        # verify email
+        response = await session.post(
+            URL_VERIFY_EMAIL,
+            data=dict(
+                email=email,
+                captchagid=captcha_params['gid'],
+                captcha_text=solved.solution.token,
+                elang=0
+            )
         )
-    )
-    response_data = response.json()
+        response_data = response.json()
 
     print(f"Email: {email}\nResult: {response_data['details']}")
 
     # check the result
     if 'the CAPTCHA appears to be invalid' not in response_data['details']:
-        print('reCAPTCHA v2 Enterprise has been solved successfully!')
+        print('The reCAPTCHA v2 Enterprise has been solved correctly!')
         # report good CAPTCHA
         await solved.report_good()
         return True, solved
 
-    print('reCAPTCHA v2 Enterprise wasn\'t solved!')
+    print('The reCAPTCHA v2 Enterprise has not been solved correctly!')
     # report bad CAPTCHA
     await solved.report_bad()
     return False, solved
 
 
 if __name__ == '__main__':
-    asyncio.run(
-        run(
-            AsyncCaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
-        )
-    )
+    asyncio.run(main())

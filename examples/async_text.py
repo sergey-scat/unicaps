@@ -13,6 +13,12 @@ TEXT_CAPTCHA = 'If tomorrow is Sunday, what day is today?'
 TEXT_CAPTCHA_ANSWER = 'saturday'
 
 
+async def main():
+    """ Init AsyncCaptchaSolver and run the example """
+    async with AsyncCaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY) as solver:
+        await run(solver)
+
+
 async def run(solver):
     """ TextCaptcha solving func """
 
@@ -28,20 +34,16 @@ async def run(solver):
 
     # check the result
     if solved.solution.text.lower() == TEXT_CAPTCHA_ANSWER:
-        print('TextCaptcha has been solved successfully!')
+        print('The TextCaptcha has been solved correctly!')
         # report good CAPTCHA
         await solved.report_good()
         return True, solved
 
-    print('TextCaptcha wasn\'t solved!')
+    print('The TextCaptcha has not been solved correctly!')
     # report bad CAPTCHA
     await solved.report_bad()
     return False, solved
 
 
 if __name__ == '__main__':
-    asyncio.run(
-        run(
-            AsyncCaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
-        )
-    )
+    asyncio.run(main())

@@ -18,47 +18,45 @@ def run(solver):
     """ Solve GeeTest """
 
     # create an HTTP2 session
-    session = httpx.Client(http2=True)
+    with httpx.Client(http2=True) as session:
+        # open page and extract CAPTCHA URL
+        response = session.get(INIT_PARAMS_URL.format(ms=int(time.time() * 1000)))
+        init_params = response.json()
 
-    # open page and extract CAPTCHA URL
-    response = session.get(INIT_PARAMS_URL.format(ms=int(time.time() * 1000)))
-    init_params = response.json()
+        # solve GeeTest
+        try:
+            solved = solver.solve_geetest(
+                page_url=URL,
+                gt_key=init_params['gt'],
+                challenge=init_params['challenge']
+            )
+        except exceptions.UnicapsException as exc:
+            print(f'GeeTest solving exception: {str(exc)}')
+            return False, None
 
-    # solve GeeTest
-    try:
-        solved = solver.solve_geetest(
-            page_url=URL,
-            gt_key=init_params['gt'],
-            challenge=init_params['challenge']
+        # post solved captcha token
+        response = session.post(
+            URL_VERIFY,
+            json={
+                'geetest_challenge': solved.solution.challenge,
+                'geetest_seccode': solved.solution.seccode,
+                'geetest_validate': solved.solution.validate
+            }
         )
-    except exceptions.UnicapsException as exc:
-        print(f'GeeTest solving exception: {str(exc)}')
-        return False, None
-
-    # post solved captcha token
-    response = session.post(
-        URL_VERIFY,
-        json={
-            'geetest_challenge': solved.solution.challenge,
-            'geetest_seccode': solved.solution.seccode,
-            'geetest_validate': solved.solution.validate
-        }
-    )
 
     # check the result
     if response.json().get('success'):
-        print('GeeTest has been solved successfully!')
+        print('The GeeTest has been solved correctly!')
         # report good CAPTCHA
         solved.report_good()
         return True, solved
 
-    print('GeeTest wasn\'t solved!')
+    print('The GeeTest has not been solved correctly!')
     # report bad CAPTCHA
     solved.report_bad()
     return False, solved
 
 
 if __name__ == '__main__':
-    run(
-        CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
-    )
+    with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY) as captcha_solver:
+        run(captcha_solver)

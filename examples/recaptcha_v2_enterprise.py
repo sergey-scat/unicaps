@@ -6,8 +6,10 @@ reCAPTCHA v2 Enterprise solving example
 import os
 import random
 import string
+from urllib.parse import urlparse
 
 import httpx
+from lxml import html  # type: ignore
 from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions  # type: ignore
 from unicaps.proxy import ProxyServer  # type: ignore
 
@@ -32,66 +34,73 @@ def run(solver):
     """ Get and solve CAPTCHA """
 
     # make a session, update headers and proxies
-    session = httpx.Client(proxies=PROXY)
-    session.headers.update({
-        'User-Agent': USER_AGENT,
-    })
+    with httpx.Client(proxies=PROXY) as session:
+        session.headers.update({
+            'User-Agent': USER_AGENT,
+        })
 
-    # open the "Join" page just to get session cookies
-    response = session.get(URL)
+        # open the "Join" page
+        response = session.get(URL)
+        response.raise_for_status()
 
-    # get reCAPTCHA params
-    captcha_params = session.post(
-        URL_REFRESH_CAPTCHA,
-        data=dict(count=1)
-    ).json()
+        # parse the page, then find and extract reCAPTCHA domain
+        page = html.document_fromstring(response.text)
+        recaptcha_url = page.xpath(
+            '//script[contains(@src, "recaptcha/enterprise.js")]')[0].attrib['src']
+        recaptcha_domain = urlparse(recaptcha_url).netloc
 
-    # solve reCAPTCHA
-    try:
-        solved = solver.solve_recaptcha_v2(
-            site_key=captcha_params['sitekey'],
-            page_url=URL,
-            data_s=captcha_params['s'],
-            is_enterprise=True,
-            proxy=ProxyServer(PROXY),
-            user_agent=USER_AGENT,
-            cookies=dict(session.cookies)
+        # get reCAPTCHA params
+        captcha_params = session.post(
+            URL_REFRESH_CAPTCHA,
+            data=dict(count=1)
+        ).json()
+
+        # solve reCAPTCHA
+        try:
+            solved = solver.solve_recaptcha_v2(
+                site_key=captcha_params['sitekey'],
+                page_url=URL,
+                is_enterprise=True,
+                data_s=captcha_params['s'],
+                api_domain=recaptcha_domain,
+                proxy=ProxyServer(PROXY),
+                user_agent=USER_AGENT
+            )
+        except exceptions.UnicapsException as exc:
+            print(f'reCAPTCHA v2 Enterprise solving exception: {str(exc)}')
+            return False, None
+
+        # generate email address
+        email = f'random_{get_random_word(10)}@gmail.com'
+
+        # verify email
+        response = session.post(
+            URL_VERIFY_EMAIL,
+            data=dict(
+                email=email,
+                captchagid=captcha_params['gid'],
+                captcha_text=solved.solution.token,
+                elang=0
+            )
         )
-    except exceptions.UnicapsException as exc:
-        print(f'reCAPTCHA v2 Enterprise solving exception: {str(exc)}')
-        return False, None
-
-    # generate email address
-    email = f'random_{get_random_word(10)}@gmail.com'
-
-    # verify email
-    response = session.post(
-        URL_VERIFY_EMAIL,
-        data=dict(
-            email=email,
-            captchagid=captcha_params['gid'],
-            captcha_text=solved.solution.token,
-            elang=0
-        )
-    )
-    response_data = response.json()
+        response.raise_for_status()
+        response_data = response.json()
 
     print(f"Email: {email}\nResult: {response_data['details']}")
 
     # check the result
     if 'the CAPTCHA appears to be invalid' not in response_data['details']:
-        print('reCAPTCHA v2 Enterprise has been solved successfully!')
+        print('The reCAPTCHA v2 Enterprise has been solved correctly!')
         # report good CAPTCHA
         solved.report_good()
         return True, solved
 
-    print('reCAPTCHA v2 Enterprise wasn\'t solved!')
+    print('The reCAPTCHA v2 Enterprise has not been solved correctly!')
     # report bad CAPTCHA
     solved.report_bad()
     return False, solved
 
 
 if __name__ == '__main__':
-    run(
-        CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY)
-    )
+    with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY) as captcha_solver:
+        run(captcha_solver)
