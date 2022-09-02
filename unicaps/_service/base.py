@@ -13,7 +13,6 @@ from timeit import default_timer as timer
 from typing import Dict, Optional, Tuple
 
 from .._transport.http_transport import StandardHTTPTransport  # type: ignore
-from .._transport.socket_transport import StandardSocketTransport  # type: ignore
 from .._captcha import CaptchaType
 from .._captcha.base import BaseCaptcha, BaseCaptchaSolution
 from .._misc.proxy import ProxyServer
@@ -285,13 +284,6 @@ class HTTPService(BaseService):
     async def close_async(self):
         """ Close connections (async) """
         await self._transport.close_async()
-
-
-class SocketService(BaseService):
-    """ Standard Socket Service """
-
-    def _init_transport(self):
-        return StandardSocketTransport()
 
 
 @dataclass
