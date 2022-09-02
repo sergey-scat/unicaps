@@ -149,7 +149,7 @@ if __name__ == '__main__':
 
 ### Geetest v4
 | Service | Regular | Proxy | Cookies | User-Agent |
-| ------------- | :---: | :---:	| :---:	| :---:	| :---:	| :---:	|
+| ------------- | :---: | :---:	| :---:	| :---:	|
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ❌ | ✅ |
 | [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ❌ | ✅ |
 | [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ |
@@ -454,7 +454,7 @@ USER_AGENT = '<USER AGENT STRING>'
 COOKIES = {'name': 'value', ...}
 
 # init captcha solver
-solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
+solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "<PLACE YOUR API KEY HERE>")
 # solve CAPTCHA
 solved = solver.solve_recaptcha_v2(
     site_key=site_key,
@@ -468,5 +468,5 @@ token = solved.solution.token
 ```
 </details>
 
-## Code examples
+## Real-life code examples
 [Examples](https://github.com/sergey-scat/unicaps/tree/master/examples)
