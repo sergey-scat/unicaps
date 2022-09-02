@@ -6,6 +6,7 @@
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/unicaps.png)](https://pypi.python.org/pypi/unicaps/)
 [![PyPI version](https://img.shields.io/pypi/v/unicaps)](https://pypi.python.org/pypi/unicaps/)
 [![PyPI status](https://img.shields.io/pypi/status/unicaps.png)](https://pypi.python.org/pypi/unicaps/)
+[![CodeFactor](https://www.codefactor.io/repository/github/sergey-scat/unicaps/badge)](https://www.codefactor.io/repository/github/sergey-scat/unicaps)
 
 Unicaps is a unified Python API for CAPTCHA solving services.
 
