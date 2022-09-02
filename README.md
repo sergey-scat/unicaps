@@ -3,9 +3,9 @@
 </p>
 
 # Unicaps
-[![PyPI pyversions](https://img.shields.io/pypi/pyversions/unicaps.svg)](https://pypi.python.org/pypi/unicaps/)
-[![PyPI version fury.io](https://badge.fury.io/py/unicaps.svg)](https://pypi.python.org/pypi/unicaps/)
-[![PyPI status](https://img.shields.io/pypi/status/unicaps.svg)](https://pypi.python.org/pypi/unicaps/)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/unicaps.png)](https://pypi.python.org/pypi/unicaps/)
+[![PyPI version](https://img.shields.io/pypi/v/unicaps)](https://pypi.python.org/pypi/unicaps/)
+[![PyPI status](https://img.shields.io/pypi/status/unicaps.png)](https://pypi.python.org/pypi/unicaps/)
 
 Unicaps is a unified Python API for CAPTCHA solving services.
 
