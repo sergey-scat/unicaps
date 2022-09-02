@@ -24,24 +24,23 @@ def captcha_service():
     pass
 
 
-def gen_random_word(length):
+def _gen_random_word(length):
     letters = string.ascii_lowercase
     return ''.join(random.choice(letters) for i in range(length))
 
 
-def get_random_value(field):
+def _get_random_value(field):
     cls = getattr(field.type, '__args__', [field.type])[0]
 
     if cls is str:
-        return gen_random_word(10)
-    elif cls is bytes:
-        return gen_random_word(32).encode('utf-8')
-    elif cls is int:
+        return _gen_random_word(10)
+    if cls is bytes:
+        return _gen_random_word(32).encode('utf-8')
+    if cls is int:
         return random.randint(1, 255)
-    elif cls is bool:
+    if cls is bool:
         return bool(random.randint(0, 1))
-    # elif cls.__base__ is enum.Enum:
-    elif issubclass(cls, enum.Enum):
+    if issubclass(cls, enum.Enum):
         return getattr(cls, cls._member_names_[0])
 
     return cls()
@@ -58,7 +57,7 @@ def captcha_instance(captcha_class):
     # return random_dataclass_init(captcha_class)
     params = captcha_class.__dataclass_fields__.copy()
     for name, field in params.items():
-        params[name] = get_random_value(field)
+        params[name] = _get_random_value(field)
 
         # for ImageCaptcha
         if name == 'image':

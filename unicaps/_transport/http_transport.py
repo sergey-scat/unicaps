@@ -6,8 +6,7 @@ Transport and requests for HTTP protocol
 from json.decoder import JSONDecodeError
 from typing import Optional, Dict
 
-import requests
-from urllib3.util.retry import Retry  # type:ignore
+import httpx
 
 from .base import BaseTransport, BaseRequest  # type: ignore
 from ..exceptions import NetworkError, ServiceError  # type: ignore
@@ -24,68 +23,83 @@ class StandardHTTPTransport(BaseTransport):  # pylint: disable=too-few-public-me
 
     def __init__(self, settings: Optional[Dict] = None):
         super().__init__(settings)
-        self._settings.setdefault('max_retries', HTTP_RETRY_MAX_COUNT)
-        self._settings.setdefault('handle_http_errors', True)
+        self.settings.setdefault('max_retries', HTTP_RETRY_MAX_COUNT)
+        self.settings.setdefault('handle_http_errors', True)
 
-        self.session = requests.Session()
-        self.session.mount(
-            'http://',
-            requests.adapters.HTTPAdapter(
-                max_retries=Retry(
-                    total=self._settings['max_retries'],
-                    backoff_factor=HTTP_RETRY_BACKOFF_FACTOR,
-                    status_forcelist=HTTP_RETRY_STATUS_FORCELIST
-                )
-            )
+        default_headers = {
+            'User-Agent': f'python-unicaps/{__version__}'
+        }
+
+        self.session = httpx.Client(
+            headers=default_headers,
+            timeout=httpx.Timeout(timeout=30)
         )
-        self.session.mount(
-            'https://',
-            requests.adapters.HTTPAdapter(
-                max_retries=Retry(
-                    total=self._settings['max_retries'],
-                    backoff_factor=HTTP_RETRY_BACKOFF_FACTOR,
-                    status_forcelist=HTTP_RETRY_STATUS_FORCELIST
-                )
-            )
+        self.session_async = httpx.AsyncClient(
+            headers=default_headers,
+            timeout=httpx.Timeout(timeout=30)
         )
 
-    def _make_request(self, request_data: Dict) -> requests.Response:
+    def _make_request(self, request_data: Dict) -> httpx.Response:
         if 'headers' not in request_data:
             request_data['headers'] = {}
 
-        if 'User-Agent' not in request_data['headers']:
-            request_data['headers']['User-Agent'] = 'python-unicaps/%s' % __version__
-
         try:
             response = self.session.request(**request_data)
-        except requests.ConnectionError as exc:
-            raise NetworkError('ConnectionError') from exc
-        except requests.Timeout as exc:
+        except httpx.TimeoutException as exc:
             raise NetworkError('Timeout') from exc
+        except httpx.RequestError as exc:
+            raise NetworkError('RequestError') from exc
 
-        if self._settings['handle_http_errors']:
+        if self.settings['handle_http_errors']:
             try:
                 response.raise_for_status()
-            except requests.HTTPError as exc:
-                raise NetworkError('HTTPError') from exc
+            except httpx.HTTPStatusError as exc:
+                raise NetworkError('HTTPStatusError') from exc
 
         return response
+
+    async def _make_request_async(self, request_data: Dict) -> httpx.Response:
+        if 'headers' not in request_data:
+            request_data['headers'] = {}
+
+        try:
+            response = await self.session_async.request(**request_data)
+        except httpx.TimeoutException as exc:
+            raise NetworkError('Timeout') from exc
+        except httpx.RequestError as exc:
+            raise NetworkError('RequestError') from exc
+
+        if self.settings['handle_http_errors']:
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as exc:
+                raise NetworkError('HTTPStatusError') from exc
+
+        return response
+
+    def close(self):
+        """ Close connections """
+        self.session.close()
+
+    async def close_async(self):
+        """ Close connections (async) """
+        await self.session_async.aclose()
 
 
 class HTTPRequestJSON(BaseRequest):
     """ HTTP Request that returns JSON response """
 
-    def prepare(self) -> Dict:
+    def prepare(self, **kwargs) -> Dict:
         """ Prepares request """
 
-        request = super().prepare()
+        request = super().prepare(**kwargs)
         request.update(
             dict(headers={'Accept': 'application/json',
                           'Content-Type': 'application/json'})
         )
         return request
 
-    def parse_response(self, response: requests.Response) -> Dict:  # pylint: disable=no-self-use
+    def parse_response(self, response: httpx.Response) -> Dict:
         """ Parses response """
 
         try:

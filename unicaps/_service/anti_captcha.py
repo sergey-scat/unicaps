@@ -3,6 +3,8 @@
 anti-captcha.com service
 """
 
+import json
+
 from .base import HTTPService
 from .._transport.http_transport import HTTPRequestJSON  # type: ignore
 from .. import exceptions
@@ -17,6 +19,7 @@ __all__ = [
     'RecaptchaV3TaskRequest', 'RecaptchaV3SolutionRequest',
     'FunCaptchaTaskRequest', 'FunCaptchaSolutionRequest',
     'GeeTestTaskRequest', 'GeeTestSolutionRequest',
+    'GeeTestV4TaskRequest', 'GeeTestV4SolutionRequest',
     'HCaptchaTaskRequest', 'HCaptchaSolutionRequest',
 ]
 
@@ -29,24 +32,24 @@ class Service(HTTPService):
     def _post_init(self):
         """ Init settings """
 
-        for captcha_type in self._settings:
-            self._settings[captcha_type].polling_interval = 2
+        for captcha_type in self.settings:
+            self.settings[captcha_type].polling_interval = 2
 
             if captcha_type in (CaptchaType.IMAGE,):
-                self._settings[captcha_type].polling_delay = 5
-                self._settings[captcha_type].solution_timeout = 90
+                self.settings[captcha_type].polling_delay = 5
+                self.settings[captcha_type].solution_timeout = 90
             else:
-                self._settings[captcha_type].polling_delay = 10
-                self._settings[captcha_type].solution_timeout = 300
+                self.settings[captcha_type].polling_delay = 10
+                self.settings[captcha_type].solution_timeout = 300
 
 
 class Request(HTTPRequestJSON):
     """ Common Request class for anti-captcha """
 
-    def prepare(self) -> dict:
+    def prepare(self, **kwargs) -> dict:
         """ Prepares request """
 
-        request = super().prepare()
+        request = super().prepare(**kwargs)
         request.update(
             dict(
                 method="POST",
@@ -69,7 +72,7 @@ class Request(HTTPRequestJSON):
         # ############# #
         error_code = response_data.get("errorCode", f'ERROR {error_id}')
         error_text = response_data.get("errorDescription", "")
-        error_msg = "{}: {}".format(error_code, error_text)
+        error_msg = f"{error_code}: {error_text}"
 
         # pylint: disable=no-else-raise
         if error_code in ('ERROR_WRONG_USER_KEY', 'ERROR_KEY_DOES_NOT_EXIST',
@@ -106,7 +109,7 @@ class Request(HTTPRequestJSON):
 class GetBalanceRequest(Request):
     """ GetBalance Request class """
 
-    def prepare(self) -> dict:
+    def prepare(self) -> dict:   # type: ignore
         """ Prepares request """
 
         request = super().prepare()
@@ -151,7 +154,7 @@ class ReportBadRequest(Request):
     def prepare(self, solved_captcha) -> dict:  # type: ignore
         """ Prepares request """
 
-        request = super().prepare()
+        request = super().prepare(solved_captcha=solved_captcha)
 
         captcha_type = solved_captcha.task.captcha.get_type()
 
@@ -173,16 +176,20 @@ class TaskRequest(Request):
     """ Request class for requests to /createTask """
 
     # pylint: disable=arguments-differ,unused-argument
-    def prepare(self, captcha=None, proxy=None, user_agent=None, cookies=None) -> dict:
-        """ Prepares request """
+    def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
+        """ Prepare a request """
 
-        request = super().prepare()
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
+
         request.update(dict(url=self._service.BASE_URL + "/createTask"))
         request["json"].update(
-            dict(
-                task=dict(),
-                softId=940
-            )
+            dict(task={},
+                 softId=940)
         )
 
         # add proxy
@@ -226,12 +233,9 @@ class SolutionRequest(Request):
 
     # pylint: disable=arguments-differ
     def prepare(self, task) -> dict:  # type: ignore
-        """ Prepares request """
+        """ Prepare a request """
 
-        # save task
-        self._task = task
-
-        request = super().prepare()
+        request = super().prepare(task=task)
         request.update(dict(url=self._service.BASE_URL + "/getTaskResult"))
         request["json"].update(dict(taskId=str(task.task_id)))
 
@@ -246,8 +250,8 @@ class SolutionRequest(Request):
             raise exceptions.SolutionNotReadyYet()
 
         solution_data = response_data["solution"]
-        solution_class = self._task.captcha.get_solution_class()
-        captcha_type = self._task.captcha.get_type()
+        solution_class = self.source_data['task'].captcha.get_solution_class()
+        captcha_type = self.source_data['task'].captcha.get_type()
         args = []
         kwargs = {}
         if captcha_type in (CaptchaType.IMAGE,):
@@ -257,7 +261,7 @@ class SolutionRequest(Request):
             args.append(solution_data.pop('gRecaptchaResponse'))
         elif captcha_type in (CaptchaType.FUNCAPTCHA,):
             args.append(solution_data.pop('token'))
-        elif captcha_type in (CaptchaType.GEETEST,):
+        elif captcha_type in (CaptchaType.GEETEST, CaptchaType.GEETESTV4):
             kwargs.update(solution_data)
         else:
             kwargs.update(solution_data)
@@ -276,9 +280,14 @@ class ImageCaptchaTaskRequest(TaskRequest):
 
     # pylint: disable=arguments-differ,signature-differs
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
-        """ Prepares request """
+        """ Prepare a request """
 
-        request = super().prepare()
+        request = super().prepare(
+            captcha=captcha,
+            proxy=None,
+            user_agent=None,
+            cookies=None
+        )
 
         task_data = dict(
             type="ImageToTextTask",
@@ -321,7 +330,7 @@ class RecaptchaV2TaskRequest(TaskRequest):
             kwargs = dict(captcha=captcha, proxy=proxy, user_agent=user_agent, cookies=cookies)
             task_type = "RecaptchaV2EnterpriseTask" if captcha.is_enterprise else "NoCaptchaTask"
         else:
-            kwargs = dict(captcha=captcha)
+            kwargs = dict(captcha=captcha, proxy=None, user_agent=None, cookies=None)
             task_type = ("RecaptchaV2EnterpriseTaskProxyless" if captcha.is_enterprise
                          else "NoCaptchaTaskProxyless")
 
@@ -346,6 +355,13 @@ class RecaptchaV2TaskRequest(TaskRequest):
                 )
             )
 
+        # set optional api_domain if any
+        request['json']['task'].update(
+            captcha.get_optional_data(
+                api_domain=('apiDomain', None)
+            )
+        )
+
         return request
 
 
@@ -360,8 +376,13 @@ class RecaptchaV3TaskRequest(TaskRequest):
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
         """ Prepares request """
 
+        request = super().prepare(
+            captcha=captcha,
+            proxy=None,
+            user_agent=None,
+            cookies=None
+        )
 
-        request = super().prepare()
         request['json']['task'].update(
             dict(
                 type="RecaptchaV3TaskProxyless",
@@ -374,6 +395,7 @@ class RecaptchaV3TaskRequest(TaskRequest):
             captcha.get_optional_data(
                 min_score=('minScore', None),
                 action=('pageAction', None),
+                api_domain=('apiDomain', None)
             )
         )
 
@@ -399,7 +421,7 @@ class FunCaptchaTaskRequest(TaskRequest):
             kwargs = dict(captcha=captcha, proxy=proxy, user_agent=user_agent, cookies=cookies)
             task_type = "FunCaptchaTask"
         else:
-            kwargs = dict(captcha=captcha)
+            kwargs = dict(captcha=captcha, proxy=None, user_agent=None, cookies=None)
             task_type = "FunCaptchaTaskProxyless"
 
         request = super().prepare(**kwargs)
@@ -416,6 +438,10 @@ class FunCaptchaTaskRequest(TaskRequest):
                 service_url=('funcaptchaApiJSSubdomain', None),
             )
         )
+
+        # add blob value
+        if captcha.blob:
+            request['json']['task']['data'] = json.dumps(dict(blob=captcha.blob))
 
         return request
 
@@ -435,7 +461,7 @@ class GeeTestTaskRequest(TaskRequest):
             kwargs = dict(captcha=captcha, proxy=proxy, user_agent=user_agent, cookies=cookies)
             task_type = "GeeTestTask"
         else:
-            kwargs = dict(captcha=captcha)
+            kwargs = dict(captcha=captcha, proxy=None, user_agent=None, cookies=None)
             task_type = "GeeTestTaskProxyless"
 
         request = super().prepare(**kwargs)
@@ -462,6 +488,37 @@ class GeeTestSolutionRequest(SolutionRequest):
     """ GeeTest solution request """
 
 
+class GeeTestV4TaskRequest(TaskRequest):
+    """ GeeTest task Request class """
+
+    # pylint: disable=arguments-differ,signature-differs
+    def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
+        """ Prepares request """
+
+        if proxy:
+            kwargs = dict(captcha=captcha, proxy=proxy, user_agent=user_agent, cookies=cookies)
+            task_type = "GeeTestTask"
+        else:
+            kwargs = dict(captcha=captcha, proxy=None, user_agent=None, cookies=None)
+            task_type = "GeeTestTaskProxyless"
+
+        request = super().prepare(**kwargs)
+        request['json']['task'].update(
+            dict(
+                type=task_type,
+                websiteURL=captcha.page_url,
+                gt=captcha.captcha_id,
+                version=4
+            )
+        )
+
+        return request
+
+
+class GeeTestV4SolutionRequest(SolutionRequest):
+    """ GeeTest solution request """
+
+
 class HCaptchaTaskRequest(TaskRequest):
     """ hCaptcha task Request class """
 
@@ -473,7 +530,7 @@ class HCaptchaTaskRequest(TaskRequest):
             kwargs = dict(captcha=captcha, proxy=proxy, user_agent=user_agent, cookies=cookies)
             task_type = "HCaptchaTask"
         else:
-            kwargs = dict(captcha=captcha)
+            kwargs = dict(captcha=captcha, proxy=None, user_agent=user_agent, cookies=None)
             task_type = "HCaptchaTaskProxyless"
 
         request = super().prepare(**kwargs)
@@ -481,7 +538,8 @@ class HCaptchaTaskRequest(TaskRequest):
             dict(
                 type=task_type,
                 websiteURL=captcha.page_url,
-                websiteKey=captcha.site_key
+                websiteKey=captcha.site_key,
+                isInvisible=captcha.is_invisible
             )
         )
 

@@ -25,10 +25,12 @@ from _helpers import dict_update
 # dict of captcha services with lists of supported captchas
 SERVICE_MODULES_FOR_TEST = {
     'anti_captcha': (CaptchaType.IMAGE, CaptchaType.RECAPTCHAV2, CaptchaType.RECAPTCHAV3,
-                     CaptchaType.FUNCAPTCHA, CaptchaType.GEETEST, CaptchaType.HCAPTCHA),
+                     CaptchaType.FUNCAPTCHA, CaptchaType.GEETEST, CaptchaType.GEETESTV4,
+                     CaptchaType.HCAPTCHA),
     'twocaptcha': CaptchaType,
     'rucaptcha': CaptchaType,
-    'azcaptcha': (CaptchaType.IMAGE, CaptchaType.RECAPTCHAV2, CaptchaType.RECAPTCHAV3),
+    'azcaptcha': (CaptchaType.IMAGE, CaptchaType.RECAPTCHAV2, CaptchaType.RECAPTCHAV3,
+                  CaptchaType.HCAPTCHA, CaptchaType.FUNCAPTCHA),
     'cptch_net': (CaptchaType.IMAGE, CaptchaType.RECAPTCHAV2, CaptchaType.RECAPTCHAV3),
     # 'deathbycaptcha': (CaptchaType.RECAPTCHAV2,)
 }

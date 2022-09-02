@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 """
-hCaptcha
+GeeTest v4 CAPTCHA
 """
 
 from dataclasses import dataclass
@@ -13,18 +13,20 @@ from .base import BaseCaptcha, BaseCaptchaSolution
 
 @enforce_types
 @dataclass
-class HCaptcha(BaseCaptcha):
-    """ hCaptcha """
+class GeeTestV4(BaseCaptcha):
+    """ GeeTest v4 """
 
-    site_key: str
     page_url: str
-    is_invisible: bool = False
-    api_domain: Optional[str] = None
+    captcha_id: str
 
 
 @enforce_types
 @dataclass
-class HCaptchaSolution(BaseCaptchaSolution):
-    """ hCaptcha solution """
+class GeeTestV4Solution(BaseCaptchaSolution):
+    """ GeeTest v4 solution """
 
-    token: str
+    captcha_id: str
+    lot_number: str
+    pass_token: str
+    gen_time: str
+    captcha_output: str

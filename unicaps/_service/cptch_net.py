@@ -25,16 +25,16 @@ class Service(HTTPService):
     def _post_init(self):
         """ Init settings """
 
-        for captcha_type in self._settings:
-            self._settings[captcha_type].polling_interval = 5
-            self._settings[captcha_type].solution_timeout = 180
+        for captcha_type in self.settings:
+            self.settings[captcha_type].polling_interval = 5
+            self.settings[captcha_type].solution_timeout = 180
             if captcha_type in (CaptchaType.RECAPTCHAV2,):
-                self._settings[captcha_type].polling_delay = 20
-                self._settings[captcha_type].solution_timeout = 300
+                self.settings[captcha_type].polling_delay = 20
+                self.settings[captcha_type].solution_timeout = 300
             elif captcha_type in (CaptchaType.RECAPTCHAV3,):
-                self._settings[captcha_type].polling_delay = 15
+                self.settings[captcha_type].polling_delay = 15
             else:
-                self._settings[captcha_type].polling_delay = 5
+                self.settings[captcha_type].polling_delay = 5
 
 
 class Request(HTTPRequestJSON):
@@ -51,34 +51,34 @@ class Request(HTTPRequestJSON):
         ###############
         # handle errors
         ###############
-        error = response_data["request"]
+        error_code = response_data["request"]
         error_text = response_data.get("error_text", "")
-        error_msg = "{}: {}".format(error, error_text)
+        error_msg = f"{error_code}: {error_text}"
 
-        if error == 'CAPCHA_NOT_READY':  # pylint: disable=no-else-raise
+        if error_code == 'CAPCHA_NOT_READY':  # pylint: disable=no-else-raise
             raise exceptions.SolutionNotReadyYet()
-        elif error in ('ERROR_WRONG_USER_KEY', 'ERROR_KEY_DOES_NOT_EXIST', 'ERROR_IP_NOT_ALLOWED',
-                       'IP_BANNED'):
+        elif error_code in ('ERROR_WRONG_USER_KEY', 'ERROR_KEY_DOES_NOT_EXIST',
+                            'ERROR_IP_NOT_ALLOWED', 'IP_BANNED'):
             raise exceptions.AccessDeniedError(error_msg)
-        elif error in ('ERROR_ZERO_BALANCE',):
+        elif error_code in ('ERROR_ZERO_BALANCE',):
             raise exceptions.LowBalanceError(error_msg)
-        elif error in ('ERROR_NO_SLOT_AVAILABLE',):
+        elif error_code in ('ERROR_NO_SLOT_AVAILABLE',):
             # If server returns ERROR_NO_SLOT_AVAILABLE make a 5 seconds timeout before sending
             # next request.
             # time.sleep(5)
             raise exceptions.ServiceTooBusy(error_msg)
-        elif error in ('MAX_USER_TURN',) or error.startswith('ERROR:'):
+        elif error_code in ('MAX_USER_TURN',) or error_code.startswith('ERROR:'):
             raise exceptions.TooManyRequestsError(error_msg)
-        elif error in ('ERROR_WRONG_ID_FORMAT', 'ERROR_WRONG_CAPTCHA_ID'):
+        elif error_code in ('ERROR_WRONG_ID_FORMAT', 'ERROR_WRONG_CAPTCHA_ID'):
             raise exceptions.MalformedRequestError(error_msg)
-        elif error in ('ERROR_ZERO_CAPTCHA_FILESIZE', 'ERROR_TOO_BIG_CAPTCHA_FILESIZE',
-                       'ERROR_WRONG_FILE_EXTENSION', 'ERROR_IMAGE_TYPE_NOT_SUPPORTED',
-                       'ERROR_UPLOAD', 'ERROR_PAGEURL', 'ERROR_BAD_TOKEN_OR_PAGEURL',
-                       'ERROR_GOOGLEKEY', 'ERROR_BAD_PARAMETERS', 'ERROR_TOKEN_EXPIRED',
-                       'ERROR_EMPTY_ACTION', 'ERROR'):
+        elif error_code in ('ERROR_ZERO_CAPTCHA_FILESIZE', 'ERROR_TOO_BIG_CAPTCHA_FILESIZE',
+                            'ERROR_WRONG_FILE_EXTENSION', 'ERROR_IMAGE_TYPE_NOT_SUPPORTED',
+                            'ERROR_UPLOAD', 'ERROR_PAGEURL', 'ERROR_BAD_TOKEN_OR_PAGEURL',
+                            'ERROR_GOOGLEKEY', 'ERROR_BAD_PARAMETERS', 'ERROR_TOKEN_EXPIRED',
+                            'ERROR_EMPTY_ACTION', 'ERROR'):
             raise exceptions.BadInputDataError(error_msg)
-        elif error in ('ERROR_CAPTCHAIMAGE_BLOCKED', 'ERROR_CAPTCHA_UNSOLVABLE',
-                       'ERROR_BAD_DUPLICATES'):
+        elif error_code in ('ERROR_CAPTCHAIMAGE_BLOCKED', 'ERROR_CAPTCHA_UNSOLVABLE',
+                            'ERROR_BAD_DUPLICATES'):
             raise exceptions.UnableToSolveError(error_msg)
 
         raise exceptions.ServiceError(error_msg)
@@ -87,10 +87,10 @@ class Request(HTTPRequestJSON):
 class InRequest(Request):
     """ Request class for requests to /in.php """
 
-    def prepare(self) -> dict:
+    def prepare(self, **kwargs) -> dict:
         """ Prepare request """
 
-        request = super().prepare()
+        request = super().prepare(**kwargs)
         request.update(
             dict(
                 method="POST",
@@ -113,10 +113,10 @@ class InRequest(Request):
 class ResRequest(Request):
     """ Request class for requests to /res.php """
 
-    def prepare(self) -> dict:
+    def prepare(self, **kwargs) -> dict:
         """ Prepare request """
 
-        request = super().prepare()
+        request = super().prepare(**kwargs)
         request.update(
             dict(
                 method="GET",
@@ -138,7 +138,7 @@ class ResRequest(Request):
 class GetBalanceRequest(ResRequest):
     """ GetBalance Request class """
 
-    def prepare(self) -> dict:
+    def prepare(self) -> dict:  # type: ignore
         """ Prepare request """
 
         request = super().prepare()
@@ -170,7 +170,7 @@ class ReportGoodRequest(ResRequest):
     def prepare(self, solved_captcha) -> dict:  # type: ignore
         """ Prepare request """
 
-        request = super().prepare()
+        request = super().prepare(solved_captcha=solved_captcha)
         request["params"].update(
             dict(
                 action="reportgood",
@@ -187,7 +187,7 @@ class ReportBadRequest(ResRequest):
     def prepare(self, solved_captcha) -> dict:  # type: ignore
         """ Prepare request """
 
-        request = super().prepare()
+        request = super().prepare(solved_captcha=solved_captcha)
         request["params"].update(
             dict(
                 action="reportbad",
@@ -218,10 +218,7 @@ class SolutionRequest(ResRequest):
     def prepare(self, task) -> dict:  # type: ignore
         """ Prepare request """
 
-        # save task
-        self._task = task
-
-        request = super().prepare()
+        request = super().prepare(task=task)
         request["params"].update(
             dict(action="get2", id=task.task_id)
         )
@@ -233,7 +230,7 @@ class SolutionRequest(ResRequest):
         response_data = super().parse_response(response)
 
         # get solution class
-        solution_class = self._task.captcha.get_solution_class()
+        solution_class = self.source_data['task'].captcha.get_solution_class()
 
         # get token and captcha cost
         token, cost = response_data["request"].rsplit('|', maxsplit=1)
@@ -252,10 +249,20 @@ class ImageCaptchaTaskRequest(TaskRequest):
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
         """ Prepare request """
 
-        request = super().prepare()
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
 
         # add required params
-        request['data'].update(dict(method="base64", body=captcha.get_image_base64()))
+        request['data'].update(
+            dict(
+                method="base64",
+                body=captcha.get_image_base64().decode('ascii')
+            )
+        )
 
         # add optional params
         request['data'].update(
@@ -288,7 +295,13 @@ class RecaptchaV2TaskRequest(TaskRequest):
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
         """ Prepare request """
 
-        request = super().prepare()
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
+
         request['data'].update(
             dict(
                 method="userrecaptcha",
@@ -312,7 +325,13 @@ class RecaptchaV3TaskRequest(TaskRequest):
     def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
         """ Prepare request """
 
-        request = super().prepare()
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
+
         request['data'].update(
             dict(
                 method="userrecaptcha",

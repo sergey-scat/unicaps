@@ -18,17 +18,18 @@ Unicaps is a unified Python API for CAPTCHA solving services.
 ## Key Features
  - A unified Python interface that is independent of the service used
  - Uses native service protocol/endpoints (eg, no needs in patching _hosts_ file)
- - Supports 10 types of CAPTCHAs
- - Supports 5 CAPTCHA solving services (3 more would be added soon)
+ - Has both synchronous and asynchronous client
+ - Supports 11 types of CAPTCHAs
+ - Supports 5 CAPTCHA solving services
  - Written Pythonic way and is intended for humans
 
 ## Installation
-```pip install unicaps```
+```pip install -U unicaps```
 
 ## Simple Usage Example
 ```python
 >>> from unicaps import CaptchaSolver, CaptchaSolvingService
->>> solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, api_key="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+>>> solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, api_key="<PLACE_YOUR_API_KEY_HERE>")
 >>> solver.get_balance()
 2.84161
 >>> solved = solver.solve_image_captcha(open("captcha.jpg", "rb"), is_phrase=False, is_case_sensitive=True)
@@ -40,14 +41,36 @@ Unicaps is a unified Python API for CAPTCHA solving services.
 True
 ```
 
+## Asynchronous Example
+```python
+import asyncio
+from pathlib import Path
+from unicaps import AsyncCaptchaSolver, CaptchaSolvingService
+
+API_KEY = '<PLACE_YOUR_API_KEY_HERE>'
+
+async def main():
+    async with AsyncCaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY) as solver:
+        solved = await solver.solve_image_captcha(
+            Path("captcha.jpg"),
+            is_phrase=False,
+            is_case_sensitive=True
+        )
+        print(f'CAPTCHA text: {solved.solution.text}')
+        await solved.report_good()
+
+if __name__ == '__main__':
+    asyncio.run(main())
+```
+
 ## Supported CAPTCHAs / Services
-| CAPTCHA➡ \ Service⬇| Image | Text | [reCAPTCHA v2](https://developers.google.com/recaptcha/docs/display) | [reCAPTCHA v3](https://developers.google.com/recaptcha/docs/v3) | [FunCaptcha](https://funcaptcha.com/fc/api/nojs/?pkey=69A21A01-CC7B-B9C6-0F9A-E7FA06677FFC) | [KeyCAPTCHA](https://www.keycaptcha.com/) | [Geetest](https://www.geetest.com/en/demo) | [hCaptcha](https://www.hcaptcha.com/) | [Capy](https://www.capy.me/) | TikTok
-| ------------- | :---: | :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	|
-| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ |
-| [azcaptcha.com](https://azcaptcha.com) | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| CAPTCHA➡ \ Service⬇| Image | Text | [reCAPTCHA v2](https://developers.google.com/recaptcha/docs/display) | [reCAPTCHA v3](https://developers.google.com/recaptcha/docs/v3) | [FunCaptcha](https://funcaptcha.com/fc/api/nojs/?pkey=69A21A01-CC7B-B9C6-0F9A-E7FA06677FFC) | [KeyCAPTCHA](https://www.keycaptcha.com/) | [Geetest](https://www.geetest.com/en/demo) | [Geetest v4](https://www.geetest.com/en/demo) | [hCaptcha](https://www.hcaptcha.com/) | [Capy](https://www.capy.me/) | TikTok
+| ------------- | :---: | :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	|
+| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| [azcaptcha.com](https://azcaptcha.com) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
+| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 ### Image CAPTCHA
 | Service | Regular | Case Sensitive | Phrase | Numbers only | Letters only | Math | Length | Language | Comment for worker
@@ -80,7 +103,7 @@ True
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [azcaptcha.com](https://azcaptcha.com/) | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 <sup>1</sup> Support of solving reCAPTCHA on Google services (e.g. Google Search) </br>
@@ -93,7 +116,7 @@ True
 | ------------- | :---: | :---:	| :---:	| :---:	| :---:	|
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ❌ | ❌ | ❌ |
 | [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ❌ | ❌ | ❌ |
-| [azcaptcha.com](https://azcaptcha.com/) | ✅ | ✅ | ✅ | ❌ | ❌ |
+| [azcaptcha.com](https://azcaptcha.com/) | ✅ | ❌ | ✅ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ❌ | ❌ | ❌ |
 
@@ -102,7 +125,7 @@ True
 | ------------- | :---: | :---:	| :---:	| :---:	| :---:	|
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ❌ | ✅ |
 | [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ✅ | ❌ | ✅ |
-| [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [azcaptcha.com](https://azcaptcha.com/) | ✅ | ✅ | ✅ | ❌ | ✅ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ❌ | ✅ |
 
@@ -124,16 +147,25 @@ True
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ |
 
+### Geetest v4
+| Service | Regular | Proxy | Cookies | User-Agent |
+| ------------- | :---: | :---:	| :---:	| :---:	|
+| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ❌ | ✅ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ❌ | ✅ |
+| [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ |
+| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ❌ | ✅ |
+
 ### hCaptcha
 | Service | Regular | Invisible | Custom Data | Proxy | Cookies | User-Agent |
 | ------------- | :---: | :---:	| :---:	| :---:	| :---:	| :---:	|
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
-| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ❌ | ❌ | ✅ | ❌ | ✅ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ |
 | [azcaptcha.com](https://azcaptcha.com/) | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
 
-### Capy
+### Capy Puzzle
 | Service | Regular | API server | Proxy | Cookies | User-Agent |
 | ------------- | :---: | :---:	| :---:	| :---:	| :---:	|
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ❌ | ❌ |
@@ -169,8 +201,8 @@ True
 from unicaps import CaptchaSolver, CaptchaSolvingService
 
 # init captcha solver
-solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
-balance = solver.get_balance()
+with CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    balance = solver.get_balance()
 ```
 </details>
 
@@ -181,9 +213,9 @@ balance = solver.get_balance()
 from unicaps import CaptchaSolver, CaptchaSolvingService
 
 # init captcha solver
-solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
-# get status of the service (True - everything is Okay, False - the service is down)
-status = solver.get_status()
+with CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # get status of the service (True - everything is Okay, False - probably the service is down)
+    status = solver.get_status()
 ```
 </details>
 
@@ -194,26 +226,26 @@ status = solver.get_status()
 from unicaps import CaptchaSolver, CaptchaSolvingService
 
 # init captcha solver and solve the captcha
-solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
-solved = solver.solve_...(...)
+with CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    solved = solver.solve_...(...)
 
-# get cost of the solving
-cost = solved.cost
+    # get cost of the solving
+    cost = solved.cost
 
-# get cookies (if any)
-cookies = solved.cookies
+    # get cookies (if any)
+    cookies = solved.cookies
 
-# report good captcha
-solved.report_good()
+    # report good captcha
+    solved.report_good()
 
-# report bad captcha
-solved.report_bad()
+    # report bad captcha
+    solved.report_bad()
 
-# get solving start time
-start_time = solved.start_time
+    # get solving start time
+    start_time = solved.start_time
 
-# get solving end time
-end_time = solved.end_time
+    # get solving end time
+    end_time = solved.end_time
 ```
 </details>
 
@@ -231,21 +263,21 @@ from unicaps.common import CaptchaCharType, CaptchaAlphabet
 image_file = pathlib.Path(r'/tmp/captcha.png')
 
 # init captcha solver
-solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "PLACE YOUR API KEY HERE")
-# solve CAPTCHA
-solved = solver.solve_image_captcha(
-    image=image_file,
-    char_type=CaptchaCharType.ALPHA,
-    is_phrase=False,
-    is_case_sensitive=True,
-    is_math=False,
-    min_len=4,
-    max_len=6,
-    alphabet=CaptchaAlphabet.LATIN,
-    comment='Type RED letters only'
-)
-# get response token
-token = solved.solution.text
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # solve CAPTCHA
+    solved = solver.solve_image_captcha(
+        image=image_file,
+        char_type=CaptchaCharType.ALPHA,
+        is_phrase=False,
+        is_case_sensitive=True,
+        is_math=False,
+        min_len=4,
+        max_len=6,
+        alphabet=CaptchaAlphabet.LATIN,
+        comment='Type RED letters only'
+    )
+    # get CAPTCHA text
+    token = solved.solution.text
 ```
 </details>
 
@@ -260,14 +292,14 @@ page_url = ...
 site_key = ...
 
 # init captcha solver
-solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
-# solve CAPTCHA
-solved = solver.solve_recaptcha_v2(
-    site_key=site_key,
-    page_url=page_url
-)
-# get response token
-token = solved.solution.token
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # solve CAPTCHA
+    solved = solver.solve_recaptcha_v2(
+        site_key=site_key,
+        page_url=page_url
+    )
+    # get response token
+    token = solved.solution.token
 ```
 </details>
 
@@ -282,15 +314,15 @@ page_url = ...
 site_key = ...
 
 # init captcha solver
-solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
-# solve CAPTCHA
-solved = solver.solve_recaptcha_v2(
-    site_key=site_key,
-    page_url=page_url,
-    is_invisible=True
-)
-# get response token
-token = solved.solution.token
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # solve CAPTCHA
+    solved = solver.solve_recaptcha_v2(
+        site_key=site_key,
+        page_url=page_url,
+        is_invisible=True
+    )
+    # get response token
+    token = solved.solution.token
 ```
 </details>
 
@@ -306,16 +338,16 @@ site_key = ...
 data_s = ...
 
 # init captcha solver
-solver = CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "PLACE YOUR API KEY HERE")
-# solve CAPTCHA
-solved = solver.solve_recaptcha_v2(
-    site_key=site_key,
-    page_url=page_url,
-    data_s=data_s,
-    is_enterprise=True
-)
-# get response token
-token = solved.solution.token
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # solve CAPTCHA
+    solved = solver.solve_recaptcha_v2(
+        site_key=site_key,
+        page_url=page_url,
+        data_s=data_s,
+        is_enterprise=True
+    )
+    # get response token
+    token = solved.solution.token
 ```
 </details>
 
@@ -332,16 +364,16 @@ action = ...
 min_score = 0.7
 
 # init captcha solver
-solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
-# solve CAPTCHA
-solved = solver.solve_recaptcha_v3(
-    site_key=site_key,
-    page_url=page_url,
-    action=action,
-    min_score=min_score
-)
-# get response token
-token = solved.solution.token
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # solve CAPTCHA
+    solved = solver.solve_recaptcha_v3(
+        site_key=site_key,
+        page_url=page_url,
+        action=action,
+        min_score=min_score
+    )
+    # get response token
+    token = solved.solution.token
 ```
 </details>
 
@@ -356,14 +388,14 @@ page_url = ...
 site_key = ...
 
 # init captcha solver
-solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
-# solve CAPTCHA
-solved = solver.solve_hcaptcha(
-    site_key=site_key,
-    page_url=page_url
-)
-# get response token
-token = solved.solution.token
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # solve CAPTCHA
+    solved = solver.solve_hcaptcha(
+        site_key=site_key,
+        page_url=page_url
+    )
+    # get response token
+    token = solved.solution.token
 ```
 </details>
 
@@ -375,34 +407,34 @@ token = solved.solution.token
 from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions
 
 # init captcha solver
-solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
-# solve CAPTCHA
-try:
-    solved = solver.solve_recaptcha_v2(
-        site_key=site_key,
-        page_url=page_url
-    )
-except exceptions.AccessDeniedError:  # wrong API key or the current IP is banned
-    pass
-except exceptions.LowBalanceError:  # low balance
-    pass
-except exceptions.ServiceTooBusy:  # no available slots to solve CAPTCHA
-    pass
-except exceptions.SolutionWaitTimeout:  # haven't received a solution within N minutes
-    pass
-except exceptions.TooManyRequestsError:  # request limit exceeded
-    pass
-except exceptions.BadInputDataError:  # bad CAPTCHA data (bad image, wrong URL, etc.)
-    pass
-except exceptions.UnableToSolveError:  # CAPTCHA unsolvable
-    pass
-except exceptions.ProxyError:  # bad proxy
-    pass
-except exceptions.NetworkError:  # network connection error
-    pass
-else:
-    # get response token
-    token = solved.solution.token
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # solve CAPTCHA
+    try:
+        solved = solver.solve_recaptcha_v2(
+            site_key=site_key,
+            page_url=page_url
+        )
+    except exceptions.AccessDeniedError:  # wrong API key or the current IP is banned
+        pass
+    except exceptions.LowBalanceError:  # low balance
+        pass
+    except exceptions.ServiceTooBusy:  # no available slots to solve CAPTCHA
+        pass
+    except exceptions.SolutionWaitTimeout:  # haven't received a solution within N minutes
+        pass
+    except exceptions.TooManyRequestsError:  # request limit exceeded
+        pass
+    except exceptions.BadInputDataError:  # bad CAPTCHA data (bad image, wrong URL, etc.)
+        pass
+    except exceptions.UnableToSolveError:  # CAPTCHA unsolvable
+        pass
+    except exceptions.ProxyError:  # bad proxy
+        pass
+    except exceptions.NetworkError:  # network connection error
+        pass
+    else:
+        # get response token
+        token = solved.solution.token
 ```
 </details>
 
@@ -422,19 +454,19 @@ USER_AGENT = '<USER AGENT STRING>'
 COOKIES = {'name': 'value', ...}
 
 # init captcha solver
-solver = CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "PLACE YOUR API KEY HERE")
-# solve CAPTCHA
-solved = solver.solve_recaptcha_v2(
-    site_key=site_key,
-    page_url=page_url,
-    proxy=ProxyServer(PROXY),
-    user_agent=USER_AGENT,
-    cookies=COOKIES
-)
-# get response token
-token = solved.solution.token
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # solve CAPTCHA
+    solved = solver.solve_recaptcha_v2(
+        site_key=site_key,
+        page_url=page_url,
+        proxy=ProxyServer(PROXY),
+        user_agent=USER_AGENT,
+        cookies=COOKIES
+    )
+    # get response token
+    token = solved.solution.token
 ```
 </details>
 
-## Code examples
+## Real-life code examples
 [Examples](https://github.com/sergey-scat/unicaps/tree/master/examples)

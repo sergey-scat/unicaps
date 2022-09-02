@@ -5,9 +5,12 @@ KeyCaptcha
 
 from dataclasses import dataclass
 
+from enforce_typing import enforce_types  # type: ignore
+
 from .base import BaseCaptcha, BaseCaptchaSolution
 
 
+@enforce_types
 @dataclass
 class KeyCaptcha(BaseCaptcha):
     """ KeyCaptcha """
@@ -18,14 +21,8 @@ class KeyCaptcha(BaseCaptcha):
     ws_sign: str
     ws_sign2: str
 
-    def __post_init__(self):
-        assert isinstance(self.page_url, str)
-        assert isinstance(self.user_id, str)
-        assert isinstance(self.session_id, str)
-        assert isinstance(self.ws_sign, str)
-        assert isinstance(self.ws_sign2, str)
 
-
+@enforce_types
 @dataclass
 class KeyCaptchaSolution(BaseCaptchaSolution):
     """ KeyCaptcha solution """

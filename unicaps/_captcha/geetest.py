@@ -6,9 +6,12 @@ GeeTest CAPTCHA
 from dataclasses import dataclass
 from typing import Optional
 
+from enforce_typing import enforce_types  # type: ignore
+
 from .base import BaseCaptcha, BaseCaptchaSolution
 
 
+@enforce_types
 @dataclass
 class GeeTest(BaseCaptcha):
     """ GeeTest """
@@ -18,13 +21,8 @@ class GeeTest(BaseCaptcha):
     challenge: str
     api_server: Optional[str] = None
 
-    def __post_init__(self):
-        assert isinstance(self.page_url, str)
-        assert isinstance(self.gt_key, str)
-        assert isinstance(self.challenge, str)
-        assert self.api_server is None or isinstance(self.api_server, str)
 
-
+@enforce_types
 @dataclass
 class GeeTestSolution(BaseCaptchaSolution):
     """ GeeTest solution """

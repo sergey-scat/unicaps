@@ -68,6 +68,8 @@ class ProxyServer:
         return proxy_string + self.address + ':' + str(self.port)
 
     def get_ip_address(self):
+        """ Get IP address by hostname """
+
         if not _is_ip_address(self.address):
             return socket.gethostbyname(self.address)
         return self.address

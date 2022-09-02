@@ -3,14 +3,13 @@
 reCAPTCHA v2 Enterprise solving example
 """
 
+import asyncio
 import os
 import random
 import string
-from urllib.parse import urlparse
 
 import httpx
-from lxml import html  # type: ignore
-from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions  # type: ignore
+from unicaps import AsyncCaptchaSolver, CaptchaSolvingService, exceptions  # type: ignore
 from unicaps.proxy import ProxyServer  # type: ignore
 
 URL = 'https://store.steampowered.com/join'
@@ -30,41 +29,41 @@ def get_random_word(length):
     return ''.join(random.choice(letters) for i in range(length))
 
 
-def run(solver):
+async def main():
+    """ Init AsyncCaptchaSolver and run the example """
+    async with AsyncCaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY) as solver:
+        await run(solver)
+
+
+async def run(solver):
     """ Get and solve CAPTCHA """
 
     # make a session, update headers and proxies
-    with httpx.Client(proxies=PROXY) as session:
+    async with httpx.AsyncClient(proxies=PROXY) as session:
         session.headers.update({
             'User-Agent': USER_AGENT,
         })
 
-        # open the "Join" page
-        response = session.get(URL)
-        response.raise_for_status()
-
-        # parse the page, then find and extract reCAPTCHA domain
-        page = html.document_fromstring(response.text)
-        recaptcha_url = page.xpath(
-            '//script[contains(@src, "recaptcha/enterprise.js")]')[0].attrib['src']
-        recaptcha_domain = urlparse(recaptcha_url).netloc
+        # open the "Join" page just to get session cookies
+        response = await session.get(URL)
 
         # get reCAPTCHA params
-        captcha_params = session.post(
+        response = await session.post(
             URL_REFRESH_CAPTCHA,
             data=dict(count=1)
-        ).json()
+        )
+        captcha_params = response.json()
 
         # solve reCAPTCHA
         try:
-            solved = solver.solve_recaptcha_v2(
+            solved = await solver.solve_recaptcha_v2(
                 site_key=captcha_params['sitekey'],
                 page_url=URL,
-                is_enterprise=True,
                 data_s=captcha_params['s'],
-                api_domain=recaptcha_domain,
+                is_enterprise=True,
                 proxy=ProxyServer(PROXY),
-                user_agent=USER_AGENT
+                user_agent=USER_AGENT,
+                cookies=dict(session.cookies)
             )
         except exceptions.UnicapsException as exc:
             print(f'reCAPTCHA v2 Enterprise solving exception: {str(exc)}')
@@ -74,7 +73,7 @@ def run(solver):
         email = f'random_{get_random_word(10)}@gmail.com'
 
         # verify email
-        response = session.post(
+        response = await session.post(
             URL_VERIFY_EMAIL,
             data=dict(
                 email=email,
@@ -83,7 +82,6 @@ def run(solver):
                 elang=0
             )
         )
-        response.raise_for_status()
         response_data = response.json()
 
     print(f"Email: {email}\nResult: {response_data['details']}")
@@ -92,15 +90,14 @@ def run(solver):
     if 'the CAPTCHA appears to be invalid' not in response_data['details']:
         print('The reCAPTCHA v2 Enterprise has been solved correctly!')
         # report good CAPTCHA
-        solved.report_good()
+        await solved.report_good()
         return True, solved
 
     print('The reCAPTCHA v2 Enterprise has not been solved correctly!')
     # report bad CAPTCHA
-    solved.report_bad()
+    await solved.report_bad()
     return False, solved
 
 
 if __name__ == '__main__':
-    with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, API_KEY) as captcha_solver:
-        run(captcha_solver)
+    asyncio.run(main())

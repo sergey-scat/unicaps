@@ -6,26 +6,25 @@ Capy Puzzle
 from dataclasses import dataclass
 from typing import Optional
 
+from enforce_typing import enforce_types  # type: ignore
+
 from .base import BaseCaptcha, BaseCaptchaSolution
 
 
+@enforce_types
 @dataclass
-class Capy(BaseCaptcha):
+class CapyPuzzle(BaseCaptcha):
     """ Capy Puzzle CAPTCHA """
 
     site_key: str
     page_url: str
     api_server: Optional[str] = None
 
-    def __post_init__(self):
-        assert isinstance(self.site_key, str)
-        assert isinstance(self.page_url, str)
-        assert self.api_server is None or isinstance(self.api_server, str)
 
-
+@enforce_types
 @dataclass
-class CapySolution(BaseCaptchaSolution):
-    """ Capy CAPTCHA solution """
+class CapyPuzzleSolution(BaseCaptchaSolution):
+    """ Capy Puzzle CAPTCHA solution """
 
     captchakey: str
     challengekey: str

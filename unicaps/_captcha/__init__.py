@@ -11,9 +11,22 @@ from .hcaptcha import HCaptcha
 from .funcaptcha import FunCaptcha
 from .keycaptcha import KeyCaptcha
 from .geetest import GeeTest
-from .capy import Capy
+from .geetest_v4 import GeeTestV4
+from .capy import CapyPuzzle
 from .tiktok import TikTokCaptcha
 from .base import CaptchaType
 
-__all__ = ('ImageCaptcha', 'TextCaptcha', 'RecaptchaV2', 'RecaptchaV3', 'HCaptcha', 'FunCaptcha',
-           'KeyCaptcha', 'GeeTest', 'Capy', 'TikTokCaptcha', 'CaptchaType')
+__all__ = (
+    'ImageCaptcha',
+    'TextCaptcha',
+    'RecaptchaV2',
+    'RecaptchaV3',
+    'HCaptcha',
+    'FunCaptcha',
+    'KeyCaptcha',
+    'GeeTest',
+    'GeeTestV4',
+    'CapyPuzzle',
+    'TikTokCaptcha',
+    'CaptchaType'
+)
