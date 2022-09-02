@@ -8,7 +8,7 @@ import os
 from unicaps import AsyncCaptchaSolver, CaptchaSolvingService, exceptions  # type: ignore
 from unicaps.common import WorkerLanguage  # type: ignore
 
-API_KEY = os.getenv('API_KEY_2CAPTCHA', default='YOUR_API_KEY')
+API_KEY = os.getenv('API_KEY_2CAPTCHA', default='<PLACE_YOUR_API_KEY_HERE>')
 TEXT_CAPTCHA = 'If tomorrow is Sunday, what day is today?'
 TEXT_CAPTCHA_ANSWER = 'saturday'
 

@@ -11,7 +11,7 @@ from lxml import html  # type: ignore
 from unicaps import AsyncCaptchaSolver, CaptchaSolvingService, exceptions  # type: ignore
 
 URL = 'https://www.capy.me/products/puzzle_captcha/'
-API_KEY = os.getenv('API_KEY_2CAPTCHA', default='YOUR_API_KEY')
+API_KEY = os.getenv('API_KEY_2CAPTCHA', default='<PLACE_YOUR_API_KEY_HERE>')
 USER_AGENT = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
               '(KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36')
 

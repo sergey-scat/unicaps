@@ -12,7 +12,7 @@ from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions  # type: ig
 
 URL = 'https://2captcha.com/demo/keycaptcha'
 URL_VERIFY = 'https://2captcha.com/api/v1/captcha-demo/key-captcha/verify'
-API_KEY = os.getenv('API_KEY_2CAPTCHA', default='YOUR_API_KEY')
+API_KEY = os.getenv('API_KEY_2CAPTCHA', default='<PLACE_YOUR_API_KEY_HERE>')
 
 
 def run(solver):

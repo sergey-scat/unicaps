@@ -12,7 +12,7 @@ from unicaps import AsyncCaptchaSolver, CaptchaSolvingService, exceptions  # typ
 URL = 'https://2captcha.com/demo/geetest'
 INIT_PARAMS_URL = 'https://2captcha.com/api/v1/captcha-demo/gee-test/init-params?t={ms}'
 URL_VERIFY = 'https://2captcha.com/api/v1/captcha-demo/gee-test/verify'
-API_KEY = os.getenv('API_KEY_2CAPTCHA', default='YOUR_API_KEY')
+API_KEY = os.getenv('API_KEY_2CAPTCHA', default='<PLACE_YOUR_API_KEY_HERE>')
 
 
 async def main():

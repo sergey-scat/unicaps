@@ -10,7 +10,7 @@ from lxml import html  # type: ignore
 from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions  # type: ignore
 
 URL = 'https://democaptcha.com/demo-form-eng/hcaptcha.html'
-API_KEY = os.getenv('API_KEY_2CAPTCHA', default='YOUR_API_KEY')
+API_KEY = os.getenv('API_KEY_2CAPTCHA', default='<PLACE_YOUR_API_KEY_HERE>')
 
 
 def run(solver):
