@@ -250,9 +250,9 @@ with CaptchaSolver(CaptchaSolvingService.ANTI_CAPTCHA, "<PLACE YOUR API KEY HERE
 ```
 </details>
 
-### Solving
+### CAPTCHAs
 <details>
-<summary>Image CAPTCHA</summary>
+<summary>Solve Image CAPTCHA</summary>
 
 ```python
 import pathlib
@@ -260,7 +260,7 @@ import pathlib
 from unicaps import CaptchaSolver, CaptchaSolvingService
 from unicaps.common import CaptchaCharType, CaptchaAlphabet
 
-# get image file
+# image file: it can be a Path, file-object or bytes.
 image_file = pathlib.Path(r'/tmp/captcha.png')
 
 # init captcha solver
@@ -283,7 +283,7 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
 </details>
 
 <details>
-<summary>reCAPTCHA v2</summary>
+<summary>Solve reCAPTCHA v2</summary>
 
 ```python
 from unicaps import CaptchaSolver, CaptchaSolvingService
@@ -305,7 +305,7 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
 </details>
 
 <details>
-<summary>reCAPTCHA v2 Invisible</summary>
+<summary>Solve reCAPTCHA v2 Invisible</summary>
 
 ```python
 from unicaps import CaptchaSolver, CaptchaSolvingService
@@ -328,7 +328,7 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
 </details>
 
 <details>
-<summary>reCAPTCHA v2 Enterprise</summary>
+<summary>Solve reCAPTCHA v2 Enterprise</summary>
 
 ```python
 from unicaps import CaptchaSolver, CaptchaSolvingService
@@ -353,12 +353,12 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
 </details>
 
 <details>
-<summary>reCAPTCHA v3</summary>
+<summary>Solve reCAPTCHA v3</summary>
 
 ```python
 from unicaps import CaptchaSolver, CaptchaSolvingService
 
-# get page URL, site_key and action from your page
+# get CAPTCHA params from the target page/site
 page_url = ...
 site_key = ...
 action = ...
@@ -379,12 +379,12 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
 </details>
 
 <details>
-<summary>hCaptcha</summary>
+<summary>Solve hCaptcha</summary>
 
 ```python
 from unicaps import CaptchaSolver, CaptchaSolvingService
 
-# get page URL and site_key from your page
+# get CAPTCHA params from the target page/site
 page_url = ...
 site_key = ...
 
@@ -400,9 +400,177 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
 ```
 </details>
 
+<details>
+<summary>Solve FunCaptcha</summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+
+# get CAPTCHA params from the target page/site
+public_key = ...
+page_url = ...
+
+# init captcha solver
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # solve CAPTCHA
+    solved = solver.solve_funcaptcha(
+        public_key=public_key,
+        page_url=page_url
+    )
+    # get response token
+    token = solved.solution.token
+```
+</details>
+
+<details>
+<summary>Solve KeyCaptcha</summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+
+# get CAPTCHA params from the target page/site
+page_url = ...
+user_id = ...
+session_id = ...
+ws_sign = ...
+ws_sign2 = ...
+
+# init captcha solver
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # solve CAPTCHA
+    solved = solver.solve_keycaptcha(
+        page_url=page_url,
+        user_id=user_id,
+        session_id=session_id,
+        ws_sign=ws_sign,
+        ws_sign2=ws_sign2
+    )
+    # get response token
+    token = solved.solution.token
+```
+</details>
+
+<details>
+<summary>Solve Geetest</summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+
+# get CAPTCHA params from the target page/site
+page_url = ...
+gt_key = ...
+challenge = ...
+
+# init captcha solver
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # solve CAPTCHA
+    solved = solver.solve_geetest(
+        page_url=page_url,
+        gt_key=gt_key,
+        challenge=challenge
+    )
+    # get response token
+    token = solved.solution.token
+```
+</details>
+
+<details>
+<summary>Solve Geetest v4</summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+
+# get CAPTCHA params from the target page/site
+page_url = ...
+captcha_id = ...
+
+# init captcha solver
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # solve CAPTCHA
+    solved = solver.solve_geetest_v4(
+        page_url=page_url,
+        captcha_id=captcha_id
+    )
+
+    # get solution data
+    lot_number = solved.solution.lot_number
+    pass_token = solved.solution.pass_token
+    gen_time = solved.solution.gen_time
+    captcha_output = solved.solution.captcha_output
+```
+</details>
+
+<details>
+<summary>Solve Capy Puzzle</summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+
+# get CAPTCHA params from the target page/site
+site_key = ...
+page_url = ...
+
+# init captcha solver
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # solve CAPTCHA
+    solved = solver.solve_capy_puzzle(
+        site_key=site_key,
+        page_url=page_url
+    )
+
+    # get solution data
+    captchakey = solved.solution.captchakey
+    challengekey = solved.solution.challengekey
+    answer = solved.solution.answer
+```
+</details>
+
+<details>
+<summary>Solve TikTok CAPTCHA</summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+
+# get CAPTCHA params from the target page/site
+page_url = ...
+cookies = {'name': 'value', ...}
+
+# init captcha solver
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # solve CAPTCHA
+    solved = solver.solve_tiktok(
+        page_url=page_url,
+        cookies=cookies
+    )
+
+    # get solution data
+    cookies = solved.solution.cookies
+```
+</details>
+
+<details>
+<summary>Solve a text CAPTCHA</summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+from unicaps.common import WorkerLanguage
+
+# init captcha solver
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # solve CAPTCHA
+    solved = solver.solve_text_captcha(
+        text='Si mañana es domingo, ¿qué día es hoy?',
+        language=WorkerLanguage.SPANISH
+    )
+
+    # get answer
+    answer = solved.solution.text  # Sábado
+```
+</details>
+
 ### Error handling
 <details>
-<summary>Exceptions</summary>
+<summary>Catch exceptions</summary>
 
 ```python
 from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions
@@ -439,7 +607,36 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
 ```
 </details>
 
-### Proxy
+### Misc
+<details>
+<summary>Create a task and wait for the result</summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+from unicaps.captcha import RecaptchaV2
+
+# get page URL and site_key from your page
+page_url = ...
+site_key = ...
+
+# init captcha solver
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # create a task
+    task = solver.create_task(
+        RecaptchaV2(site_key, page_url)
+    )
+
+    # print task ID
+    print(task.task_id)
+
+    # wait for task to be completed
+    solved = task.wait()
+
+    # get response token
+    token = solved.solution.token
+```
+</details>
+
 <details>
 <summary>Add proxy, cookies and User-Agent</summary>
 
@@ -448,11 +645,11 @@ from unicaps import CaptchaSolver, CaptchaSolvingService
 from unicaps.proxy import ProxyServer
 
 # get page URL and site_key from your page
-PAGE_URL = ...
-SITE_KEY = ...
-PROXY = 'http://user:password@domain.com:8080'
-USER_AGENT = '<USER AGENT STRING>'
-COOKIES = {'name': 'value', ...}
+page_url = ...
+site_key = ...
+proxy = 'http://user:password@domain.com:8080'
+user_agent = '<USER AGENT STRING>'
+cookies = {'name': 'value', ...}
 
 # init captcha solver
 with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
@@ -460,9 +657,9 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
     solved = solver.solve_recaptcha_v2(
         site_key=site_key,
         page_url=page_url,
-        proxy=ProxyServer(PROXY),
-        user_agent=USER_AGENT,
-        cookies=COOKIES
+        proxy=ProxyServer(proxy),
+        user_agent=user_agent,
+        cookies=cookies
     )
     # get response token
     token = solved.solution.token
