@@ -5,7 +5,7 @@ Certain services related stuff
 
 import enum
 # pylint: disable=import-self
-from . import anti_captcha, azcaptcha, cptch_net, rucaptcha, twocaptcha
+from . import anti_captcha, azcaptcha, cptch_net, rucaptcha, twocaptcha, deathbycaptcha
 
 
 class CaptchaSolvingService(enum.Enum):
@@ -16,6 +16,7 @@ class CaptchaSolvingService(enum.Enum):
     CPTCH_NET = "cptch.net"
     RUCAPTCHA = "rucaptcha.com"
     TWOCAPTCHA = "2captcha.com"
+    DEATHBYCAPTCHA = "deathbycaptcha.com"
 
 
 # supported CAPTCHA solving services
@@ -24,5 +25,6 @@ SOLVING_SERVICE = {
     CaptchaSolvingService.AZCAPTCHA: azcaptcha,
     CaptchaSolvingService.CPTCH_NET: cptch_net,
     CaptchaSolvingService.RUCAPTCHA: rucaptcha,
-    CaptchaSolvingService.TWOCAPTCHA: twocaptcha
+    CaptchaSolvingService.TWOCAPTCHA: twocaptcha,
+    CaptchaSolvingService.DEATHBYCAPTCHA: deathbycaptcha
 }
