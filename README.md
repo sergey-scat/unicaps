@@ -21,7 +21,7 @@ Unicaps is a unified Python API for CAPTCHA solving services.
  - Uses native service protocol/endpoints (eg, no needs in patching _hosts_ file)
  - Has both synchronous and asynchronous client
  - Supports 11 types of CAPTCHAs
- - Supports 5 CAPTCHA solving services
+ - Supports 6 CAPTCHA solving services
  - Written Pythonic way and is intended for humans
 
 ## Installation
@@ -65,22 +65,24 @@ if __name__ == '__main__':
 ```
 
 ## Supported CAPTCHAs / Services
-| CAPTCHA➡ \ Service⬇| Image | Text | [reCAPTCHA v2](https://developers.google.com/recaptcha/docs/display) | [reCAPTCHA v3](https://developers.google.com/recaptcha/docs/v3) | [FunCaptcha](https://funcaptcha.com/fc/api/nojs/?pkey=69A21A01-CC7B-B9C6-0F9A-E7FA06677FFC) | [KeyCAPTCHA](https://www.keycaptcha.com/) | [Geetest](https://www.geetest.com/en/demo) | [Geetest v4](https://www.geetest.com/en/demo) | [hCaptcha](https://www.hcaptcha.com/) | [Capy](https://www.capy.me/) | TikTok
-| ------------- | :---: | :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	|
-| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| [azcaptcha.com](https://azcaptcha.com) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
+| CAPTCHA➡ \ Service⬇                                                             | Image | Text | [reCAPTCHA v2](https://developers.google.com/recaptcha/docs/display) | [reCAPTCHA v3](https://developers.google.com/recaptcha/docs/v3) | [FunCaptcha](https://funcaptcha.com/fc/api/nojs/?pkey=69A21A01-CC7B-B9C6-0F9A-E7FA06677FFC) | [KeyCAPTCHA](https://www.keycaptcha.com/) | [Geetest](https://www.geetest.com/en/demo) | [Geetest v4](https://www.geetest.com/en/demo) | [hCaptcha](https://www.hcaptcha.com/) | [Capy](https://www.capy.me/) | TikTok
+|---------------------------------------------------------------------------------| :---: | :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	|
+| [2captcha.com](http://2captcha.com/?from=8754088)	                              | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48)                    | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| [azcaptcha.com](https://azcaptcha.com)                                          | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637)                             | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [deathbycaptcha.com](http://deathbycaptcha.com)                                 | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
 
 ### Image CAPTCHA
-| Service | Regular | Case Sensitive | Phrase | Numbers only | Letters only | Math | Length | Language | Comment for worker
-| ------------- | :---: | :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	|
-| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | Cyrillic/Latin | ✅ |
-| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | Latin | ✅ |
-| [azcaptcha.com](https://azcaptcha.com/) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Latin | ✅ |
+| Service                                                                        | Regular | Case Sensitive | Phrase | Numbers only | Letters only | Math | Length | Language | Comment for worker
+|--------------------------------------------------------------------------------| :---: | :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	|
+| [2captcha.com](http://2captcha.com/?from=8754088)	                             | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | Cyrillic/Latin | ✅ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48)                   | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | Latin | ✅ |
+| [azcaptcha.com](https://azcaptcha.com/)                                        | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Latin | ✅ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Cyrillic/Latin | ❌ |
-| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | Cyrillic/Latin | ✅ |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637)                            | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | Cyrillic/Latin | ✅ |
+| [deathbycaptcha.com](http://deathbycaptcha.com)                    | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | Latin | ❌ |
 
 ### Text CAPTCHA
 <details closed>
@@ -90,22 +92,24 @@ if __name__ == '__main__':
   For example: "If tomorrow is Saturday, what day is today?".</i>
 </details>
 
-| Service | Language |
-| ------------- | :---: |
-| [2captcha.com](http://2captcha.com/?from=8754088)	| English, Russian |
-| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ❌ |
-| [azcaptcha.com](https://azcaptcha.com/) | ❌ |
+| Service                                                                        | Language |
+|--------------------------------------------------------------------------------| :---: |
+| [2captcha.com](http://2captcha.com/?from=8754088)	                             | English, Russian |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48)                   | ❌ |
+| [azcaptcha.com](https://azcaptcha.com/)                                        | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ |
-| [rucaptcha.com](https://rucaptcha.com?from=9863637) | English, Russian |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637)                            | English, Russian |
+| [deathbycaptcha.com](http://deathbycaptcha.com)                    | ❌ |
 
 ### reCAPTCHA v2
-| Service | Regular | Invisible | Enterprise | Google service<sup>1</sup> | Proxy<sup>2</sup> | Cookies<sup>3</sup> | User-Agent<sup>4</sup> |
-| ------------- | :---: | :---:	| :---:	| :---:	| :---:	| :---:	| :---:	|
-| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [azcaptcha.com](https://azcaptcha.com/) | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| Service                                                                        | Regular | Invisible | Enterprise | Google service<sup>1</sup> | Proxy<sup>2</sup> | Cookies<sup>3</sup> | User-Agent<sup>4</sup> |
+|--------------------------------------------------------------------------------| :---: | :---:	| :---:	| :---:	| :---:	| :---:	| :---:	|
+| [2captcha.com](http://2captcha.com/?from=8754088)	                             | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48)                   | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [azcaptcha.com](https://azcaptcha.com/)                                        | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637)                            | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [deathbycaptcha.com](http://deathbycaptcha.com)                                | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
 
 <sup>1</sup> Support of solving reCAPTCHA on Google services (e.g. Google Search) </br>
 <sup>2</sup> Support of solving via proxy server </br>
@@ -113,85 +117,94 @@ if __name__ == '__main__':
 <sup>4</sup> Support of passing custom User-Agent header </br>
 
 ### reCAPTCHA v3
-| Service | Regular | Enterprise | Proxy | Cookies | User-Agent |
-| ------------- | :---: | :---:	| :---:	| :---:	| :---:	|
-| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ❌ | ❌ | ❌ |
-| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ❌ | ❌ | ❌ |
-| [azcaptcha.com](https://azcaptcha.com/) | ✅ | ❌ | ✅ | ❌ | ❌ |
+| Service                                                                        | Regular | Enterprise | Proxy | Cookies | User-Agent |
+|--------------------------------------------------------------------------------| :---: | :---:	| :---:	| :---:	| :---:	|
+| [2captcha.com](http://2captcha.com/?from=8754088)	                             | ✅ | ✅ | ❌ | ❌ | ❌ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48)                   | ✅ | ✅ | ❌ | ❌ | ❌ |
+| [azcaptcha.com](https://azcaptcha.com/)                                        | ✅ | ❌ | ✅ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ❌ | ❌ | ❌ |
-| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ❌ | ❌ | ❌ |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637)                            | ✅ | ✅ | ❌ | ❌ | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com)                    | ✅ | ✅ | ✅ | ❌ | ❌ |
 
 ### FunCaptcha (Arkose Labs)
-| Service | Regular | Data (BLOB) | Proxy | Cookies | User-Agent |
-| ------------- | :---: | :---:	| :---:	| :---:	| :---:	|
-| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ❌ | ✅ |
-| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ✅ | ❌ | ✅ |
-| [azcaptcha.com](https://azcaptcha.com/) | ✅ | ✅ | ✅ | ❌ | ✅ |
+| Service                                                                        | Regular | Data (BLOB) | Proxy | Cookies | User-Agent |
+|--------------------------------------------------------------------------------| :---: | :---:	| :---:	| :---:	| :---:	|
+| [2captcha.com](http://2captcha.com/?from=8754088)	                             | ✅ | ✅ | ✅ | ❌ | ✅ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48)                   | ✅ | ✅ | ✅ | ❌ | ✅ |
+| [azcaptcha.com](https://azcaptcha.com/)                                        | ✅ | ✅ | ✅ | ❌ | ✅ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ | ❌ |
-| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ❌ | ✅ |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637)                            | ✅ | ✅ | ✅ | ❌ | ✅ |
+| [deathbycaptcha.com](http://deathbycaptcha.com)                    | ✅ | ❌ | ✅ | ❌ | ❌ |
 
 ### KeyCAPTCHA
-| Service | Regular | Proxy | Cookies | User-Agent |
-| ------------- | :---: | :---:	| :---:	| :---:	|
-| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ❌ | ❌ | ❌ |
-| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ❌ | ❌ | ❌ | ❌ |
-| [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ |
+| Service                                                                         | Regular | Proxy | Cookies | User-Agent |
+|---------------------------------------------------------------------------------| :---: | :---:	| :---:	| :---:	|
+| [2captcha.com](http://2captcha.com/?from=8754088)	                              | ✅ | ❌ | ❌ | ❌ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48)                    | ❌ | ❌ | ❌ | ❌ |
+| [azcaptcha.com](https://azcaptcha.com/)                                         | ❌ | ❌ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ |
-| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ❌ | ❌ | ❌ |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637)                             | ✅ | ❌ | ❌ | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com)                   | ❌ | ❌ | ❌ | ❌ |
 
 ### Geetest
-| Service | Regular | API server | GetLib | Proxy | Cookies | User-Agent |
-| ------------- | :---: | :---:	| :---:	| :---:	| :---:	| :---:	|
-| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ❌ | ✅ | ❌ | ✅ |
-| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
-| [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Service                                                                        | Regular | API server | GetLib | Proxy | Cookies | User-Agent |
+|--------------------------------------------------------------------------------| :---: | :---:	| :---:	| :---:	| :---:	| :---:	|
+| [2captcha.com](http://2captcha.com/?from=8754088)	                             | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48)                   | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
+| [azcaptcha.com](https://azcaptcha.com/)                                        | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637)                            | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ |
+| [deathbycaptcha.com](http://deathbycaptcha.com)                    | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ### Geetest v4
-| Service | Regular | Proxy | Cookies | User-Agent |
-| ------------- | :---: | :---:	| :---:	| :---:	|
-| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ❌ | ✅ |
-| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ❌ | ✅ |
-| [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ |
+| Service                                                                         | Regular | Proxy | Cookies | User-Agent |
+|---------------------------------------------------------------------------------| :---: | :---:	| :---:	| :---:	|
+| [2captcha.com](http://2captcha.com/?from=8754088)	                              | ✅ | ✅ | ❌ | ✅ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48)                    | ✅ | ✅ | ❌ | ✅ |
+| [azcaptcha.com](https://azcaptcha.com/)                                         | ❌ | ❌ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ |
-| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ❌ | ✅ |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637)                             | ✅ | ✅ | ❌ | ✅ |
+| [deathbycaptcha.com](http://deathbycaptcha.com)                    | ❌ | ❌ | ❌ | ❌ |
 
 ### hCaptcha
-| Service | Regular | Invisible | Custom Data | Proxy | Cookies | User-Agent |
-| ------------- | :---: | :---:	| :---:	| :---:	| :---:	| :---:	|
-| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
-| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ |
-| [azcaptcha.com](https://azcaptcha.com/) | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
+| Service                                                                         | Regular | Invisible | Custom Data | Proxy | Cookies | User-Agent |
+|---------------------------------------------------------------------------------| :---: | :---:	| :---:	| :---:	| :---:	| :---:	|
+| [2captcha.com](http://2captcha.com/?from=8754088)	                              | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48)                    | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ |
+| [azcaptcha.com](https://azcaptcha.com/)                                         | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637)                             | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
+| [deathbycaptcha.com](http://deathbycaptcha.com)                    | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ |
 
 ### Capy Puzzle
-| Service | Regular | API server | Proxy | Cookies | User-Agent |
-| ------------- | :---: | :---:	| :---:	| :---:	| :---:	|
-| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ❌ | ❌ |
-| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ❌ | ❌ | ❌ | ❌ | ❌ |
-| [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Service                                                                       | Regular | API server | Proxy | Cookies | User-Agent |
+|-------------------------------------------------------------------------------| :---: | :---:	| :---:	| :---:	| :---:	|
+| [2captcha.com](http://2captcha.com/?from=8754088)	                            | ✅ | ✅ | ✅ | ❌ | ❌ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48)                  | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [azcaptcha.com](https://azcaptcha.com/)                                       | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ | ❌ |
-| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ❌ | ❌ |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637)                           | ✅ | ✅ | ✅ | ❌ | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com)                   | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ### TikTok CAPTCHA
-| Service | Regular | Proxy | Cookies | User-Agent |
-| ------------- | :---: | :---:	| :---:	| :---:	|
-| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ❌ |
-| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ❌ | ❌ | ❌ | ❌ |
-| [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ |
+| Service                                                                        | Regular | Proxy | Cookies | User-Agent |
+|--------------------------------------------------------------------------------| :---: | :---:	| :---:	| :---:	|
+| [2captcha.com](http://2captcha.com/?from=8754088)	                             | ✅ | ✅ | ✅ | ❌ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48)                   | ❌ | ❌ | ❌ | ❌ |
+| [azcaptcha.com](https://azcaptcha.com/)                                        | ❌ | ❌ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ |
-| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ❌ |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637)                            | ✅ | ✅ | ✅ | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com)                    | ❌ | ❌ | ❌ | ❌ |
 
 ## Supported Proxy types
-| Service | HTTP | HTTPS | SOCKS 4 | SOCKS 5 |
-| ------------- | :---: | :---:	| :---:	| :---:	|
-| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ |
-| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ✅ | ✅ |
-| [azcaptcha.com](https://azcaptcha.com/) | ✅ | ✅ | ✅ | ✅ |
+| Service                                                                         | HTTP | HTTPS | SOCKS 4 | SOCKS 5 |
+|---------------------------------------------------------------------------------| :---: | :---:	| :---:	| :---:	|
+| [2captcha.com](http://2captcha.com/?from=8754088)	                              | ✅ | ✅ | ✅ | ✅ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48)                    | ✅ | ✅ | ✅ | ✅ |
+| [azcaptcha.com](https://azcaptcha.com/)                                         | ✅ | ✅ | ✅ | ✅ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ |
-| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637)                             | ✅ | ✅ | ✅ | ✅ |
+| [deathbycaptcha.com](http://deathbycaptcha.com)                    | ✅ | ❌ | ❌ | ❌ |
 
 ## How to...
 ### Common
