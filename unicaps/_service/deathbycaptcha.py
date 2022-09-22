@@ -285,15 +285,22 @@ class RecaptchaV2TaskRequest(TaskRequest):
             user_agent=user_agent,
             cookies=cookies
         )
+        opt_data = captcha.get_optional_data(data_s=('data-s', None))
+        data_s = None
+        if opt_data.keys():
+            data_s = opt_data['data-s']
+
+        data = {
+            "googlekey": captcha.site_key,
+            "pageurl": captcha.page_url
+        }
+        if data_s:
+            data.update({"data-s": data_s})
 
         request['data'].update(
             dict(
                 type=4,
-                token_params=json.dumps({
-                    "googlekey": captcha.site_key,
-                    "pageurl": captcha.page_url,
-                    "data-s": captcha.get_optional_data(data_s=('data-s', None))['data-s']
-                })
+                token_params=json.dumps(data)
             )
         )
 
@@ -318,15 +325,31 @@ class RecaptchaV3TaskRequest(TaskRequest):
             cookies=cookies
         )
 
+        opt_data = captcha.get_optional_data(
+            action=('action', None),
+            min_score=('min_score', None)
+        )
+        action = None
+        min_score = None
+        if opt_data.keys():
+            if 'action' in opt_data.keys():
+                action = opt_data['action']
+            if 'min_score' in opt_data.keys():
+                min_score = opt_data['min_score']
+
+        data = {
+            "googlekey": captcha.site_key,
+            "pageurl": captcha.page_url
+        }
+        if action:
+            data.update({"action": action})
+        if min_score:
+            data.update({"min_score": min_score})
+
         request['data'].update(
             dict(
                 type=5,
-                token_params=json.dumps({
-                    "googlekey": captcha.site_key,
-                    "pageurl": captcha.page_url,
-                    "action": captcha.get_optional_data(action=('action', None))['action'],
-                    "min_score": captcha.get_optional_data(min_score=('min_score', None))['min_score']
-                })
+                token_params=json.dumps(data)
             )
         )
 
