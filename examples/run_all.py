@@ -30,7 +30,8 @@ EXAMPLES = [
     'geetest',
     'geetest_v4',
     'capy_puzzle',
-    'text'
+    'text',
+    'funcaptcha'
 ]
 
 logging.basicConfig(level=logging.DEBUG)
