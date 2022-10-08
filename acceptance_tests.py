@@ -16,6 +16,7 @@ SERVICES = {
     '2captcha.com': 'API_KEY_2CAPTCHA',
     'anti-captcha.com': 'API_KEY_ANTICAPTCHA',
     'azcaptcha.com': 'API_KEY_AZCAPTCHA',
+    'captcha.guru': 'API_KEY_CAPTCHA_GURU',
     'cptch.net': 'API_KEY_CPTCH_NET'
 }
 
@@ -30,7 +31,8 @@ EXAMPLES = [
     'geetest',
     'geetest_v4',
     'capy_puzzle',
-    'text'
+    'text',
+    'funcaptcha'
 ]
 
 
