@@ -9,7 +9,7 @@ import httpx
 from lxml import html  # type: ignore
 from unicaps import CaptchaSolver, CaptchaSolvingService, exceptions  # type: ignore
 
-URL = 'https://democaptcha.com/demo-form-eng/hcaptcha.html'
+URL = 'https://accounts.hcaptcha.com/demo'
 API_KEY = os.getenv('API_KEY_2CAPTCHA', default='<PLACE_YOUR_API_KEY_HERE>')
 
 
@@ -53,7 +53,7 @@ def run(solver):
         page = html.document_fromstring(response.text)
 
     # check the result
-    if page.xpath('//h2[starts-with(text(), "Thank you")]'):
+    if page.xpath('//div[text()="Verification Success!"]'):
         print('The hCaptcha has been solved correctly!')
         # report good CAPTCHA
         solved.report_good()

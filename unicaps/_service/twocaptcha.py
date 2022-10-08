@@ -287,9 +287,13 @@ class SolutionRequest(ResRequest):
         else:
             solution = solution_class(solution_data)
 
+        price = None
+        if 'price' in response_data:
+            price = response_data.pop("price")
+
         return dict(
             solution=solution,
-            cost=response_data.pop("price"),
+            cost=price,
             extra=response_data
         )
 
