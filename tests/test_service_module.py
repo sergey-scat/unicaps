@@ -32,7 +32,8 @@ SERVICE_MODULES_FOR_TEST = {
     'azcaptcha': (CaptchaType.IMAGE, CaptchaType.RECAPTCHAV2, CaptchaType.RECAPTCHAV3,
                   CaptchaType.HCAPTCHA, CaptchaType.FUNCAPTCHA),
     'cptch_net': (CaptchaType.IMAGE, CaptchaType.RECAPTCHAV2, CaptchaType.RECAPTCHAV3),
-    # 'deathbycaptcha': (CaptchaType.RECAPTCHAV2,)
+    'deathbycaptcha': (CaptchaType.IMAGE, CaptchaType.RECAPTCHAV2, CaptchaType.RECAPTCHAV3,
+                       CaptchaType.HCAPTCHA, CaptchaType.FUNCAPTCHA)
 }
 BASE_REQUESTS = ('GetBalance', 'GetStatus', 'ReportGood', 'ReportBad')
 TASK_REQUEST_PREPARE_PARAMS = ('self', 'captcha', 'proxy', 'user_agent', 'cookies')

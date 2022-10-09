@@ -21,7 +21,7 @@ Unicaps is a unified Python API for CAPTCHA solving services.
  - Uses native service protocol/endpoints (eg, no needs in patching _hosts_ file)
  - Has both synchronous and asynchronous client
  - Supports 11 types of CAPTCHAs
- - Supports 6 CAPTCHA solving services
+ - Supports 7 CAPTCHA solving services
  - Written Pythonic way and is intended for humans
 
 ## Installation
@@ -72,6 +72,7 @@ if __name__ == '__main__':
 | [azcaptcha.com](https://azcaptcha.com) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 ### Image CAPTCHA
@@ -82,6 +83,7 @@ if __name__ == '__main__':
 | [azcaptcha.com](https://azcaptcha.com/) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Latin | ✅ |
 | [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Latin | ✅ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Cyrillic/Latin | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Latin | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | Cyrillic/Latin | ✅ |
 
 ### Text CAPTCHA
@@ -99,6 +101,7 @@ if __name__ == '__main__':
 | [azcaptcha.com](https://azcaptcha.com/) | ❌ |
 | [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com) | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | English, Russian |
 
 ### reCAPTCHA v2
@@ -109,6 +112,7 @@ if __name__ == '__main__':
 | [azcaptcha.com](https://azcaptcha.com/) | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
 | [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com) | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 <sup>1</sup> Support of solving reCAPTCHA on Google services (e.g. Google Search) </br>
@@ -124,6 +128,7 @@ if __name__ == '__main__':
 | [azcaptcha.com](https://azcaptcha.com/) | ✅ | ❌ | ✅ | ❌ | ❌ |
 | [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ❌ | ✅ | ✅ | ✅ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ❌ | ❌ | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com) | ✅ | ❌ | ✅ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ❌ | ❌ | ❌ |
 
 ### FunCaptcha (Arkose Labs)
@@ -134,6 +139,7 @@ if __name__ == '__main__':
 | [azcaptcha.com](https://azcaptcha.com/) | ✅ | ✅ | ✅ | ❌ | ✅ |
 | [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com) | ✅ | ❌ | ✅ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ❌ | ✅ |
 
 ### KeyCAPTCHA
@@ -144,6 +150,7 @@ if __name__ == '__main__':
 | [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ |
 | [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ❌ | ❌ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com) | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ❌ | ❌ | ❌ |
 
 ### Geetest
@@ -154,6 +161,7 @@ if __name__ == '__main__':
 | [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ |
 
 ### Geetest v4
@@ -164,6 +172,7 @@ if __name__ == '__main__':
 | [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ |
 | [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ❌ | ❌ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com) | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ❌ | ✅ |
 
 ### hCaptcha
@@ -174,6 +183,7 @@ if __name__ == '__main__':
 | [azcaptcha.com](https://azcaptcha.com/) | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com) | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
 
 ### Capy Puzzle
@@ -184,6 +194,7 @@ if __name__ == '__main__':
 | [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com) | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ❌ | ❌ |
 
 ### TikTok CAPTCHA
@@ -194,6 +205,7 @@ if __name__ == '__main__':
 | [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ |
 | [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ❌ | ❌ | ❌ | ❌ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com) | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ❌ |
 
 ## Supported Proxy types
@@ -204,6 +216,7 @@ if __name__ == '__main__':
 | [azcaptcha.com](https://azcaptcha.com/) | ✅ | ✅ | ✅ | ✅ |
 | [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ✅ | ✅ | ✅ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com) | ✅ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ |
 
 ## How to...
