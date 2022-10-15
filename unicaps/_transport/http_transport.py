@@ -94,8 +94,7 @@ class HTTPRequestJSON(BaseRequest):
 
         request = super().prepare(**kwargs)
         request.update(
-            dict(headers={'Accept': 'application/json',
-                          'Content-Type': 'application/json'})
+            dict(headers={'Accept': 'application/json'})
         )
         return request
 
