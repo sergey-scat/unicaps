@@ -33,7 +33,8 @@ SERVICE_MODULES_FOR_TEST = {
                   CaptchaType.HCAPTCHA, CaptchaType.FUNCAPTCHA),
     'cptch_net': (CaptchaType.IMAGE, CaptchaType.RECAPTCHAV2, CaptchaType.RECAPTCHAV3),
     'deathbycaptcha': (CaptchaType.IMAGE, CaptchaType.RECAPTCHAV2, CaptchaType.RECAPTCHAV3,
-                       CaptchaType.HCAPTCHA, CaptchaType.FUNCAPTCHA)
+                       CaptchaType.HCAPTCHA, CaptchaType.FUNCAPTCHA, CaptchaType.GEETEST,
+                       CaptchaType.GEETESTV4)
 }
 BASE_REQUESTS = ('GetBalance', 'GetStatus', 'ReportGood', 'ReportBad')
 TASK_REQUEST_PREPARE_PARAMS = ('self', 'captcha', 'proxy', 'user_agent', 'cookies')

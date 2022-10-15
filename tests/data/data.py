@@ -434,8 +434,18 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
         22: None,
         23: None,
         24: None,
-        25: None,
-        26: None,
+        25: {'data': dict(
+            type=8,
+            geetest_params=json.dumps(
+                {'gt': 'test2', 'challenge': 'test3', 'pageurl': 'test1'}
+            )
+        )},
+        26: {'data': dict(
+            type=8,
+            geetest_params=json.dumps(
+                {'gt': 'test2', 'challenge': 'test3', 'pageurl': 'test1'}
+            )
+        )},
         27: {'data': dict(type=7,
                           hcaptcha_params=json.dumps({'sitekey': 'test1', 'pageurl': 'test2'}))},
         28: None,
@@ -489,7 +499,12 @@ OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC = {
         36: None,
         37: None,
         38: None,
-        39: None,
+        39: {'data': dict(
+            type=9,
+            geetest_params=json.dumps(
+                {'captcha_id': 'test2', 'pageurl': 'test1'}
+            )
+        )},
         40: {'data': dict(
             type=4,
             token_params=json.dumps(
@@ -601,11 +616,11 @@ INPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC = {
         4: None,
         5: get_http_resp_obj(dict(status=0, captcha='1234567890', is_correct=True, text='test')),
         6: None,
-        7: None,
+        7: get_http_resp_obj(dict(status=0, captcha='1234567890', is_correct=True, text='test')),
         8: get_http_resp_obj(dict(status=0, captcha='1234567890', is_correct=True, text='test')),
         9: None,
         10: None,
-        11: None,
+        11: get_http_resp_obj(dict(status=0, captcha='1234567890', is_correct=True, text='test'))
     }
 }
 INPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC[CaptchaSolvingService.RUCAPTCHA] = (
@@ -672,11 +687,11 @@ OUTPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC = {
         4: None,
         5: dict(task_id='1234567890', extra={}),
         6: None,
-        7: None,
+        7: dict(task_id='1234567890', extra={}),
         8: dict(task_id='1234567890', extra={}),
         9: None,
         10: None,
-        11: None,
+        11: dict(task_id='1234567890', extra={}),
     }
 }
 OUTPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC[CaptchaSolvingService.RUCAPTCHA] = (
