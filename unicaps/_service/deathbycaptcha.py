@@ -16,6 +16,8 @@ __all__ = [
     'RecaptchaV2TaskRequest', 'RecaptchaV2SolutionRequest',
     'RecaptchaV3TaskRequest', 'RecaptchaV3SolutionRequest',
     'FunCaptchaTaskRequest', 'FunCaptchaSolutionRequest',
+    'GeeTestTaskRequest', 'GeeTestSolutionRequest',
+    'GeeTestV4TaskRequest', 'GeeTestV4SolutionRequest',
     'HCaptchaTaskRequest', 'HCaptchaSolutionRequest'
 ]
 
@@ -234,7 +236,16 @@ class SolutionRequest(GetRequest):
 
         # get solution class and prepare a solution object
         solution_class = self.source_data['task'].captcha.get_solution_class()
-        solution = solution_class(text)
+        captcha_type = self.source_data['task'].captcha.get_type()
+        args = []
+        kwargs = {}
+        print(text)
+        if captcha_type in (CaptchaType.GEETEST, CaptchaType.GEETESTV4):
+            kwargs.update(eval(text))
+        else:
+            args.append(text)
+
+        solution = solution_class(*args, **kwargs)
 
         response_data.pop("captcha")
 
@@ -378,6 +389,73 @@ class FunCaptchaTaskRequest(TaskRequest):
 
 class FunCaptchaSolutionRequest(SolutionRequest):
     """ FunCaptcha solution request """
+
+
+class GeeTestTaskRequest(TaskRequest):
+    """ GeeTest task Request class """
+
+    # pylint: disable=arguments-differ,signature-differs
+    def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
+        """ Prepares request """
+
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
+
+        data = {
+            "gt": captcha.gt_key,
+            "challenge": captcha.challenge,
+            "pageurl": captcha.page_url
+        }
+
+        request['data'].update(
+            dict(
+                type=8,
+                geetest_params=_dumps(data, proxy)
+            )
+        )
+
+        return request
+
+
+class GeeTestSolutionRequest(SolutionRequest):
+    """ GeeTest solution request """
+
+
+class GeeTestV4TaskRequest(TaskRequest):
+    """ GeeTest task Request class """
+
+    # pylint: disable=arguments-differ,signature-differs
+    def prepare(self, captcha, proxy, user_agent, cookies) -> dict:  # type: ignore
+        """ Prepares request """
+
+        request = super().prepare(
+            captcha=captcha,
+            proxy=proxy,
+            user_agent=user_agent,
+            cookies=cookies
+        )
+
+        data = {
+            "captcha_id": captcha.captcha_id,
+            "pageurl": captcha.page_url
+        }
+
+        request['data'].update(
+            dict(
+                type=9,
+                geetest_params=_dumps(data, proxy)
+            )
+        )
+
+        return request
+
+
+class GeeTestV4SolutionRequest(SolutionRequest):
+    """ GeeTest solution request """
 
 
 class HCaptchaTaskRequest(TaskRequest):
