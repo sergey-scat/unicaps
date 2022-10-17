@@ -6,7 +6,7 @@ Base CAPTCHA stuff
 import enum
 import importlib
 from abc import ABC
-from dataclasses import dataclass, fields, MISSING
+from dataclasses import asdict, dataclass, fields, MISSING
 from typing import Dict
 
 
@@ -91,3 +91,7 @@ class BaseCaptchaSolution(ABC):
 
     def __str__(self):
         return '\n'.join(str(getattr(self, field.name)) for field in fields(self))
+
+    def as_dict(self):
+        """ Get solution data as Python dictionary """
+        return asdict(self)
