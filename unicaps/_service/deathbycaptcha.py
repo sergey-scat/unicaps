@@ -48,7 +48,6 @@ class Request(HTTPRequestJSON):
         """ Prepare the request """
 
         request = super().prepare(**kwargs)
-        request['headers'].pop('Content-Type')
 
         method = kwargs.get('method', 'GET')
         data_or_params = 'data' if method == 'POST' else 'params'
@@ -58,8 +57,7 @@ class Request(HTTPRequestJSON):
             'url': self._service.BASE_URL + kwargs.get('url', ''),
             data_or_params: dict(
                 authtoken=self._service.api_key
-            ),
-            # 'follow_redirects': True
+            )
         })
         return request
 
