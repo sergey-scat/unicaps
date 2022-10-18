@@ -239,9 +239,10 @@ class SolutionRequest(GetRequest):
         captcha_type = self.source_data['task'].captcha.get_type()
         args = []
         kwargs = {}
-        print(text)
         if captcha_type in (CaptchaType.GEETEST, CaptchaType.GEETESTV4):
-            kwargs.update(eval(text))
+            json_text = text.replace("'", "\"")
+            res = json.loads(json_text)
+            kwargs.update(res)
         else:
             args.append(text)
 
