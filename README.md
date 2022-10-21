@@ -20,7 +20,7 @@ Unicaps is a unified Python API for CAPTCHA solving services.
  - A unified Python interface that is independent of the service used
  - Uses native service protocol/endpoints (eg, no needs in patching _hosts_ file)
  - Has both synchronous and asynchronous client
- - Supports 11 types of CAPTCHAs
+ - Supports 10 types of CAPTCHAs
  - Supports 7 CAPTCHA solving services
  - Written Pythonic way and is intended for humans
 
@@ -65,15 +65,15 @@ if __name__ == '__main__':
 ```
 
 ## Supported CAPTCHAs / Services
-| CAPTCHA➡ \ Service⬇| Image | Text | [reCAPTCHA v2](https://developers.google.com/recaptcha/docs/display) | [reCAPTCHA v3](https://developers.google.com/recaptcha/docs/v3) | [FunCaptcha](https://funcaptcha.com/fc/api/nojs/?pkey=69A21A01-CC7B-B9C6-0F9A-E7FA06677FFC) | [KeyCAPTCHA](https://www.keycaptcha.com/) | [Geetest](https://www.geetest.com/en/demo) | [Geetest v4](https://www.geetest.com/en/demo) | [hCaptcha](https://www.hcaptcha.com/) | [Capy](https://www.capy.me/) | TikTok
-| ------------- | :---: | :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	|
-| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| [azcaptcha.com](https://azcaptcha.com) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
-| [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ |
-| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| [deathbycaptcha.com](http://deathbycaptcha.com) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
-| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| CAPTCHA➡ \ Service⬇| Image | Text | [reCAPTCHA v2](https://developers.google.com/recaptcha/docs/display) | [reCAPTCHA v3](https://developers.google.com/recaptcha/docs/v3) | [FunCaptcha](https://funcaptcha.com/fc/api/nojs/?pkey=69A21A01-CC7B-B9C6-0F9A-E7FA06677FFC) | [KeyCAPTCHA](https://www.keycaptcha.com/) | [Geetest](https://www.geetest.com/en/demo) | [Geetest v4](https://www.geetest.com/en/demo) | [hCaptcha](https://www.hcaptcha.com/) | [Capy](https://www.capy.me/)
+| ------------- | :---: | :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	| :---:	|
+| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ |
+| [azcaptcha.com](https://azcaptcha.com) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ |
+| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 ### Image CAPTCHA
 | Service | Regular | Case Sensitive | Phrase | Numbers only | Letters only | Math | Length | Language | Comment for worker
@@ -112,7 +112,7 @@ if __name__ == '__main__':
 | [azcaptcha.com](https://azcaptcha.com/) | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
 | [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| [deathbycaptcha.com](http://deathbycaptcha.com) | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
+| [deathbycaptcha.com](http://deathbycaptcha.com) | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 <sup>1</sup> Support of solving reCAPTCHA on Google services (e.g. Google Search) </br>
@@ -196,17 +196,6 @@ if __name__ == '__main__':
 | [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [deathbycaptcha.com](http://deathbycaptcha.com) | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ❌ | ❌ |
-
-### TikTok CAPTCHA
-| Service | Regular | Proxy | Cookies | User-Agent |
-| ------------- | :---: | :---:	| :---:	| :---:	|
-| [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ❌ |
-| [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ❌ | ❌ | ❌ | ❌ |
-| [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ |
-| [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ❌ | ❌ | ❌ | ❌ |
-| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ |
-| [deathbycaptcha.com](http://deathbycaptcha.com) | ❌ | ❌ | ❌ | ❌ |
-| [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ❌ |
 
 ## Supported Proxy types
 | Service | HTTP | HTTPS | SOCKS 4 | SOCKS 5 |
@@ -294,14 +283,14 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
     # solve CAPTCHA
     solved = solver.solve_image_captcha(
         image=image_file,
-        char_type=CaptchaCharType.ALPHA,
-        is_phrase=False,
-        is_case_sensitive=True,
-        is_math=False,
-        min_len=4,
-        max_len=6,
-        alphabet=CaptchaAlphabet.LATIN,
-        comment='Type RED letters only'
+        char_type=CaptchaCharType.ALPHA,  # optional
+        is_phrase=False,  # optional
+        is_case_sensitive=True,  # optional
+        is_math=False,  # optional
+        min_len=4,  # optional
+        max_len=6,  # optional
+        alphabet=CaptchaAlphabet.LATIN,  # optional
+        comment='Type RED letters only'  # optional
     )
     # get CAPTCHA text
     token = solved.solution.text
@@ -323,7 +312,9 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
     # solve CAPTCHA
     solved = solver.solve_recaptcha_v2(
         site_key=site_key,
-        page_url=page_url
+        page_url=page_url,
+        data_s='<data-s value>',  # optional
+        api_domain='<"google.com" or "recaptcha.net">'  # optional
     )
     # get response token
     token = solved.solution.token
@@ -346,7 +337,9 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
     solved = solver.solve_recaptcha_v2(
         site_key=site_key,
         page_url=page_url,
-        is_invisible=True
+        is_invisible=True,
+        data_s='<data-s value>',  # optional
+        api_domain='<"google.com" or "recaptcha.net">'  # optional
     )
     # get response token
     token = solved.solution.token
@@ -370,8 +363,9 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
     solved = solver.solve_recaptcha_v2(
         site_key=site_key,
         page_url=page_url,
-        data_s=data_s,
-        is_enterprise=True
+        is_enterprise=True,
+        data_s=data_s,  # optional
+        api_domain='<"google.com" or "recaptcha.net">'  # optional
     )
     # get response token
     token = solved.solution.token
@@ -396,8 +390,37 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
     solved = solver.solve_recaptcha_v3(
         site_key=site_key,
         page_url=page_url,
-        action=action,
-        min_score=min_score
+        action=action,  # optional
+        min_score=min_score,  # optional
+        api_domain='<"google.com" or "recaptcha.net">'  # optional
+    )
+    # get response token
+    token = solved.solution.token
+```
+</details>
+
+<details>
+<summary>Solve reCAPTCHA v3 Enterprise</summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+
+# get CAPTCHA params from the target page/site
+page_url = ...
+site_key = ...
+action = ...
+min_score = 0.7
+
+# init captcha solver
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # solve CAPTCHA
+    solved = solver.solve_recaptcha_v3(
+        site_key=site_key,
+        page_url=page_url,
+        is_enterprise=True,
+        action=action,  # optional
+        min_score=min_score,  # optional
+        api_domain='<"google.com" or "recaptcha.net">'  # optional
     )
     # get response token
     token = solved.solution.token
@@ -419,7 +442,32 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
     # solve CAPTCHA
     solved = solver.solve_hcaptcha(
         site_key=site_key,
-        page_url=page_url
+        page_url=page_url,
+        api_domain=<"hcaptcha.com" or "js.hcaptcha.com">  # optional
+    )
+    # get response token
+    token = solved.solution.token
+```
+</details>
+
+<details>
+<summary>Solve hCaptcha Invisible</summary>
+
+```python
+from unicaps import CaptchaSolver, CaptchaSolvingService
+
+# get CAPTCHA params from the target page/site
+page_url = ...
+site_key = ...
+
+# init captcha solver
+with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
+    # solve CAPTCHA
+    solved = solver.solve_hcaptcha(
+        site_key=site_key,
+        page_url=page_url,
+        is_invisible=True,
+        api_domain=<"hcaptcha.com" or "js.hcaptcha.com">  # optional
     )
     # get response token
     token = solved.solution.token
@@ -441,7 +489,9 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
     # solve CAPTCHA
     solved = solver.solve_funcaptcha(
         public_key=public_key,
-        page_url=page_url
+        page_url=page_url,
+        service_url='<value of surl parameter>',  # optional
+        blob='<value of data[blob] parameter>'  # optional
     )
     # get response token
     token = solved.solution.token
@@ -493,7 +543,8 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
     solved = solver.solve_geetest(
         page_url=page_url,
         gt_key=gt_key,
-        challenge=challenge
+        challenge=challenge,
+        api_server='<value of api_server parameter>'  # optional
     )
     # get response token
     token = solved.solution.token
@@ -541,7 +592,9 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
     # solve CAPTCHA
     solved = solver.solve_capy_puzzle(
         site_key=site_key,
-        page_url=page_url
+        page_url=page_url,
+        api_server='<for example "https://api.capy.me">',  # optional
+        challenge_type='<"puzzle" or "avatar">'  # optional
     )
 
     # get solution data
@@ -552,41 +605,19 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
 </details>
 
 <details>
-<summary>Solve TikTok CAPTCHA</summary>
-
-```python
-from unicaps import CaptchaSolver, CaptchaSolvingService
-
-# get CAPTCHA params from the target page/site
-page_url = ...
-cookies = {'name': 'value', ...}
-
-# init captcha solver
-with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
-    # solve CAPTCHA
-    solved = solver.solve_tiktok(
-        page_url=page_url,
-        cookies=cookies
-    )
-
-    # get solution data
-    cookies = solved.solution.cookies
-```
-</details>
-
-<details>
 <summary>Solve a text CAPTCHA</summary>
 
 ```python
 from unicaps import CaptchaSolver, CaptchaSolvingService
-from unicaps.common import WorkerLanguage
+from unicaps.common import CaptchaAlphabet, WorkerLanguage
 
 # init captcha solver
 with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>") as solver:
     # solve CAPTCHA
     solved = solver.solve_text_captcha(
         text='Si mañana es domingo, ¿qué día es hoy?',
-        language=WorkerLanguage.SPANISH
+        alphabet=CaptchaAlphabet.LATIN,  # optional
+        language=WorkerLanguage.SPANISH  # optional
     )
 
     # get answer
