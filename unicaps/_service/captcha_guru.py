@@ -37,14 +37,12 @@ def _decorator(cls):
     class Wrapper:
         """ A wrapper for *TaskRequest class """
         def __init__(self, *args, **kwargs):
-            # print(f"__init__() called with args: {args} and kwargs: {kwargs}")
             self.decorated_obj = cls(*args, **kwargs)
 
         def prepare(self, *args, **kwargs):
             result = self.decorated_obj.prepare(*args, **kwargs)
             if 'data' in result:
-                result['params'] = result['data']
-                del result['data']
+                result['params'] = result.pop('data')
                 result['method'] = 'GET'
 
                 if 'soft_id' in result['params']:

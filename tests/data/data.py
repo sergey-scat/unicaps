@@ -85,19 +85,19 @@ BASE_TASK_REQUEST_DATA = {
     CaptchaSolvingService.TWOCAPTCHA: dict(
         method='POST',
         url='https://2captcha.com/in.php',
-        headers={'Accept': 'application/json', 'Content-Type': 'application/json'},
+        headers={'Accept': 'application/json'},
         data=dict(key=API_KEY, json=1, soft_id=2738)
     ),
     CaptchaSolvingService.RUCAPTCHA: dict(
         method='POST',
         url='https://rucaptcha.com/in.php',
-        headers={'Accept': 'application/json', 'Content-Type': 'application/json'},
+        headers={'Accept': 'application/json'},
         data=dict(key=API_KEY, json=1, soft_id=2738)
     ),
     CaptchaSolvingService.ANTI_CAPTCHA: dict(
         method='POST',
         json=dict(clientKey=API_KEY, softId=940),
-        headers={'Accept': 'application/json', 'Content-Type': 'application/json'},
+        headers={'Accept': 'application/json'},
         url='https://api.anti-captcha.com/createTask'
     ),
     CaptchaSolvingService.AZCAPTCHA: dict(
