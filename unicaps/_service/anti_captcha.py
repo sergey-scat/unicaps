@@ -268,9 +268,14 @@ class SolutionRequest(Request):
 
         solution = solution_class(*args, **kwargs)
 
+        if "cost" in response_data:
+            cost = response_data.pop("cost")
+        else:
+            cost = None
+
         return dict(
             solution=solution,
-            cost=response_data.pop("cost"),
+            cost=cost,
             extra=response_data
         )
 
