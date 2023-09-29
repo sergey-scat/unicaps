@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="unicaps",
-    version="1.2.1",
+    version="1.2.2",
     author="Sergey Scat",
     author_email="py.unicaps@gmail.com",
     description="Universal CAPTCHA Solver for humans",
@@ -24,6 +24,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10"
+        "Programming Language :: Python :: 3.11"
     ],
     python_requires='>=3.7',
 )
