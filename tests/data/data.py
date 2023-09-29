@@ -30,7 +30,7 @@ with open(IMAGE_FILE_PATH, 'rb') as f:
 IMAGE_FILE_BASE64 = base64.b64encode(IMAGE_FILE_BYTES)
 IMAGE_FILE_BASE64_STR = IMAGE_FILE_BASE64.decode('ascii')
 
-PROXY_ADDRESS = 'http://login:password@proxy.com:8080'
+PROXY_ADDRESS = 'http://login:password@example.com:8080'
 PROXY_OBJ = ProxyServer(PROXY_ADDRESS)
 PROXY_TYPE = 'HTTP'
 
