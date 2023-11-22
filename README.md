@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/8aQf6On.png" />
+  <img src="https://i.imgur.com/4d4ge73.png" />
 </p>
 
 # Unicaps
