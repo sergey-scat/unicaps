@@ -24,8 +24,8 @@ def run(solver):
         response = session.get(URL)
         page = html.document_fromstring(response.text)
         captcha_js_url = page.xpath(
-            '//script[@data-chunk="pages-CaptchaDemo-pages-GeeTestV4" and '
-            'starts-with(@src, "/dist/web/pages-CaptchaDemo-pages-GeeTestV4.")]'
+            '//script[@data-chunk="pages-CaptchaDemo" and '
+            'starts-with(@src, "/dist/web/pages-CaptchaDemo.")]'
         )[0].attrib['src']
         captcha_js_url = urljoin(URL, captcha_js_url)
 
