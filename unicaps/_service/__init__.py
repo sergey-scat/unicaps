@@ -15,7 +15,7 @@ class CaptchaSolvingService(enum.Enum):
 
     ANTI_CAPTCHA = "anti-captcha.com"
     AZCAPTCHA = "azcaptcha.com"
-    CAPTCHA_GURU = "captcha.guru"
+    CAPTCHA_GURU = "cap.guru"
     CPTCH_NET = "cptch.net"
     DEATHBYCAPTCHA = "deathbycaptcha.com"
     RUCAPTCHA = "rucaptcha.com"

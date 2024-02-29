@@ -1,5 +1,5 @@
 """
-captcha.guru service
+cap.guru service
 """
 
 # pylint: disable=unused-import
@@ -25,9 +25,9 @@ __all__ = [
 
 
 class Service(Service2Captcha):
-    """ Main service class for captcha.guru """
+    """ Main service class for cap.guru """
 
-    BASE_URL = 'http://api.captcha.guru'
+    BASE_URL = 'http://api.cap.guru'
 
 
 def _decorator(cls):
