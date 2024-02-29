@@ -21,7 +21,7 @@ Unicaps is a unified Python API for CAPTCHA solving services.
  - Uses native service protocol/endpoints (eg, no needs in patching _hosts_ file)
  - Has both synchronous and asynchronous client
  - Supports 10 types of CAPTCHAs
- - Supports 7 CAPTCHA solving services
+ - Supports 6 CAPTCHA solving services
  - Written Pythonic way and is intended for humans
 
 ## Installation
@@ -70,8 +70,7 @@ if __name__ == '__main__':
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ |
 | [azcaptcha.com](https://azcaptcha.com) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ |
-| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [cap.guru](https://cap.guru/ru/reg/?ref=127872) | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | [deathbycaptcha.com](https://www.deathbycaptcha.com/?refid=1236988509) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
@@ -81,8 +80,7 @@ if __name__ == '__main__':
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | Cyrillic/Latin | ✅ |
 | [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | Latin | ✅ |
 | [azcaptcha.com](https://azcaptcha.com/) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Latin | ✅ |
-| [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Latin | ✅ |
-| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Cyrillic/Latin | ❌ |
+| [cap.guru](https://cap.guru/ru/reg/?ref=127872) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Latin | ✅ |
 | [deathbycaptcha.com](http://deathbycaptcha.com/?refid=1236988509) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Latin | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | Cyrillic/Latin | ✅ |
 
@@ -99,8 +97,7 @@ if __name__ == '__main__':
 | [2captcha.com](http://2captcha.com/?from=8754088)	| English, Russian |
 | [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ❌ |
 | [azcaptcha.com](https://azcaptcha.com/) | ❌ |
-| [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ❌ |
-| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ |
+| [cap.guru](https://cap.guru/ru/reg/?ref=127872) | ❌ |
 | [deathbycaptcha.com](http://deathbycaptcha.com/?refid=1236988509) | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | English, Russian |
 
@@ -110,8 +107,7 @@ if __name__ == '__main__':
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [azcaptcha.com](https://azcaptcha.com/) | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [cap.guru](https://cap.guru/ru/reg/?ref=127872) | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
 | [deathbycaptcha.com](http://deathbycaptcha.com/?refid=1236988509) | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
@@ -126,8 +122,7 @@ if __name__ == '__main__':
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ❌ | ❌ | ❌ |
 | [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ❌ | ❌ | ❌ |
 | [azcaptcha.com](https://azcaptcha.com/) | ✅ | ❌ | ✅ | ❌ | ❌ |
-| [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ❌ | ✅ | ✅ | ✅ |
-| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ✅ | ❌ | ❌ | ❌ | ❌ |
+| [cap.guru](https://cap.guru/ru/reg/?ref=127872) | ✅ | ❌ | ✅ | ✅ | ✅ |
 | [deathbycaptcha.com](http://deathbycaptcha.com/?refid=1236988509) | ✅ | ❌ | ✅ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ❌ | ❌ | ❌ |
 
@@ -137,8 +132,7 @@ if __name__ == '__main__':
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ❌ | ✅ |
 | [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ✅ | ❌ | ✅ |
 | [azcaptcha.com](https://azcaptcha.com/) | ✅ | ✅ | ✅ | ❌ | ✅ |
-| [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ❌ | ❌ | ❌ | ❌ | ❌ |
-| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [cap.guru](https://cap.guru/ru/reg/?ref=127872) | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [deathbycaptcha.com](http://deathbycaptcha.com/?refid=1236988509) | ✅ | ❌ | ✅ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ❌ | ✅ |
 
@@ -148,8 +142,7 @@ if __name__ == '__main__':
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ❌ | ❌ | ❌ |
 | [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ❌ | ❌ | ❌ | ❌ |
 | [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ |
-| [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ❌ | ❌ | ❌ | ❌ |
-| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ |
+| [cap.guru](https://cap.guru/ru/reg/?ref=127872) | ❌ | ❌ | ❌ | ❌ |
 | [deathbycaptcha.com](http://deathbycaptcha.com/?refid=1236988509) | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ❌ | ❌ | ❌ |
 
@@ -159,8 +152,7 @@ if __name__ == '__main__':
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ❌ | ✅ | ❌ | ✅ |
 | [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
 | [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
-| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [cap.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | [deathbycaptcha.com](http://deathbycaptcha.com/?refid=1236988509) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ |
 
@@ -170,8 +162,7 @@ if __name__ == '__main__':
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ❌ | ✅ |
 | [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ❌ | ✅ |
 | [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ |
-| [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ❌ | ❌ | ❌ | ❌ |
-| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ |
+| [cap.guru](https://cap.guru/ru/reg/?ref=127872) | ❌ | ❌ | ❌ | ❌ |
 | [deathbycaptcha.com](http://deathbycaptcha.com/?refid=1236988509) | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ❌ | ✅ |
 
@@ -181,8 +172,7 @@ if __name__ == '__main__':
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
 | [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ |
 | [azcaptcha.com](https://azcaptcha.com/) | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
-| [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
-| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [cap.guru](https://cap.guru/ru/reg/?ref=127872) | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | [deathbycaptcha.com](http://deathbycaptcha.com/?refid=1236988509) | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
 
@@ -192,8 +182,7 @@ if __name__ == '__main__':
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ❌ | ❌ |
 | [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [azcaptcha.com](https://azcaptcha.com/) | ❌ | ❌ | ❌ | ❌ | ❌ |
-| [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ❌ | ❌ | ❌ | ❌ | ❌ |
-| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [cap.guru](https://cap.guru/ru/reg/?ref=127872) | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [deathbycaptcha.com](http://deathbycaptcha.com/?refid=1236988509) | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ❌ | ❌ |
 
@@ -203,8 +192,7 @@ if __name__ == '__main__':
 | [2captcha.com](http://2captcha.com/?from=8754088)	| ✅ | ✅ | ✅ | ✅ |
 | [anti-captcha.com](http://getcaptchasolution.com/vus77mnl48) | ✅ | ✅ | ✅ | ✅ |
 | [azcaptcha.com](https://azcaptcha.com/) | ✅ | ✅ | ✅ | ✅ |
-| [captcha.guru](https://captcha.guru/ru/reg/?ref=127872) | ✅ | ✅ | ✅ | ✅ |
-| [cptch.net](https://cptch.net/auth/signup?frm=0ebc1ab34eb04f67ac320f020a8f709f) | ❌ | ❌ | ❌ | ❌ |
+| [cap.guru](https://cap.guru/ru/reg/?ref=127872) | ✅ | ✅ | ✅ | ✅ |
 | [deathbycaptcha.com](http://deathbycaptcha.com/?refid=1236988509) | ✅ | ❌ | ❌ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ |
 
