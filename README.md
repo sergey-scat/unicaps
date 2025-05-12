@@ -713,3 +713,6 @@ with CaptchaSolver(CaptchaSolvingService.TWOCAPTCHA, "<PLACE YOUR API KEY HERE>"
 
 ## Real-life code examples
 [Examples](https://github.com/sergey-scat/unicaps/tree/master/examples)
+
+## Buy me a coffee
+https://www.buymeacoffee.com/sergey.scat
