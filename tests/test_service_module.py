@@ -38,6 +38,7 @@ SERVICE_MODULES_FOR_TEST = {
     'azcaptcha': (CaptchaType.IMAGE, CaptchaType.RECAPTCHAV2, CaptchaType.RECAPTCHAV3,
                   CaptchaType.HCAPTCHA, CaptchaType.FUNCAPTCHA),
     'cptch_net': (CaptchaType.IMAGE, CaptchaType.RECAPTCHAV2, CaptchaType.RECAPTCHAV3),
+    'solvecha': (CaptchaType.IMAGE,),
     'deathbycaptcha': (CaptchaType.IMAGE, CaptchaType.RECAPTCHAV2, CaptchaType.RECAPTCHAV3,
                        CaptchaType.HCAPTCHA, CaptchaType.FUNCAPTCHA)
 }

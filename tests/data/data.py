@@ -115,6 +115,12 @@ BASE_TASK_REQUEST_DATA = {
         headers={'Accept': 'application/json'},
         url='http://api.dbcapi.me/api/captcha',
         data=dict(authtoken=API_KEY)
+    ),
+    CaptchaSolvingService.SOLVECHA: dict(
+        method='POST',
+        json=dict(clientKey=API_KEY),
+        headers={'Accept': 'application/json'},
+        url='https://api.solvecha.com/createTask'
     )
 }
 
@@ -780,3 +786,33 @@ INPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC_WITH_EXC[CaptchaSolvingService.RUCA
 INPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC_WITH_EXC[CaptchaSolvingService.AZCAPTCHA] = (
     INPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC_WITH_EXC[CaptchaSolvingService.TWOCAPTCHA]
 )
+
+
+# Solvecha supports image CAPTCHAs only, optional image parameters are not sent
+OUTPUT_TEST_DATA_FOR_TASK_PREPARE_FUNC[CaptchaSolvingService.SOLVECHA] = {
+    test_id: {'json': dict(task=dict(type='ImageToTextTask', body=IMAGE_FILE_BASE64_STR))}
+    for test_id in range(1, 12)
+}
+
+INPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC[CaptchaSolvingService.SOLVECHA] = {
+    1: get_http_resp_obj(dict(errorId=0, taskId='1234567890', status='ready',
+                              solution=dict(text='abcd')))
+}
+
+OUTPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC[CaptchaSolvingService.SOLVECHA] = {
+    1: dict(task_id='1234567890', extra={})
+}
+
+INPUT_TEST_DATA_FOR_TASK_PARSE_RESPONSE_FUNC_WITH_EXC[CaptchaSolvingService.SOLVECHA] = {
+    1: get_http_resp_obj(dict(errorId=1, errorCode='UNKNOWN_ERROR')),
+    2: get_http_resp_obj(dict(errorId=1, errorCode='ERROR_KEY_DENIED_ACCESS',
+                              errorDescription='The clientKey is missing or wrong.')),
+    3: get_http_resp_obj(dict(errorId=1, errorCode='ERROR_ZERO_BALANCE')),
+    4: None,
+    5: get_http_resp_obj(dict(errorId=1, errorCode='ERROR_RATE_LIMIT')),
+    6: get_http_resp_obj(dict(errorId=1, errorCode=choice(
+        ['ERROR_NO_SUCH_METHOD', 'ERROR_TASK_NOT_SUPPORTED']))),
+    7: get_http_resp_obj(dict(errorId=1, errorCode='ERROR_INVALID_TASK_DATA')),
+    8: get_http_resp_obj(dict(errorId=1, errorCode='ERROR_CAPTCHA_UNSOLVABLE')),
+    9: None,
+}

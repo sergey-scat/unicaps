@@ -73,6 +73,7 @@ if __name__ == '__main__':
 | [cap.guru](https://cap.guru/ru/reg/?ref=127872) | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | [deathbycaptcha.com](https://www.deathbycaptcha.com/?refid=1236988509) | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [solvecha.com](https://solvecha.com) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ### Image CAPTCHA
 | Service | Regular | Case Sensitive | Phrase | Numbers only | Letters only | Math | Length | Language | Comment for worker
@@ -83,6 +84,7 @@ if __name__ == '__main__':
 | [cap.guru](https://cap.guru/ru/reg/?ref=127872) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Latin | ✅ |
 | [deathbycaptcha.com](http://deathbycaptcha.com/?refid=1236988509) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Latin | ❌ |
 | [rucaptcha.com](https://rucaptcha.com?from=9863637) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | Cyrillic/Latin | ✅ |
+| [solvecha.com](https://solvecha.com) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ### Text CAPTCHA
 <details closed>
